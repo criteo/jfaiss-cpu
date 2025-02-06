@@ -13,7 +13,7 @@ jobs:
 
     - uses: whoan/docker-build-with-cache-action@v5
       with:
-        username: victor-paltz
+        username: ${{ github.actor }}
         password: "${{ secrets.GITHUB_TOKEN }}"
         registry: docker.pkg.github.com
         #or
@@ -29,13 +29,13 @@ jobs:
 
     # - run: docker image ls
 
-    - run: docker run -v "/home/runner/work/JFaiss-CPU/JFaiss-CPU":"/github/workspace" docker.pkg.github.com/victor-paltz/jfaiss-cpu/jfaiss-cpu
+    - run: docker run -v "/home/runner/work/jfaiss-cpu/jfaiss-cpu":"/github/workspace" docker.pkg.github.com/criteo/jfaiss-cpu/jfaiss-cpu
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: faiss_JNI_and_SO
         path: build
-    
+
 
   build:
     needs: build_faiss
@@ -46,7 +46,7 @@ jobs:
         with:
           java-version: 1.8
       - name: Download build
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: faiss_JNI_and_SO
           path: build_copy
@@ -60,17 +60,7 @@ jobs:
       # - name: Debugging with tmate
       #   uses: mxschmitt/action-tmate@v3
 
-      # - name: Publish package
-      #   run: mvn -B deploy
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Release Maven package
-        uses: samuelmeuli/action-maven-publish@v1
-        with:
-          gpg_private_key: ${{ secrets.gpg_private_key }}
-          gpg_passphrase: ${{ secrets.gpg_passphrase }}
-          nexus_username: ${{ secrets.nexus_username }}
-          nexus_password: ${{ secrets.nexus_password }}
+      - name: Publish package
+        run: mvn -B deploy
         env:
-          GPG_TTY: $(tty)
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -27,7 +27,7 @@ ENV LD_PRELOAD=${LD_PRELOAD}:/opt/intel/mkl/lib/intel64/libmkl_gnu_thread.so
 COPY . /opt/JFaiss
 WORKDIR /opt/JFaiss/faiss
 
-ENV CXXFLAGS="-mavx2 -mf16c"
+ENV CXXFLAGS=${CXXFLAGS}" -mavx2 -mf16c -I/opt/JFaiss"
 # Install faiss
 RUN ./configure --prefix=/usr --without-cuda
 RUN make -j $(nproc)

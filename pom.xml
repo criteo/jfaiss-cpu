@@ -6,40 +6,27 @@
 
     <groupId>com.criteo.jfaiss</groupId>
     <artifactId>jfaiss-cpu</artifactId>
-    <version>2.1.0</version>
-
-    <properties>
-        <maven.compiler.target>8</maven.compiler.target>
-        <maven.compiler.source>8</maven.compiler.source>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.victor-paltz</groupId>
-            <artifactId>global-load-library</artifactId>
-            <version>1.2.0</version>
-        </dependency>
-    </dependencies>
-
-    <name>${project.groupId}:${project.artifactId}</name>
+    <version>1.6.3</version>
+    <name>jfaiss-cpu</name>
     <description>
-        Faiss v1.6.3 bindings for Java
+        JFaiss-CPU is a Java/JNI wrapper of CPU-only build of FAISS library v1.6.3.
     </description>
-    <url>https://github.com/criteo/jfaiss-cpu.git</url>
+    <url>https://github.com/criteo/jfaiss-cpu</url>
 
     <licenses>
         <license>
             <name>MIT License</name>
-            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <url>https://www.opensource.org/licenses/mit-license.php</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <scm>
+        <connection>scm:git:https://github.com/criteo/jfaiss-cpu.git</connection>
+        <developerConnection>scm:git:ssh://github.com/criteo/jfaiss-cpu.git</developerConnection>
+        <url>https://github.com/criteo/jfaiss-cpu.git</url>
+        <tag>HEAD</tag>
+    </scm>
 
     <developers>
         <developer>
@@ -76,12 +63,73 @@
         </developer>
     </developers>
 
-    <scm>
-        <connection>scm:git:https://github.com/criteo/jfaiss-cpu.git</connection>
-        <developerConnection>scm:git:ssh://github.com/criteo/jfaiss-cpu.git</developerConnection>
-        <url>https://github.com/criteo/jfaiss-cpu.git</url>
-        <tag>HEAD</tag>
-    </scm>
+    <properties>
+        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>8</maven.compiler.source>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>deploy</id>
+            <build>
+                <plugins>
+                    <!-- Source plugin -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Javadoc plugin -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.2.0</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- GPG plugin -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <!-- Prevent `gpg` from using pinentry programs -->
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>
@@ -144,53 +192,45 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.8</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.victor-paltz</groupId>
+            <artifactId>global-load-library</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+    </dependencies>
+
     <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
         <repository>
-            <id>github</id>
-            <url>https://maven.pkg.github.com/criteo/jfaiss-cpu</url>
+            <id>ossrh</id>
+            <name>Central Repository OSSRH</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
-
-    <profiles>
-        <profile>
-            <id>deploy</id>
-            <build>
-                <plugins>
-                <!-- Source plugin -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>3.2.1</version>
-                    <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                        <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                    </executions>
-                </plugin>
-
-                <!-- Javadoc plugin -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.2.0</version>
-                    <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                        <goal>jar</goal>
-                        </goals>
-                    </execution>
-                    </executions>
-                </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
 </project>

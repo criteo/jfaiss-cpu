@@ -1,5 +1,9 @@
 FROM quay.io/centos/centos:stream8
 
+RUN sed -i s/mirror.centos.org/vault.centos.org/g /etc/yum.repos.d/CentOS-*.repo
+RUN sed -i s/^#.*baseurl=http/baseurl=http/g /etc/yum.repos.d/CentOS-*.repo
+RUN sed -i s/^mirrorlist=http/#mirrorlist=http/g /etc/yum.repos.d/CentOS-*.repo
+
 RUN dnf install --enablerepo powertools -y lapack lapack-devel dnf-plugins-core
 
 # Install necessary build tools
@@ -23,7 +27,7 @@ ENV LD_PRELOAD=${LD_PRELOAD}:/opt/intel/mkl/lib/intel64/libmkl_gnu_thread.so
 COPY . /opt/JFaiss
 WORKDIR /opt/JFaiss/faiss
 
-ENV CXXFLAGS="-mavx2 -mf16c"
+ENV CXXFLAGS=${CXXFLAGS}" -mavx2 -mf16c -I/opt/JFaiss"
 # Install faiss
 RUN ./configure --prefix=/usr --without-cuda
 RUN make -j $(nproc)

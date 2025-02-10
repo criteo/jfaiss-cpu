@@ -1,66 +1,126 @@
-name: Java CI
-
-on: [push]
+name: Build and Release
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - master
 
 jobs:
 
   build_faiss:
     runs-on: ubuntu-latest
-    steps: 
-    - uses: actions/checkout@master
-      with:
-        submodules: true
+    name: Build faiss native
+    steps:
+      - uses: actions/checkout@master
+        with:
+          submodules: true
 
-    - uses: whoan/docker-build-with-cache-action@v5
-      with:
-        username: ${{ github.actor }}
-        password: "${{ secrets.GITHUB_TOKEN }}"
-        registry: docker.pkg.github.com
-        #or
-        #registry: ghcr.io
-        image_name: jfaiss-cpu
-        dockerfile: Dockerfile
+      - uses: whoan/docker-build-with-cache-action@v5
+        with:
+          username: ${{ github.actor }}
+          password: "${{ secrets.GITHUB_TOKEN }}"
+          registry: docker.pkg.github.com
+          image_name: jfaiss-cpu
+          dockerfile: Dockerfile
 
-    # - name: Run the docker image
-    #   uses: ./.github/actions
+      - run: docker run -v "/home/runner/work/jfaiss-cpu/jfaiss-cpu":"/github/workspace" docker.pkg.github.com/criteo/jfaiss-cpu/jfaiss-cpu
 
-    # - name: Debugging with tmate
-    #   uses: mxschmitt/action-tmate@v3
-
-    # - run: docker image ls
-
-    - run: docker run -v "/home/runner/work/jfaiss-cpu/jfaiss-cpu":"/github/workspace" docker.pkg.github.com/criteo/jfaiss-cpu/jfaiss-cpu
-
-    - uses: actions/upload-artifact@v4
-      with:
-        name: faiss_JNI_and_SO
-        path: build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: faiss_JNI_and_SO
+          path: build
 
 
-  build:
+  build_jfaiss:
     needs: build_faiss
     runs-on: ubuntu-latest
+    name: Build jfaiss-cpu
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
-      - name: Download build
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Read GPG private key
+        run: echo -ne "$GPG_PRIVATE_KEY" | base64 --decode > $RUNNER_TEMP/key.asc
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.MAVEN_SECRING_GPG_BASE64 }}
+
+      - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
           name: faiss_JNI_and_SO
           path: build_copy
-      - name: Move
+
+      - name: Move build artifacts
         run: |
           rm -rf src/main/java/com/vectorsearch/faiss/swig
           cp -r build_copy/java/com/vectorsearch/faiss/swig src/main/java/com/vectorsearch/faiss/swig
           rm -rf src/main/resources
           cp -r build_copy/resources src/main/resources
 
-      # - name: Debugging with tmate
-      #   uses: mxschmitt/action-tmate@v3
+      - name: Extract FAISS version
+        id: faiss_version
+        run: |
+          echo "version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
 
-      - name: Publish package
-        run: mvn -B deploy
+      - name: Set version
+        id: version
+        run: |
+          VERSION="${FAISS_VERSION}-$(git rev-parse --short HEAD)"
+          mvn -B versions:set -DnewVersion=$VERSION
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+        env:
+          FAISS_VERSION: ${{ steps.faiss_version.outputs.version }}
+
+      - name: Set up Maven Central Repository
+        uses: warrenseine/setup-java@v1
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+        with:
+          java-version: "1.8.0"
+          java-package: jdk
+          architecture: x64
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+          gpg-private-key-path: ${{ runner.temp }}/key.asc
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+      - name: Clean GPG private key
+        if: ${{ always() }}
+        run: rm -f $RUNNER_TEMP/key.asc
+
+      - name: Publish to the Maven Central Repository
+        run: mvn -B -DskipTests -P deploy deploy
+        env:
+          MAVEN_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_SECRING_PASSWORD }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jfaiss-cpu
+          path: ./target/jfaiss-cpu-${{ steps.version.outputs.version }}.jar
+
+      - name: Create release
+        id: release
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          release_name: Release ${{ steps.version.outputs.version }}
+          draft: false
+          prerelease: false
+
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.release.outputs.upload_url }}
+          asset_path: ./target/jfaiss-cpu-${{ steps.version.outputs.version }}.jar
+          asset_name: jfaiss-cpu-${{ steps.version.outputs.version }}.jar
+          asset_content_type: application/java-archive

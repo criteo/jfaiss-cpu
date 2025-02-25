@@ -32,10 +32,10 @@ _%.so: %.o ../faiss/libfaiss.a
 	$(CXX) $(SHAREDFLAGS) $(LDFLAGS) -Wl,--export-dynamic,-rpath='$$ORIGIN' -o $@ $^ $(LIBS)
 	chmod 755 $@
 
-build: _swigfaiss_avx2.so
+build: _swigfaiss.so
 	$(eval _resources_path = ../cpu/src/main/resources)
 	mkdir -p ${_resources_path}
-	cp _swigfaiss_avx2.so ${_resources_path}
+	cp _swigfaiss.so ${_resources_path}
 	cp /usr/lib64/libgomp.so.1 ${_resources_path}
 	cp $(MKL_ROOT)/libmkl_core.so ${_resources_path}
 	cp $(MKL_ROOT)/libmkl_intel_lp64.so ${_resources_path}

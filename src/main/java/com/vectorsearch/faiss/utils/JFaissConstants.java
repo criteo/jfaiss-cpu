@@ -10,5 +10,6 @@ public class JFaissConstants {
             "/libgomp.so.1",
             "/libmkl_core.so",
             "/libmkl_gnu_thread.so",
-            "/libmkl_intel_lp64.so"};
+            "/libmkl_intel_lp64.so"
+    };
 }

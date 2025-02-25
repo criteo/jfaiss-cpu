@@ -1,36 +1,45 @@
-FROM centos:7
+FROM quay.io/centos/centos:stream8
 
-RUN sed -i s/mirror.centos.org/vault.centos.org/g /etc/yum.repos.d/CentOS-*.repo
-RUN sed -i s/^#.*baseurl=http/baseurl=http/g /etc/yum.repos.d/CentOS-*.repo
-RUN sed -i s/^mirrorlist=http/#mirrorlist=http/g /etc/yum.repos.d/CentOS-*.repo
+ARG MINIFORGE_VERSION=24.11.3-0
+ARG GXX_VERSION=8.5.0
+ARG SWIG_VERSION=3.0.12
+ARG MAKE_VERSION=4.3
+ARG BLAS_VERSION="3.8.0=21_mkl"
+ARG OPENJDK_VERSION=8.0
 
-RUN yum install -y lapack lapack-devel
+# Install Miniforge (Conda) package manager.
+RUN curl -L -o Miniforge3.sh "https://github.com/conda-forge/miniforge/releases/download/${MINIFORGE_VERSION}/Miniforge3-$(uname)-$(uname -m).sh"
+RUN bash Miniforge3.sh -b
+RUN rm -f Miniforge3.sh
+ENV PATH="$PATH:/root/miniforge3/bin"
 
-# Install necessary build tools
-RUN yum install -y gcc-c++ make swig3
-RUN yum install -y blas-devel
-RUN yum-config-manager --add-repo https://yum.repos.intel.com/mkl/setup/intel-mkl.repo
-RUN rpm --import https://yum.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS-2019.PUB
-RUN yum install -y intel-mkl-2019.3-062
-RUN yum install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel maven
-RUN yum install -y numpy
+RUN conda create -n criteo
 
-ENV MKL_ROOT=/opt/intel/mkl/lib/intel64
+# Install required build tools.
+RUN conda install -y -n criteo gxx=${GXX_VERSION}
+RUN conda install -y -n criteo swig=${SWIG_VERSION}
+RUN conda install -y -n criteo make=${MAKE_VERSION}
+RUN conda install -y -n criteo blas-devel=${BLAS_VERSION}
+RUN conda install -y -n criteo openjdk=${OPENJDK_VERSION}
 
-ENV LD_LIBRARY_PATH=$MKL_ROOT:$LD_LIBRARY_PATH
-ENV LIBRARY_PATH=$MKL_ROOT:$LIBRARY_PATH
+# Set up environment variables for Conda packages.
+ENV CONDA_ENV_ROOT="/root/miniforge3/envs/criteo"
+ENV PATH="$PATH:$CONDA_ENV_ROOT/bin"
+ENV LD_LIBRARY_PATH=$CONDA_ENV_ROOT/lib:$LD_LIBRARY_PATH
+ENV LIBRARY_PATH=$CONDA_ENV_ROOT/lib:$LIBRARY_PATH
 
 COPY . /opt/JFaiss
 WORKDIR /opt/JFaiss/faiss
 
+# Compile Faiss.
 ENV CXXFLAGS=${CXXFLAGS}" -mavx2 -mf16c -I/opt/JFaiss"
-# Install faiss
 RUN ./configure --prefix=/usr --without-cuda
 RUN make -j $(nproc)
 RUN make install
 
-# Create source files
+# Build SWIG wrapper for Java.
 WORKDIR /opt/JFaiss/jni
 RUN make 
 ENTRYPOINT [ "cp", "-r", "/opt/JFaiss/cpu/src/main", "/github/workspace/build" ]
-#&& tail -f /dev/null
+
+# EOF

@@ -27,7 +27,7 @@ jobs:
           path: build
 
   verify:
-    if: github.event_name == 'push' && github.ref != 'refs/heads/master'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     needs: build
     runs-on: ubuntu-latest
     name: Verify
@@ -59,7 +59,7 @@ jobs:
           path: staging
 
   publish:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    if: github.event_name == 'push' && github.ref != 'refs/heads/master'
     needs: build
     runs-on: ubuntu-latest
     name: Publish to Maven Central and Release

@@ -9,7 +9,7 @@ ifneq ($(strip $(NVCC)),)
 	SWIGFLAGS += -DGPU_WRAPPER
 endif
 
-JAVACFLAGS = -I /usr/lib/jvm/java/include/ -I /usr/lib/jvm/java/include/linux/
+JAVACFLAGS = -I $(CONDA_ENV_ROOT)/include/ -I $(CONDA_ENV_ROOT)/include/linux/
 SWIGJAVASRC = ../cpu/src/main/java/com/vectorsearch/faiss/swig
 
 all: build
@@ -29,18 +29,17 @@ swigfaiss_avx2.cpp: swigfaiss.swig ../faiss/libfaiss.a
 
 # Extension is .so even on OSX.
 _%.so: %.o ../faiss/libfaiss.a
-	$(CXX) $(SHAREDFLAGS) $(LDFLAGS) -Wl,--export-dynamic,-rpath='$$ORIGIN' -o $@ $^ $(LIBS)
+	$(CXX) $(SHAREDFLAGS) $(LDFLAGS) -static-libstdc++ -static-libgcc -Wl,--export-dynamic,-rpath='$$ORIGIN' -o $@ $^ $(LIBS)
 	chmod 755 $@
 
 build: _swigfaiss.so
 	$(eval _resources_path = ../cpu/src/main/resources)
 	mkdir -p ${_resources_path}
 	cp _swigfaiss.so ${_resources_path}
-	cp /usr/lib64/libgomp.so.1 ${_resources_path}
-	cp $(MKL_ROOT)/libmkl_core.so ${_resources_path}
-	cp $(MKL_ROOT)/libmkl_intel_lp64.so ${_resources_path}
-	cp $(MKL_ROOT)/libmkl_gnu_thread.so ${_resources_path}
-
+	cp $(CONDA_ENV_ROOT)/lib/libgomp.so.1 ${_resources_path}
+	cp $(CONDA_ENV_ROOT)/lib/libmkl_core.so ${_resources_path}
+	cp $(CONDA_ENV_ROOT)/lib/libmkl_intel_lp64.so ${_resources_path}
+	cp $(CONDA_ENV_ROOT)/lib/libmkl_gnu_thread.so ${_resources_path}
 
 clean:
 	rm -f swigfaiss*.cpp swigfaiss*.o  _swigfaiss*.so

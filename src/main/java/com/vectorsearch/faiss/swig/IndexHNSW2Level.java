@@ -47,7 +47,7 @@ public class IndexHNSW2Level extends IndexHNSW {
     swigfaissJNI.IndexHNSW2Level_flip_to_ivf(swigCPtr, this);
   }
 
-  public void search(int n, SWIGTYPE_p_float x, int k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
+  public void search(long n, SWIGTYPE_p_float x, long k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
     swigfaissJNI.IndexHNSW2Level_search(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels));
   }
 

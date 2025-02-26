@@ -60,7 +60,7 @@ public class IndexBinaryFromFloat extends IndexBinary {
     this(swigfaissJNI.new_IndexBinaryFromFloat__SWIG_1(Index.getCPtr(index), index), true);
   }
 
-  public void add(int n, SWIGTYPE_p_unsigned_char x) {
+  public void add(long n, SWIGTYPE_p_unsigned_char x) {
     swigfaissJNI.IndexBinaryFromFloat_add(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(x));
   }
 
@@ -68,11 +68,11 @@ public class IndexBinaryFromFloat extends IndexBinary {
     swigfaissJNI.IndexBinaryFromFloat_reset(swigCPtr, this);
   }
 
-  public void search(int n, SWIGTYPE_p_unsigned_char x, int k, SWIGTYPE_p_int distances, SWIGTYPE_p_long labels) {
+  public void search(long n, SWIGTYPE_p_unsigned_char x, long k, SWIGTYPE_p_int distances, SWIGTYPE_p_long labels) {
     swigfaissJNI.IndexBinaryFromFloat_search(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(x), k, SWIGTYPE_p_int.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels));
   }
 
-  public void train(int n, SWIGTYPE_p_unsigned_char x) {
+  public void train(long n, SWIGTYPE_p_unsigned_char x) {
     swigfaissJNI.IndexBinaryFromFloat_train(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(x));
   }
 

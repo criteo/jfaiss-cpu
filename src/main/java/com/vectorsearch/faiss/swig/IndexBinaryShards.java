@@ -47,16 +47,24 @@ public class IndexBinaryShards extends ThreadedIndexBaseBinary {
     this(swigfaissJNI.new_IndexBinaryShards__SWIG_2(), true);
   }
 
-  public IndexBinaryShards(int d, boolean threaded, boolean successive_ids) {
+  public IndexBinaryShards(long d, boolean threaded, boolean successive_ids) {
     this(swigfaissJNI.new_IndexBinaryShards__SWIG_3(d, threaded, successive_ids), true);
   }
 
+  public IndexBinaryShards(long d) {
+    this(swigfaissJNI.new_IndexBinaryShards__SWIG_5(d), true);
+  }
+
+  public IndexBinaryShards(int d, boolean threaded, boolean successive_ids) {
+    this(swigfaissJNI.new_IndexBinaryShards__SWIG_6(d, threaded, successive_ids), true);
+  }
+
   public IndexBinaryShards(int d, boolean threaded) {
-    this(swigfaissJNI.new_IndexBinaryShards__SWIG_4(d, threaded), true);
+    this(swigfaissJNI.new_IndexBinaryShards__SWIG_7(d, threaded), true);
   }
 
   public IndexBinaryShards(int d) {
-    this(swigfaissJNI.new_IndexBinaryShards__SWIG_5(d), true);
+    this(swigfaissJNI.new_IndexBinaryShards__SWIG_8(d), true);
   }
 
   public void add_shard(IndexBinary index) {
@@ -67,24 +75,20 @@ public class IndexBinaryShards extends ThreadedIndexBaseBinary {
     swigfaissJNI.IndexBinaryShards_remove_shard(swigCPtr, this, IndexBinary.getCPtr(index), index);
   }
 
-  public void add(int n, SWIGTYPE_p_unsigned_char x) {
+  public void add(long n, SWIGTYPE_p_unsigned_char x) {
     swigfaissJNI.IndexBinaryShards_add(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(x));
   }
 
-  public void add_with_ids(int n, SWIGTYPE_p_unsigned_char x, SWIGTYPE_p_long xids) {
+  public void add_with_ids(long n, SWIGTYPE_p_unsigned_char x, SWIGTYPE_p_long xids) {
     swigfaissJNI.IndexBinaryShards_add_with_ids(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(x), SWIGTYPE_p_long.getCPtr(xids));
   }
 
-  public void search(int n, SWIGTYPE_p_unsigned_char x, int k, SWIGTYPE_p_int distances, SWIGTYPE_p_long labels) {
+  public void search(long n, SWIGTYPE_p_unsigned_char x, long k, SWIGTYPE_p_int distances, SWIGTYPE_p_long labels) {
     swigfaissJNI.IndexBinaryShards_search(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(x), k, SWIGTYPE_p_int.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels));
   }
 
-  public void train(int n, SWIGTYPE_p_unsigned_char x) {
+  public void train(long n, SWIGTYPE_p_unsigned_char x) {
     swigfaissJNI.IndexBinaryShards_train(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(x));
-  }
-
-  public void sync_with_shard_indexes() {
-    swigfaissJNI.IndexBinaryShards_sync_with_shard_indexes(swigCPtr, this);
   }
 
   public void setSuccessive_ids(boolean value) {
@@ -93,6 +97,10 @@ public class IndexBinaryShards extends ThreadedIndexBaseBinary {
 
   public boolean getSuccessive_ids() {
     return swigfaissJNI.IndexBinaryShards_successive_ids_get(swigCPtr, this);
+  }
+
+  public void syncWithSubIndexes() {
+    swigfaissJNI.IndexBinaryShards_syncWithSubIndexes(swigCPtr, this);
   }
 
 }

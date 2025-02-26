@@ -83,22 +83,22 @@ public class IndexBinaryHNSW extends IndexBinary {
 
   public DistanceComputer get_distance_computer() {
     long cPtr = swigfaissJNI.IndexBinaryHNSW_get_distance_computer(swigCPtr, this);
-    return (cPtr == 0) ? null : new DistanceComputer(cPtr, false);
+    return (cPtr == 0) ? null : new DistanceComputer(cPtr, true);
   }
 
-  public void add(int n, SWIGTYPE_p_unsigned_char x) {
+  public void add(long n, SWIGTYPE_p_unsigned_char x) {
     swigfaissJNI.IndexBinaryHNSW_add(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(x));
   }
 
-  public void train(int n, SWIGTYPE_p_unsigned_char x) {
+  public void train(long n, SWIGTYPE_p_unsigned_char x) {
     swigfaissJNI.IndexBinaryHNSW_train(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(x));
   }
 
-  public void search(int n, SWIGTYPE_p_unsigned_char x, int k, SWIGTYPE_p_int distances, SWIGTYPE_p_long labels) {
+  public void search(long n, SWIGTYPE_p_unsigned_char x, long k, SWIGTYPE_p_int distances, SWIGTYPE_p_long labels) {
     swigfaissJNI.IndexBinaryHNSW_search(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(x), k, SWIGTYPE_p_int.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels));
   }
 
-  public void reconstruct(int key, SWIGTYPE_p_unsigned_char recons) {
+  public void reconstruct(long key, SWIGTYPE_p_unsigned_char recons) {
     swigfaissJNI.IndexBinaryHNSW_reconstruct(swigCPtr, this, key, SWIGTYPE_p_unsigned_char.getCPtr(recons));
   }
 

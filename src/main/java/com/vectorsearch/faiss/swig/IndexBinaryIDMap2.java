@@ -51,7 +51,7 @@ public class IndexBinaryIDMap2 extends IndexBinaryIDMap {
     swigfaissJNI.IndexBinaryIDMap2_construct_rev_map(swigCPtr, this);
   }
 
-  public void add_with_ids(int n, SWIGTYPE_p_unsigned_char x, SWIGTYPE_p_long xids) {
+  public void add_with_ids(long n, SWIGTYPE_p_unsigned_char x, SWIGTYPE_p_long xids) {
     swigfaissJNI.IndexBinaryIDMap2_add_with_ids(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(x), SWIGTYPE_p_long.getCPtr(xids));
   }
 
@@ -59,7 +59,7 @@ public class IndexBinaryIDMap2 extends IndexBinaryIDMap {
     return swigfaissJNI.IndexBinaryIDMap2_remove_ids(swigCPtr, this, IDSelector.getCPtr(sel), sel);
   }
 
-  public void reconstruct(int key, SWIGTYPE_p_unsigned_char recons) {
+  public void reconstruct(long key, SWIGTYPE_p_unsigned_char recons) {
     swigfaissJNI.IndexBinaryIDMap2_reconstruct(swigCPtr, this, key, SWIGTYPE_p_unsigned_char.getCPtr(recons));
   }
 

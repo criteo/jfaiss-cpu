@@ -60,11 +60,11 @@ public class IndexSplitVectors extends Index {
     return (cPtr == 0) ? null : new SWIGTYPE_p_std__vectorT_faiss__Index_p_t(cPtr, false);
   }
 
-  public void setSum_d(int value) {
+  public void setSum_d(long value) {
     swigfaissJNI.IndexSplitVectors_sum_d_set(swigCPtr, this, value);
   }
 
-  public int getSum_d() {
+  public long getSum_d() {
     return swigfaissJNI.IndexSplitVectors_sum_d_get(swigCPtr, this);
   }
 
@@ -84,15 +84,15 @@ public class IndexSplitVectors extends Index {
     swigfaissJNI.IndexSplitVectors_sync_with_sub_indexes(swigCPtr, this);
   }
 
-  public void add(int n, SWIGTYPE_p_float x) {
+  public void add(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexSplitVectors_add(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 
-  public void search(int n, SWIGTYPE_p_float x, int k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
+  public void search(long n, SWIGTYPE_p_float x, long k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
     swigfaissJNI.IndexSplitVectors_search(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels));
   }
 
-  public void train(int n, SWIGTYPE_p_float x) {
+  public void train(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexSplitVectors_train(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 

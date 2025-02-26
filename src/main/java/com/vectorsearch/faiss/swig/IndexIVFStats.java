@@ -91,4 +91,8 @@ public class IndexIVFStats {
     swigfaissJNI.IndexIVFStats_reset(swigCPtr, this);
   }
 
+  public void add(IndexIVFStats other) {
+    swigfaissJNI.IndexIVFStats_add(swigCPtr, this, IndexIVFStats.getCPtr(other), other);
+  }
+
 }

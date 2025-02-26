@@ -73,36 +73,40 @@ public class IndexIVFPQR extends IndexIVFPQ {
     return swigfaissJNI.IndexIVFPQR_remove_ids(swigCPtr, this, IDSelector.getCPtr(sel), sel);
   }
 
-  public void train_residual(int n, SWIGTYPE_p_float x) {
+  public void train_residual(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexIVFPQR_train_residual(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 
-  public void add_with_ids(int n, SWIGTYPE_p_float x, SWIGTYPE_p_long xids) {
+  public void add_with_ids(long n, SWIGTYPE_p_float x, SWIGTYPE_p_long xids) {
     swigfaissJNI.IndexIVFPQR_add_with_ids(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_long.getCPtr(xids));
   }
 
-  public void add_core(int n, SWIGTYPE_p_float x, SWIGTYPE_p_long xids, SWIGTYPE_p_long precomputed_idx) {
+  public void add_core(long n, SWIGTYPE_p_float x, SWIGTYPE_p_long xids, SWIGTYPE_p_long precomputed_idx) {
     swigfaissJNI.IndexIVFPQR_add_core__SWIG_0(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_long.getCPtr(xids), SWIGTYPE_p_long.getCPtr(precomputed_idx));
   }
 
-  public void add_core(int n, SWIGTYPE_p_float x, SWIGTYPE_p_long xids) {
+  public void add_core(long n, SWIGTYPE_p_float x, SWIGTYPE_p_long xids) {
     swigfaissJNI.IndexIVFPQR_add_core__SWIG_1(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_long.getCPtr(xids));
   }
 
-  public void reconstruct_from_offset(int list_no, int offset, SWIGTYPE_p_float recons) {
+  public void reconstruct_from_offset(long list_no, long offset, SWIGTYPE_p_float recons) {
     swigfaissJNI.IndexIVFPQR_reconstruct_from_offset(swigCPtr, this, list_no, offset, SWIGTYPE_p_float.getCPtr(recons));
   }
 
-  public void merge_from(IndexIVF other, int add_id) {
+  public void merge_from(IndexIVF other, long add_id) {
     swigfaissJNI.IndexIVFPQR_merge_from(swigCPtr, this, IndexIVF.getCPtr(other), other, add_id);
   }
 
-  public void search_preassigned(int n, SWIGTYPE_p_float x, int k, SWIGTYPE_p_long assign, SWIGTYPE_p_float centroid_dis, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels, boolean store_pairs, IVFSearchParameters params) {
-    swigfaissJNI.IndexIVFPQR_search_preassigned__SWIG_0(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_long.getCPtr(assign), SWIGTYPE_p_float.getCPtr(centroid_dis), SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels), store_pairs, IVFSearchParameters.getCPtr(params), params);
+  public void search_preassigned(long n, SWIGTYPE_p_float x, long k, SWIGTYPE_p_long assign, SWIGTYPE_p_float centroid_dis, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels, boolean store_pairs, IVFSearchParameters params, IndexIVFStats stats) {
+    swigfaissJNI.IndexIVFPQR_search_preassigned__SWIG_0(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_long.getCPtr(assign), SWIGTYPE_p_float.getCPtr(centroid_dis), SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels), store_pairs, IVFSearchParameters.getCPtr(params), params, IndexIVFStats.getCPtr(stats), stats);
   }
 
-  public void search_preassigned(int n, SWIGTYPE_p_float x, int k, SWIGTYPE_p_long assign, SWIGTYPE_p_float centroid_dis, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels, boolean store_pairs) {
-    swigfaissJNI.IndexIVFPQR_search_preassigned__SWIG_1(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_long.getCPtr(assign), SWIGTYPE_p_float.getCPtr(centroid_dis), SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels), store_pairs);
+  public void search_preassigned(long n, SWIGTYPE_p_float x, long k, SWIGTYPE_p_long assign, SWIGTYPE_p_float centroid_dis, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels, boolean store_pairs, IVFSearchParameters params) {
+    swigfaissJNI.IndexIVFPQR_search_preassigned__SWIG_1(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_long.getCPtr(assign), SWIGTYPE_p_float.getCPtr(centroid_dis), SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels), store_pairs, IVFSearchParameters.getCPtr(params), params);
+  }
+
+  public void search_preassigned(long n, SWIGTYPE_p_float x, long k, SWIGTYPE_p_long assign, SWIGTYPE_p_float centroid_dis, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels, boolean store_pairs) {
+    swigfaissJNI.IndexIVFPQR_search_preassigned__SWIG_2(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_long.getCPtr(assign), SWIGTYPE_p_float.getCPtr(centroid_dis), SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels), store_pairs);
   }
 
   public IndexIVFPQR() {

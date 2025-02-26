@@ -9,6 +9,23 @@
 package com.vectorsearch.faiss.swig;
 
 public class swigfaiss implements swigfaissConstants {
+  public static void simd_histogram_8(SWIGTYPE_p_unsigned_short data, int n, int min, int shift, SWIGTYPE_p_int hist) {
+    swigfaissJNI.simd_histogram_8(SWIGTYPE_p_unsigned_short.getCPtr(data), n, min, shift, SWIGTYPE_p_int.getCPtr(hist));
+  }
+
+  public static void simd_histogram_16(SWIGTYPE_p_unsigned_short data, int n, int min, int shift, SWIGTYPE_p_int hist) {
+    swigfaissJNI.simd_histogram_16(SWIGTYPE_p_unsigned_short.getCPtr(data), n, min, shift, SWIGTYPE_p_int.getCPtr(hist));
+  }
+
+  public static void setPartition_stats(PartitionStats value) {
+    swigfaissJNI.partition_stats_set(PartitionStats.getCPtr(value), value);
+  }
+
+  public static PartitionStats getPartition_stats() {
+    long cPtr = swigfaissJNI.partition_stats_get();
+    return (cPtr == 0) ? null : new PartitionStats(cPtr, false);
+  }
+
   public static void bitvec_print(SWIGTYPE_p_unsigned_char b, long d) {
     swigfaissJNI.bitvec_print(SWIGTYPE_p_unsigned_char.getCPtr(b), d);
   }
@@ -125,7 +142,7 @@ public class swigfaiss implements swigfaissConstants {
     return swigfaissJNI.ranklist_intersection_size(k1, SWIGTYPE_p_long.getCPtr(v1), k2, SWIGTYPE_p_long.getCPtr(v2));
   }
 
-  public static long merge_result_table_with(long n, long k, SWIGTYPE_p_long I0, SWIGTYPE_p_float D0, SWIGTYPE_p_long I1, SWIGTYPE_p_float D1, boolean keep_min, int translation) {
+  public static long merge_result_table_with(long n, long k, SWIGTYPE_p_long I0, SWIGTYPE_p_float D0, SWIGTYPE_p_long I1, SWIGTYPE_p_float D1, boolean keep_min, long translation) {
     return swigfaissJNI.merge_result_table_with__SWIG_0(n, k, SWIGTYPE_p_long.getCPtr(I0), SWIGTYPE_p_float.getCPtr(D0), SWIGTYPE_p_long.getCPtr(I1), SWIGTYPE_p_float.getCPtr(D1), keep_min, translation);
   }
 
@@ -165,7 +182,7 @@ public class swigfaiss implements swigfaissConstants {
     return swigfaissJNI.ivec_checksum(n, SWIGTYPE_p_int.getCPtr(a));
   }
 
-  public static SWIGTYPE_p_float fvecs_maybe_subsample(long d, SWIGTYPE_p_long n, long nmax, SWIGTYPE_p_float x, boolean verbose, int seed) {
+  public static SWIGTYPE_p_float fvecs_maybe_subsample(long d, SWIGTYPE_p_long n, long nmax, SWIGTYPE_p_float x, boolean verbose, long seed) {
     long cPtr = swigfaissJNI.fvecs_maybe_subsample__SWIG_0(d, SWIGTYPE_p_long.getCPtr(n), nmax, SWIGTYPE_p_float.getCPtr(x), verbose, seed);
     return (cPtr == 0) ? null : new SWIGTYPE_p_float(cPtr, false);
   }
@@ -188,7 +205,7 @@ public class swigfaiss implements swigfaissConstants {
     swigfaissJNI.real_to_binary(d, SWIGTYPE_p_float.getCPtr(x_in), SWIGTYPE_p_unsigned_char.getCPtr(x_out));
   }
 
-  public static long hash_bytes(SWIGTYPE_p_unsigned_char bytes, int n) {
+  public static long hash_bytes(SWIGTYPE_p_unsigned_char bytes, long n) {
     return swigfaissJNI.hash_bytes(SWIGTYPE_p_unsigned_char.getCPtr(bytes), n);
   }
 
@@ -212,19 +229,19 @@ public class swigfaiss implements swigfaissConstants {
     return swigfaissJNI.fvec_Linf(SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_float.getCPtr(y), d);
   }
 
-  public static void pairwise_L2sqr(int d, int nq, SWIGTYPE_p_float xq, int nb, SWIGTYPE_p_float xb, SWIGTYPE_p_float dis, int ldq, int ldb, int ldd) {
+  public static void pairwise_L2sqr(long d, long nq, SWIGTYPE_p_float xq, long nb, SWIGTYPE_p_float xb, SWIGTYPE_p_float dis, long ldq, long ldb, long ldd) {
     swigfaissJNI.pairwise_L2sqr__SWIG_0(d, nq, SWIGTYPE_p_float.getCPtr(xq), nb, SWIGTYPE_p_float.getCPtr(xb), SWIGTYPE_p_float.getCPtr(dis), ldq, ldb, ldd);
   }
 
-  public static void pairwise_L2sqr(int d, int nq, SWIGTYPE_p_float xq, int nb, SWIGTYPE_p_float xb, SWIGTYPE_p_float dis, int ldq, int ldb) {
+  public static void pairwise_L2sqr(long d, long nq, SWIGTYPE_p_float xq, long nb, SWIGTYPE_p_float xb, SWIGTYPE_p_float dis, long ldq, long ldb) {
     swigfaissJNI.pairwise_L2sqr__SWIG_1(d, nq, SWIGTYPE_p_float.getCPtr(xq), nb, SWIGTYPE_p_float.getCPtr(xb), SWIGTYPE_p_float.getCPtr(dis), ldq, ldb);
   }
 
-  public static void pairwise_L2sqr(int d, int nq, SWIGTYPE_p_float xq, int nb, SWIGTYPE_p_float xb, SWIGTYPE_p_float dis, int ldq) {
+  public static void pairwise_L2sqr(long d, long nq, SWIGTYPE_p_float xq, long nb, SWIGTYPE_p_float xb, SWIGTYPE_p_float dis, long ldq) {
     swigfaissJNI.pairwise_L2sqr__SWIG_2(d, nq, SWIGTYPE_p_float.getCPtr(xq), nb, SWIGTYPE_p_float.getCPtr(xb), SWIGTYPE_p_float.getCPtr(dis), ldq);
   }
 
-  public static void pairwise_L2sqr(int d, int nq, SWIGTYPE_p_float xq, int nb, SWIGTYPE_p_float xb, SWIGTYPE_p_float dis) {
+  public static void pairwise_L2sqr(long d, long nq, SWIGTYPE_p_float xq, long nb, SWIGTYPE_p_float xb, SWIGTYPE_p_float dis) {
     swigfaissJNI.pairwise_L2sqr__SWIG_3(d, nq, SWIGTYPE_p_float.getCPtr(xq), nb, SWIGTYPE_p_float.getCPtr(xb), SWIGTYPE_p_float.getCPtr(dis));
   }
 
@@ -280,16 +297,40 @@ public class swigfaiss implements swigfaissConstants {
     return swigfaissJNI.distance_compute_blas_threshold_get();
   }
 
+  public static void setDistance_compute_blas_query_bs(int value) {
+    swigfaissJNI.distance_compute_blas_query_bs_set(value);
+  }
+
+  public static int getDistance_compute_blas_query_bs() {
+    return swigfaissJNI.distance_compute_blas_query_bs_get();
+  }
+
+  public static void setDistance_compute_blas_database_bs(int value) {
+    swigfaissJNI.distance_compute_blas_database_bs_set(value);
+  }
+
+  public static int getDistance_compute_blas_database_bs() {
+    return swigfaissJNI.distance_compute_blas_database_bs_get();
+  }
+
+  public static void setDistance_compute_min_k_reservoir(int value) {
+    swigfaissJNI.distance_compute_min_k_reservoir_set(value);
+  }
+
+  public static int getDistance_compute_min_k_reservoir() {
+    return swigfaissJNI.distance_compute_min_k_reservoir_get();
+  }
+
   public static void knn_inner_product(SWIGTYPE_p_float x, SWIGTYPE_p_float y, long d, long nx, long ny, float_minheap_array_t res) {
     swigfaissJNI.knn_inner_product(SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_float.getCPtr(y), d, nx, ny, float_minheap_array_t.getCPtr(res), res);
   }
 
-  public static void knn_L2sqr(SWIGTYPE_p_float x, SWIGTYPE_p_float y, long d, long nx, long ny, float_maxheap_array_t res) {
-    swigfaissJNI.knn_L2sqr(SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_float.getCPtr(y), d, nx, ny, float_maxheap_array_t.getCPtr(res), res);
+  public static void knn_L2sqr(SWIGTYPE_p_float x, SWIGTYPE_p_float y, long d, long nx, long ny, float_maxheap_array_t res, SWIGTYPE_p_float y_norm2) {
+    swigfaissJNI.knn_L2sqr__SWIG_0(SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_float.getCPtr(y), d, nx, ny, float_maxheap_array_t.getCPtr(res), res, SWIGTYPE_p_float.getCPtr(y_norm2));
   }
 
-  public static void knn_L2sqr_base_shift(SWIGTYPE_p_float x, SWIGTYPE_p_float y, long d, long nx, long ny, float_maxheap_array_t res, SWIGTYPE_p_float base_shift) {
-    swigfaissJNI.knn_L2sqr_base_shift(SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_float.getCPtr(y), d, nx, ny, float_maxheap_array_t.getCPtr(res), res, SWIGTYPE_p_float.getCPtr(base_shift));
+  public static void knn_L2sqr(SWIGTYPE_p_float x, SWIGTYPE_p_float y, long d, long nx, long ny, float_maxheap_array_t res) {
+    swigfaissJNI.knn_L2sqr__SWIG_1(SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_float.getCPtr(y), d, nx, ny, float_maxheap_array_t.getCPtr(res), res);
   }
 
   public static void knn_inner_products_by_idx(SWIGTYPE_p_float x, SWIGTYPE_p_float y, SWIGTYPE_p_long ids, long d, long nx, long ny, float_minheap_array_t res) {
@@ -308,27 +349,31 @@ public class swigfaiss implements swigfaissConstants {
     swigfaissJNI.range_search_inner_product(SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_float.getCPtr(y), d, nx, ny, radius, RangeSearchResult.getCPtr(result), result);
   }
 
-  public static void float_rand(SWIGTYPE_p_float x, long n, int seed) {
+  public static void compute_PQ_dis_tables_dsub2(long d, long ksub, SWIGTYPE_p_float centroids, long nx, SWIGTYPE_p_float x, boolean is_inner_product, SWIGTYPE_p_float dis_tables) {
+    swigfaissJNI.compute_PQ_dis_tables_dsub2(d, ksub, SWIGTYPE_p_float.getCPtr(centroids), nx, SWIGTYPE_p_float.getCPtr(x), is_inner_product, SWIGTYPE_p_float.getCPtr(dis_tables));
+  }
+
+  public static void float_rand(SWIGTYPE_p_float x, long n, long seed) {
     swigfaissJNI.float_rand(SWIGTYPE_p_float.getCPtr(x), n, seed);
   }
 
-  public static void float_randn(SWIGTYPE_p_float x, long n, int seed) {
+  public static void float_randn(SWIGTYPE_p_float x, long n, long seed) {
     swigfaissJNI.float_randn(SWIGTYPE_p_float.getCPtr(x), n, seed);
   }
 
-  public static void int64_rand(SWIGTYPE_p_long x, long n, int seed) {
+  public static void int64_rand(SWIGTYPE_p_long x, long n, long seed) {
     swigfaissJNI.int64_rand(SWIGTYPE_p_long.getCPtr(x), n, seed);
   }
 
-  public static void byte_rand(SWIGTYPE_p_unsigned_char x, long n, int seed) {
+  public static void byte_rand(SWIGTYPE_p_unsigned_char x, long n, long seed) {
     swigfaissJNI.byte_rand(SWIGTYPE_p_unsigned_char.getCPtr(x), n, seed);
   }
 
-  public static void int64_rand_max(SWIGTYPE_p_long x, long n, long max, int seed) {
+  public static void int64_rand_max(SWIGTYPE_p_long x, long n, long max, long seed) {
     swigfaissJNI.int64_rand_max(SWIGTYPE_p_long.getCPtr(x), n, max, seed);
   }
 
-  public static void rand_perm(SWIGTYPE_p_int perm, long n, int seed) {
+  public static void rand_perm(SWIGTYPE_p_int perm, long n, long seed) {
     swigfaissJNI.rand_perm(SWIGTYPE_p_int.getCPtr(perm), n, seed);
   }
 
@@ -336,19 +381,19 @@ public class swigfaiss implements swigfaissConstants {
     return swigfaissJNI.kmeans_clustering(d, n, k, SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_float.getCPtr(centroids));
   }
 
-  public static void pairwise_extra_distances(int d, int nq, SWIGTYPE_p_float xq, int nb, SWIGTYPE_p_float xb, MetricType mt, float metric_arg, SWIGTYPE_p_float dis, int ldq, int ldb, int ldd) {
+  public static void pairwise_extra_distances(long d, long nq, SWIGTYPE_p_float xq, long nb, SWIGTYPE_p_float xb, MetricType mt, float metric_arg, SWIGTYPE_p_float dis, long ldq, long ldb, long ldd) {
     swigfaissJNI.pairwise_extra_distances__SWIG_0(d, nq, SWIGTYPE_p_float.getCPtr(xq), nb, SWIGTYPE_p_float.getCPtr(xb), mt.swigValue(), metric_arg, SWIGTYPE_p_float.getCPtr(dis), ldq, ldb, ldd);
   }
 
-  public static void pairwise_extra_distances(int d, int nq, SWIGTYPE_p_float xq, int nb, SWIGTYPE_p_float xb, MetricType mt, float metric_arg, SWIGTYPE_p_float dis, int ldq, int ldb) {
+  public static void pairwise_extra_distances(long d, long nq, SWIGTYPE_p_float xq, long nb, SWIGTYPE_p_float xb, MetricType mt, float metric_arg, SWIGTYPE_p_float dis, long ldq, long ldb) {
     swigfaissJNI.pairwise_extra_distances__SWIG_1(d, nq, SWIGTYPE_p_float.getCPtr(xq), nb, SWIGTYPE_p_float.getCPtr(xb), mt.swigValue(), metric_arg, SWIGTYPE_p_float.getCPtr(dis), ldq, ldb);
   }
 
-  public static void pairwise_extra_distances(int d, int nq, SWIGTYPE_p_float xq, int nb, SWIGTYPE_p_float xb, MetricType mt, float metric_arg, SWIGTYPE_p_float dis, int ldq) {
+  public static void pairwise_extra_distances(long d, long nq, SWIGTYPE_p_float xq, long nb, SWIGTYPE_p_float xb, MetricType mt, float metric_arg, SWIGTYPE_p_float dis, long ldq) {
     swigfaissJNI.pairwise_extra_distances__SWIG_2(d, nq, SWIGTYPE_p_float.getCPtr(xq), nb, SWIGTYPE_p_float.getCPtr(xb), mt.swigValue(), metric_arg, SWIGTYPE_p_float.getCPtr(dis), ldq);
   }
 
-  public static void pairwise_extra_distances(int d, int nq, SWIGTYPE_p_float xq, int nb, SWIGTYPE_p_float xb, MetricType mt, float metric_arg, SWIGTYPE_p_float dis) {
+  public static void pairwise_extra_distances(long d, long nq, SWIGTYPE_p_float xq, long nb, SWIGTYPE_p_float xb, MetricType mt, float metric_arg, SWIGTYPE_p_float dis) {
     swigfaissJNI.pairwise_extra_distances__SWIG_3(d, nq, SWIGTYPE_p_float.getCPtr(xq), nb, SWIGTYPE_p_float.getCPtr(xb), mt.swigValue(), metric_arg, SWIGTYPE_p_float.getCPtr(dis));
   }
 
@@ -368,6 +413,22 @@ public class swigfaiss implements swigfaissConstants {
   public static IndexPQStats getIndexPQ_stats() {
     long cPtr = swigfaissJNI.indexPQ_stats_get();
     return (cPtr == 0) ? null : new IndexPQStats(cPtr, false);
+  }
+
+  public static long fourcc(String sx) {
+    return swigfaissJNI.fourcc__SWIG_0(sx);
+  }
+
+  public static void fourcc_inv(long x, String str) {
+    swigfaissJNI.fourcc_inv__SWIG_0(x, str);
+  }
+
+  public static String fourcc_inv(long x) {
+    return swigfaissJNI.fourcc_inv__SWIG_1(x);
+  }
+
+  public static String fourcc_inv_printable(long x) {
+    return swigfaissJNI.fourcc_inv_printable(x);
   }
 
   public static long lo_build(long list_id, long offset) {
@@ -413,25 +474,41 @@ public class swigfaiss implements swigfaissConstants {
     swigfaissJNI.search_centroid(Index.getCPtr(index), index, SWIGTYPE_p_float.getCPtr(x), n, SWIGTYPE_p_long.getCPtr(centroid_ids));
   }
 
-  public static void search_and_return_centroids(Index index, long n, SWIGTYPE_p_float xin, int k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels, SWIGTYPE_p_long query_centroid_ids, SWIGTYPE_p_long result_centroid_ids) {
+  public static void search_and_return_centroids(Index index, long n, SWIGTYPE_p_float xin, long k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels, SWIGTYPE_p_long query_centroid_ids, SWIGTYPE_p_long result_centroid_ids) {
     swigfaissJNI.search_and_return_centroids(Index.getCPtr(index), index, n, SWIGTYPE_p_float.getCPtr(xin), k, SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels), SWIGTYPE_p_long.getCPtr(query_centroid_ids), SWIGTYPE_p_long.getCPtr(result_centroid_ids));
   }
 
-  public static ArrayInvertedLists get_invlist_range(Index index, int i0, int i1) {
+  public static ArrayInvertedLists get_invlist_range(Index index, long i0, long i1) {
     long cPtr = swigfaissJNI.get_invlist_range(Index.getCPtr(index), index, i0, i1);
     return (cPtr == 0) ? null : new ArrayInvertedLists(cPtr, false);
   }
 
-  public static void set_invlist_range(Index index, int i0, int i1, ArrayInvertedLists src) {
+  public static void set_invlist_range(Index index, long i0, long i1, ArrayInvertedLists src) {
     swigfaissJNI.set_invlist_range(Index.getCPtr(index), index, i0, i1, ArrayInvertedLists.getCPtr(src), src);
   }
 
-  public static void search_with_parameters(Index index, int n, SWIGTYPE_p_float x, int k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels, IVFSearchParameters params, SWIGTYPE_p_long nb_dis) {
-    swigfaissJNI.search_with_parameters__SWIG_0(Index.getCPtr(index), index, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels), IVFSearchParameters.getCPtr(params), params, SWIGTYPE_p_long.getCPtr(nb_dis));
+  public static void search_with_parameters(Index index, long n, SWIGTYPE_p_float x, long k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels, IVFSearchParameters params, SWIGTYPE_p_long nb_dis, SWIGTYPE_p_double ms_per_stage) {
+    swigfaissJNI.search_with_parameters__SWIG_0(Index.getCPtr(index), index, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels), IVFSearchParameters.getCPtr(params), params, SWIGTYPE_p_long.getCPtr(nb_dis), SWIGTYPE_p_double.getCPtr(ms_per_stage));
   }
 
-  public static void search_with_parameters(Index index, int n, SWIGTYPE_p_float x, int k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels, IVFSearchParameters params) {
-    swigfaissJNI.search_with_parameters__SWIG_1(Index.getCPtr(index), index, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels), IVFSearchParameters.getCPtr(params), params);
+  public static void search_with_parameters(Index index, long n, SWIGTYPE_p_float x, long k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels, IVFSearchParameters params, SWIGTYPE_p_long nb_dis) {
+    swigfaissJNI.search_with_parameters__SWIG_1(Index.getCPtr(index), index, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels), IVFSearchParameters.getCPtr(params), params, SWIGTYPE_p_long.getCPtr(nb_dis));
+  }
+
+  public static void search_with_parameters(Index index, long n, SWIGTYPE_p_float x, long k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels, IVFSearchParameters params) {
+    swigfaissJNI.search_with_parameters__SWIG_2(Index.getCPtr(index), index, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels), IVFSearchParameters.getCPtr(params), params);
+  }
+
+  public static void range_search_with_parameters(Index index, long n, SWIGTYPE_p_float x, float radius, RangeSearchResult result, IVFSearchParameters params, SWIGTYPE_p_long nb_dis, SWIGTYPE_p_double ms_per_stage) {
+    swigfaissJNI.range_search_with_parameters__SWIG_0(Index.getCPtr(index), index, n, SWIGTYPE_p_float.getCPtr(x), radius, RangeSearchResult.getCPtr(result), result, IVFSearchParameters.getCPtr(params), params, SWIGTYPE_p_long.getCPtr(nb_dis), SWIGTYPE_p_double.getCPtr(ms_per_stage));
+  }
+
+  public static void range_search_with_parameters(Index index, long n, SWIGTYPE_p_float x, float radius, RangeSearchResult result, IVFSearchParameters params, SWIGTYPE_p_long nb_dis) {
+    swigfaissJNI.range_search_with_parameters__SWIG_1(Index.getCPtr(index), index, n, SWIGTYPE_p_float.getCPtr(x), radius, RangeSearchResult.getCPtr(result), result, IVFSearchParameters.getCPtr(params), params, SWIGTYPE_p_long.getCPtr(nb_dis));
+  }
+
+  public static void range_search_with_parameters(Index index, long n, SWIGTYPE_p_float x, float radius, RangeSearchResult result, IVFSearchParameters params) {
+    swigfaissJNI.range_search_with_parameters__SWIG_2(Index.getCPtr(index), index, n, SWIGTYPE_p_float.getCPtr(x), radius, RangeSearchResult.getCPtr(result), result, IVFSearchParameters.getCPtr(params), params);
   }
 
   public static void setHnsw_stats(HNSWStats value) {
@@ -443,6 +520,18 @@ public class swigfaiss implements swigfaissConstants {
     return (cPtr == 0) ? null : new HNSWStats(cPtr, false);
   }
 
+  public static void setPrecomputed_table_max_bytes(long value) {
+    swigfaissJNI.precomputed_table_max_bytes_set(value);
+  }
+
+  public static long getPrecomputed_table_max_bytes() {
+    return swigfaissJNI.precomputed_table_max_bytes_get();
+  }
+
+  public static void initialize_IVFPQ_precomputed_table(SWIGTYPE_p_int use_precomputed_table, Index quantizer, ProductQuantizer pq, AlignedTableFloat32 precomputed_table, boolean verbose) {
+    swigfaissJNI.initialize_IVFPQ_precomputed_table(SWIGTYPE_p_int.getCPtr(use_precomputed_table), Index.getCPtr(quantizer), quantizer, ProductQuantizer.getCPtr(pq), pq, AlignedTableFloat32.getCPtr(precomputed_table), precomputed_table, verbose);
+  }
+
   public static void setIndexIVFPQ_stats(IndexIVFPQStats value) {
     swigfaissJNI.indexIVFPQ_stats_set(IndexIVFPQStats.getCPtr(value), value);
   }
@@ -450,6 +539,60 @@ public class swigfaiss implements swigfaissConstants {
   public static IndexIVFPQStats getIndexIVFPQ_stats() {
     long cPtr = swigfaissJNI.indexIVFPQ_stats_get();
     return (cPtr == 0) ? null : new IndexIVFPQStats(cPtr, false);
+  }
+
+  public static void setFastScan_stats(FastScanStats value) {
+    swigfaissJNI.FastScan_stats_set(FastScanStats.getCPtr(value), value);
+  }
+
+  public static FastScanStats getFastScan_stats() {
+    long cPtr = swigfaissJNI.FastScan_stats_get();
+    return (cPtr == 0) ? null : new FastScanStats(cPtr, false);
+  }
+
+  public static void setIVFFastScan_stats(IVFFastScanStats value) {
+    swigfaissJNI.IVFFastScan_stats_set(IVFFastScanStats.getCPtr(value), value);
+  }
+
+  public static IVFFastScanStats getIVFFastScan_stats() {
+    long cPtr = swigfaissJNI.IVFFastScan_stats_get();
+    return (cPtr == 0) ? null : new IVFFastScanStats(cPtr, false);
+  }
+
+  public static void round_uint8_per_column(SWIGTYPE_p_float tab, long n, long d, SWIGTYPE_p_float a_out, SWIGTYPE_p_float b_out) {
+    swigfaissJNI.round_uint8_per_column__SWIG_0(SWIGTYPE_p_float.getCPtr(tab), n, d, SWIGTYPE_p_float.getCPtr(a_out), SWIGTYPE_p_float.getCPtr(b_out));
+  }
+
+  public static void round_uint8_per_column(SWIGTYPE_p_float tab, long n, long d, SWIGTYPE_p_float a_out) {
+    swigfaissJNI.round_uint8_per_column__SWIG_1(SWIGTYPE_p_float.getCPtr(tab), n, d, SWIGTYPE_p_float.getCPtr(a_out));
+  }
+
+  public static void round_uint8_per_column(SWIGTYPE_p_float tab, long n, long d) {
+    swigfaissJNI.round_uint8_per_column__SWIG_2(SWIGTYPE_p_float.getCPtr(tab), n, d);
+  }
+
+  public static void round_uint8_per_column_multi(SWIGTYPE_p_float tab, long m, long n, long d, SWIGTYPE_p_float a_out, SWIGTYPE_p_float b_out) {
+    swigfaissJNI.round_uint8_per_column_multi__SWIG_0(SWIGTYPE_p_float.getCPtr(tab), m, n, d, SWIGTYPE_p_float.getCPtr(a_out), SWIGTYPE_p_float.getCPtr(b_out));
+  }
+
+  public static void round_uint8_per_column_multi(SWIGTYPE_p_float tab, long m, long n, long d, SWIGTYPE_p_float a_out) {
+    swigfaissJNI.round_uint8_per_column_multi__SWIG_1(SWIGTYPE_p_float.getCPtr(tab), m, n, d, SWIGTYPE_p_float.getCPtr(a_out));
+  }
+
+  public static void round_uint8_per_column_multi(SWIGTYPE_p_float tab, long m, long n, long d) {
+    swigfaissJNI.round_uint8_per_column_multi__SWIG_2(SWIGTYPE_p_float.getCPtr(tab), m, n, d);
+  }
+
+  public static void quantize_LUT_and_bias(long nprobe, long M, long ksub, boolean lut_is_3d, SWIGTYPE_p_float LUT, SWIGTYPE_p_float bias, SWIGTYPE_p_unsigned_char LUTq, long M2, SWIGTYPE_p_unsigned_short biasq, SWIGTYPE_p_float a_out, SWIGTYPE_p_float b_out) {
+    swigfaissJNI.quantize_LUT_and_bias__SWIG_0(nprobe, M, ksub, lut_is_3d, SWIGTYPE_p_float.getCPtr(LUT), SWIGTYPE_p_float.getCPtr(bias), SWIGTYPE_p_unsigned_char.getCPtr(LUTq), M2, SWIGTYPE_p_unsigned_short.getCPtr(biasq), SWIGTYPE_p_float.getCPtr(a_out), SWIGTYPE_p_float.getCPtr(b_out));
+  }
+
+  public static void quantize_LUT_and_bias(long nprobe, long M, long ksub, boolean lut_is_3d, SWIGTYPE_p_float LUT, SWIGTYPE_p_float bias, SWIGTYPE_p_unsigned_char LUTq, long M2, SWIGTYPE_p_unsigned_short biasq, SWIGTYPE_p_float a_out) {
+    swigfaissJNI.quantize_LUT_and_bias__SWIG_1(nprobe, M, ksub, lut_is_3d, SWIGTYPE_p_float.getCPtr(LUT), SWIGTYPE_p_float.getCPtr(bias), SWIGTYPE_p_unsigned_char.getCPtr(LUTq), M2, SWIGTYPE_p_unsigned_short.getCPtr(biasq), SWIGTYPE_p_float.getCPtr(a_out));
+  }
+
+  public static void quantize_LUT_and_bias(long nprobe, long M, long ksub, boolean lut_is_3d, SWIGTYPE_p_float LUT, SWIGTYPE_p_float bias, SWIGTYPE_p_unsigned_char LUTq, long M2, SWIGTYPE_p_unsigned_short biasq) {
+    swigfaissJNI.quantize_LUT_and_bias__SWIG_2(nprobe, M, ksub, lut_is_3d, SWIGTYPE_p_float.getCPtr(LUT), SWIGTYPE_p_float.getCPtr(bias), SWIGTYPE_p_unsigned_char.getCPtr(LUTq), M2, SWIGTYPE_p_unsigned_short.getCPtr(biasq));
   }
 
   public static void setIndexBinaryHash_stats(IndexBinaryHashStats value) {
@@ -481,10 +624,6 @@ public class swigfaiss implements swigfaissConstants {
     return (cPtr == 0) ? null : new InvertedLists(cPtr, false);
   }
 
-  public static long fourcc(String sx) {
-    return swigfaissJNI.fourcc(sx);
-  }
-
   public static void write_index(Index idx, String fname) {
     swigfaissJNI.write_index__SWIG_0(Index.getCPtr(idx), idx, fname);
   }
@@ -509,16 +648,20 @@ public class swigfaiss implements swigfaissConstants {
     swigfaissJNI.write_index_binary__SWIG_2(IndexBinary.getCPtr(idx), idx, IOWriter.getCPtr(writer), writer);
   }
 
-  public static int getIO_FLAG_MMAP() {
-    return swigfaissJNI.IO_FLAG_MMAP_get();
-  }
-
   public static int getIO_FLAG_READ_ONLY() {
     return swigfaissJNI.IO_FLAG_READ_ONLY_get();
   }
 
   public static int getIO_FLAG_ONDISK_SAME_DIR() {
     return swigfaissJNI.IO_FLAG_ONDISK_SAME_DIR_get();
+  }
+
+  public static int getIO_FLAG_SKIP_IVF_DATA() {
+    return swigfaissJNI.IO_FLAG_SKIP_IVF_DATA_get();
+  }
+
+  public static int getIO_FLAG_MMAP() {
+    return swigfaissJNI.IO_FLAG_MMAP_get();
   }
 
   public static Index read_index(String fname, int io_flags) {
@@ -642,6 +785,30 @@ public class swigfaiss implements swigfaissConstants {
     return (cPtr == 0) ? null : new IndexBinary(cPtr, true);
   }
 
+  public static float CMin_float_partition_fuzzy(SWIGTYPE_p_float vals, SWIGTYPE_p_long ids, long n, long q_min, long q_max, SWIGTYPE_p_long q_out) {
+    return swigfaissJNI.CMin_float_partition_fuzzy(SWIGTYPE_p_float.getCPtr(vals), SWIGTYPE_p_long.getCPtr(ids), n, q_min, q_max, SWIGTYPE_p_long.getCPtr(q_out));
+  }
+
+  public static float CMax_float_partition_fuzzy(SWIGTYPE_p_float vals, SWIGTYPE_p_long ids, long n, long q_min, long q_max, SWIGTYPE_p_long q_out) {
+    return swigfaissJNI.CMax_float_partition_fuzzy(SWIGTYPE_p_float.getCPtr(vals), SWIGTYPE_p_long.getCPtr(ids), n, q_min, q_max, SWIGTYPE_p_long.getCPtr(q_out));
+  }
+
+  public static int CMax_uint16_partition_fuzzy(SWIGTYPE_p_unsigned_short vals, SWIGTYPE_p_long ids, long n, long q_min, long q_max, SWIGTYPE_p_long q_out) {
+    return swigfaissJNI.CMax_uint16_partition_fuzzy__SWIG_0(SWIGTYPE_p_unsigned_short.getCPtr(vals), SWIGTYPE_p_long.getCPtr(ids), n, q_min, q_max, SWIGTYPE_p_long.getCPtr(q_out));
+  }
+
+  public static int CMin_uint16_partition_fuzzy(SWIGTYPE_p_unsigned_short vals, SWIGTYPE_p_long ids, long n, long q_min, long q_max, SWIGTYPE_p_long q_out) {
+    return swigfaissJNI.CMin_uint16_partition_fuzzy__SWIG_0(SWIGTYPE_p_unsigned_short.getCPtr(vals), SWIGTYPE_p_long.getCPtr(ids), n, q_min, q_max, SWIGTYPE_p_long.getCPtr(q_out));
+  }
+
+  public static int CMax_uint16_partition_fuzzy(SWIGTYPE_p_unsigned_short vals, SWIGTYPE_p_int ids, long n, long q_min, long q_max, SWIGTYPE_p_long q_out) {
+    return swigfaissJNI.CMax_uint16_partition_fuzzy__SWIG_1(SWIGTYPE_p_unsigned_short.getCPtr(vals), SWIGTYPE_p_int.getCPtr(ids), n, q_min, q_max, SWIGTYPE_p_long.getCPtr(q_out));
+  }
+
+  public static int CMin_uint16_partition_fuzzy(SWIGTYPE_p_unsigned_short vals, SWIGTYPE_p_int ids, long n, long q_min, long q_max, SWIGTYPE_p_long q_out) {
+    return swigfaissJNI.CMin_uint16_partition_fuzzy__SWIG_1(SWIGTYPE_p_unsigned_short.getCPtr(vals), SWIGTYPE_p_int.getCPtr(ids), n, q_min, q_max, SWIGTYPE_p_long.getCPtr(q_out));
+  }
+
   public static void omp_set_num_threads(int num_threads) {
     swigfaissJNI.omp_set_num_threads(num_threads);
   }
@@ -655,23 +822,29 @@ public class swigfaiss implements swigfaissConstants {
     return (cPtr == 0) ? null : new SWIGTYPE_p_void(cPtr, false);
   }
 
-  public static SWIGTYPE_p_float cast_integer_to_float_ptr(int x) {
+  public static SWIGTYPE_p_unsigned_char cast_integer_to_uint8_ptr(long x) {
+    long cPtr = swigfaissJNI.cast_integer_to_uint8_ptr(x);
+    return (cPtr == 0) ? null : new SWIGTYPE_p_unsigned_char(cPtr, false);
+  }
+
+  public static SWIGTYPE_p_float cast_integer_to_float_ptr(long x) {
     long cPtr = swigfaissJNI.cast_integer_to_float_ptr(x);
     return (cPtr == 0) ? null : new SWIGTYPE_p_float(cPtr, false);
   }
 
-  public static SWIGTYPE_p_long cast_integer_to_long_ptr(int x) {
-    long cPtr = swigfaissJNI.cast_integer_to_long_ptr(x);
+  public static SWIGTYPE_p_long cast_integer_to_idx_t_ptr(long x) {
+    long cPtr = swigfaissJNI.cast_integer_to_idx_t_ptr(x);
     return (cPtr == 0) ? null : new SWIGTYPE_p_long(cPtr, false);
   }
 
-  public static SWIGTYPE_p_int cast_integer_to_int_ptr(int x) {
+  public static SWIGTYPE_p_int cast_integer_to_int_ptr(long x) {
     long cPtr = swigfaissJNI.cast_integer_to_int_ptr(x);
     return (cPtr == 0) ? null : new SWIGTYPE_p_int(cPtr, false);
   }
 
-  public static void ignore_SIGTTIN() {
-    swigfaissJNI.ignore_SIGTTIN();
+  public static SWIGTYPE_p_void cast_integer_to_void_ptr(long x) {
+    long cPtr = swigfaissJNI.cast_integer_to_void_ptr(x);
+    return (cPtr == 0) ? null : new SWIGTYPE_p_void(cPtr, false);
   }
 
 }

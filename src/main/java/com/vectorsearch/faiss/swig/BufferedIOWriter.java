@@ -60,6 +60,14 @@ public class BufferedIOWriter extends IOWriter {
     return swigfaissJNI.BufferedIOWriter_ofs_get(swigCPtr, this);
   }
 
+  public void setOfs2(long value) {
+    swigfaissJNI.BufferedIOWriter_ofs2_set(swigCPtr, this, value);
+  }
+
+  public long getOfs2() {
+    return swigfaissJNI.BufferedIOWriter_ofs2_get(swigCPtr, this);
+  }
+
   public void setB0(long value) {
     swigfaissJNI.BufferedIOWriter_b0_set(swigCPtr, this, value);
   }
@@ -78,7 +86,11 @@ public class BufferedIOWriter extends IOWriter {
   }
 
   public BufferedIOWriter(IOWriter writer, long bsz) {
-    this(swigfaissJNI.new_BufferedIOWriter(IOWriter.getCPtr(writer), writer, bsz), true);
+    this(swigfaissJNI.new_BufferedIOWriter__SWIG_0(IOWriter.getCPtr(writer), writer, bsz), true);
+  }
+
+  public BufferedIOWriter(IOWriter writer) {
+    this(swigfaissJNI.new_BufferedIOWriter__SWIG_1(IOWriter.getCPtr(writer), writer), true);
   }
 
 }

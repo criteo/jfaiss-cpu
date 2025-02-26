@@ -75,20 +75,36 @@ public class HNSWStats {
     return swigfaissJNI.HNSWStats_nreorder_get(swigCPtr, this);
   }
 
-  public void setView(boolean value) {
-    swigfaissJNI.HNSWStats_view_set(swigCPtr, this, value);
+  public HNSWStats(long n1, long n2, long n3, long ndis, long nreorder) {
+    this(swigfaissJNI.new_HNSWStats__SWIG_0(n1, n2, n3, ndis, nreorder), true);
   }
 
-  public boolean getView() {
-    return swigfaissJNI.HNSWStats_view_get(swigCPtr, this);
+  public HNSWStats(long n1, long n2, long n3, long ndis) {
+    this(swigfaissJNI.new_HNSWStats__SWIG_1(n1, n2, n3, ndis), true);
+  }
+
+  public HNSWStats(long n1, long n2, long n3) {
+    this(swigfaissJNI.new_HNSWStats__SWIG_2(n1, n2, n3), true);
+  }
+
+  public HNSWStats(long n1, long n2) {
+    this(swigfaissJNI.new_HNSWStats__SWIG_3(n1, n2), true);
+  }
+
+  public HNSWStats(long n1) {
+    this(swigfaissJNI.new_HNSWStats__SWIG_4(n1), true);
   }
 
   public HNSWStats() {
-    this(swigfaissJNI.new_HNSWStats(), true);
+    this(swigfaissJNI.new_HNSWStats__SWIG_5(), true);
   }
 
   public void reset() {
     swigfaissJNI.HNSWStats_reset(swigCPtr, this);
+  }
+
+  public void combine(HNSWStats other) {
+    swigfaissJNI.HNSWStats_combine(swigCPtr, this, HNSWStats.getCPtr(other), other);
   }
 
 }

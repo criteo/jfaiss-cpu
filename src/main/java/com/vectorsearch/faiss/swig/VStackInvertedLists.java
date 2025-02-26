@@ -79,7 +79,7 @@ public class VStackInvertedLists extends ReadOnlyInvertedLists {
     swigfaissJNI.VStackInvertedLists_release_ids(swigCPtr, this, list_no, SWIGTYPE_p_long.getCPtr(ids));
   }
 
-  public int get_single_id(long list_no, long offset) {
+  public long get_single_id(long list_no, long offset) {
     return swigfaissJNI.VStackInvertedLists_get_single_id(swigCPtr, this, list_no, offset);
   }
 

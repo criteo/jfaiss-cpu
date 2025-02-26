@@ -39,7 +39,7 @@ public class LongVector {
     this(swigfaissJNI.new_LongVector(), true);
   }
 
-  public void push_back(int arg0) {
+  public void push_back(long arg0) {
     swigfaissJNI.LongVector_push_back(swigCPtr, this, arg0);
   }
 
@@ -56,7 +56,7 @@ public class LongVector {
     return swigfaissJNI.LongVector_size(swigCPtr, this);
   }
 
-  public int at(long n) {
+  public long at(long n) {
     return swigfaissJNI.LongVector_at(swigCPtr, this, n);
   }
 

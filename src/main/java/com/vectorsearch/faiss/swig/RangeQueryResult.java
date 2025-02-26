@@ -35,11 +35,11 @@ public class RangeQueryResult {
     }
   }
 
-  public void setQno(int value) {
+  public void setQno(long value) {
     swigfaissJNI.RangeQueryResult_qno_set(swigCPtr, this, value);
   }
 
-  public int getQno() {
+  public long getQno() {
     return swigfaissJNI.RangeQueryResult_qno_get(swigCPtr, this);
   }
 
@@ -60,7 +60,7 @@ public class RangeQueryResult {
     return (cPtr == 0) ? null : new RangeSearchPartialResult(cPtr, false);
   }
 
-  public void add(float dis, int id) {
+  public void add(float dis, long id) {
     swigfaissJNI.RangeQueryResult_add(swigCPtr, this, dis, id);
   }
 

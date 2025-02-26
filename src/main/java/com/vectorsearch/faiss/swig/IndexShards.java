@@ -48,15 +48,15 @@ public class IndexShards extends ThreadedIndexBase {
   }
 
   public IndexShards(int d, boolean threaded, boolean successive_ids) {
-    this(swigfaissJNI.new_IndexShards__SWIG_3(d, threaded, successive_ids), true);
+    this(swigfaissJNI.new_IndexShards__SWIG_6(d, threaded, successive_ids), true);
   }
 
   public IndexShards(int d, boolean threaded) {
-    this(swigfaissJNI.new_IndexShards__SWIG_4(d, threaded), true);
+    this(swigfaissJNI.new_IndexShards__SWIG_7(d, threaded), true);
   }
 
   public IndexShards(int d) {
-    this(swigfaissJNI.new_IndexShards__SWIG_5(d), true);
+    this(swigfaissJNI.new_IndexShards__SWIG_8(d), true);
   }
 
   public void add_shard(Index index) {
@@ -67,24 +67,20 @@ public class IndexShards extends ThreadedIndexBase {
     swigfaissJNI.IndexShards_remove_shard(swigCPtr, this, Index.getCPtr(index), index);
   }
 
-  public void add(int n, SWIGTYPE_p_float x) {
+  public void add(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexShards_add(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 
-  public void add_with_ids(int n, SWIGTYPE_p_float x, SWIGTYPE_p_long xids) {
+  public void add_with_ids(long n, SWIGTYPE_p_float x, SWIGTYPE_p_long xids) {
     swigfaissJNI.IndexShards_add_with_ids(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_long.getCPtr(xids));
   }
 
-  public void search(int n, SWIGTYPE_p_float x, int k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
+  public void search(long n, SWIGTYPE_p_float x, long k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
     swigfaissJNI.IndexShards_search(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels));
   }
 
-  public void train(int n, SWIGTYPE_p_float x) {
+  public void train(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexShards_train(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
-  }
-
-  public void sync_with_shard_indexes() {
-    swigfaissJNI.IndexShards_sync_with_shard_indexes(swigCPtr, this);
   }
 
   public void setSuccessive_ids(boolean value) {
@@ -93,6 +89,10 @@ public class IndexShards extends ThreadedIndexBase {
 
   public boolean getSuccessive_ids() {
     return swigfaissJNI.IndexShards_successive_ids_get(swigCPtr, this);
+  }
+
+  public void syncWithSubIndexes() {
+    swigfaissJNI.IndexShards_syncWithSubIndexes(swigCPtr, this);
   }
 
 }

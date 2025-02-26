@@ -47,7 +47,7 @@ public class MapLong2Long {
     swigfaissJNI.MapLong2Long_add(swigCPtr, this, n, SWIGTYPE_p_long.getCPtr(keys), SWIGTYPE_p_long.getCPtr(vals));
   }
 
-  public int search(int key) {
+  public long search(long key) {
     return swigfaissJNI.MapLong2Long_search(swigCPtr, this, key);
   }
 

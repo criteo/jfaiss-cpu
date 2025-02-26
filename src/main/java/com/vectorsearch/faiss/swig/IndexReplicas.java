@@ -44,11 +44,11 @@ public class IndexReplicas extends ThreadedIndexBase {
   }
 
   public IndexReplicas(int d, boolean threaded) {
-    this(swigfaissJNI.new_IndexReplicas__SWIG_2(d, threaded), true);
+    this(swigfaissJNI.new_IndexReplicas__SWIG_4(d, threaded), true);
   }
 
   public IndexReplicas(int d) {
-    this(swigfaissJNI.new_IndexReplicas__SWIG_3(d), true);
+    this(swigfaissJNI.new_IndexReplicas__SWIG_5(d), true);
   }
 
   public void add_replica(Index index) {
@@ -59,20 +59,24 @@ public class IndexReplicas extends ThreadedIndexBase {
     swigfaissJNI.IndexReplicas_remove_replica(swigCPtr, this, Index.getCPtr(index), index);
   }
 
-  public void train(int n, SWIGTYPE_p_float x) {
+  public void train(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexReplicas_train(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 
-  public void add(int n, SWIGTYPE_p_float x) {
+  public void add(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexReplicas_add(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 
-  public void search(int n, SWIGTYPE_p_float x, int k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
+  public void search(long n, SWIGTYPE_p_float x, long k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
     swigfaissJNI.IndexReplicas_search(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels));
   }
 
-  public void reconstruct(int arg0, SWIGTYPE_p_float v) {
+  public void reconstruct(long arg0, SWIGTYPE_p_float v) {
     swigfaissJNI.IndexReplicas_reconstruct(swigCPtr, this, arg0, SWIGTYPE_p_float.getCPtr(v));
+  }
+
+  public void syncWithSubIndexes() {
+    swigfaissJNI.IndexReplicas_syncWithSubIndexes(swigCPtr, this);
   }
 
 }

@@ -94,11 +94,11 @@ public class Level1Quantizer {
     return swigfaissJNI.Level1Quantizer_coarse_code_size(swigCPtr, this);
   }
 
-  public void encode_listno(int list_no, SWIGTYPE_p_unsigned_char code) {
+  public void encode_listno(long list_no, SWIGTYPE_p_unsigned_char code) {
     swigfaissJNI.Level1Quantizer_encode_listno(swigCPtr, this, list_no, SWIGTYPE_p_unsigned_char.getCPtr(code));
   }
 
-  public int decode_listno(SWIGTYPE_p_unsigned_char code) {
+  public long decode_listno(SWIGTYPE_p_unsigned_char code) {
     return swigfaissJNI.Level1Quantizer_decode_listno(swigCPtr, this, SWIGTYPE_p_unsigned_char.getCPtr(code));
   }
 

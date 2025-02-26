@@ -64,11 +64,11 @@ public class Repeats {
     this(swigfaissJNI.new_Repeats__SWIG_2(), true);
   }
 
-  public int count() {
+  public long count() {
     return swigfaissJNI.Repeats_count(swigCPtr, this);
   }
 
-  public int encode(SWIGTYPE_p_float c) {
+  public long encode(SWIGTYPE_p_float c) {
     return swigfaissJNI.Repeats_encode(swigCPtr, this, SWIGTYPE_p_float.getCPtr(c));
   }
 

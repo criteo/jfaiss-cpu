@@ -59,11 +59,11 @@ public class OperatingPoint {
     return swigfaissJNI.OperatingPoint_key_get(swigCPtr, this);
   }
 
-  public void setCno(int value) {
+  public void setCno(long value) {
     swigfaissJNI.OperatingPoint_cno_set(swigCPtr, this, value);
   }
 
-  public int getCno() {
+  public long getCno() {
     return swigfaissJNI.OperatingPoint_cno_get(swigCPtr, this);
   }
 

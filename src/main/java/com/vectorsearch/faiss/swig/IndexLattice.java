@@ -93,11 +93,11 @@ public class IndexLattice extends Index {
     return (cPtr == 0) ? null : new FloatVector(cPtr, false);
   }
 
-  public IndexLattice(int d, int nsq, int scale_nbit, int r2) {
+  public IndexLattice(long d, int nsq, int scale_nbit, int r2) {
     this(swigfaissJNI.new_IndexLattice(d, nsq, scale_nbit, r2), true);
   }
 
-  public void train(int n, SWIGTYPE_p_float x) {
+  public void train(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexLattice_train(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 
@@ -105,19 +105,19 @@ public class IndexLattice extends Index {
     return swigfaissJNI.IndexLattice_sa_code_size(swigCPtr, this);
   }
 
-  public void sa_encode(int n, SWIGTYPE_p_float x, SWIGTYPE_p_unsigned_char bytes) {
+  public void sa_encode(long n, SWIGTYPE_p_float x, SWIGTYPE_p_unsigned_char bytes) {
     swigfaissJNI.IndexLattice_sa_encode(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_unsigned_char.getCPtr(bytes));
   }
 
-  public void sa_decode(int n, SWIGTYPE_p_unsigned_char bytes, SWIGTYPE_p_float x) {
+  public void sa_decode(long n, SWIGTYPE_p_unsigned_char bytes, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexLattice_sa_decode(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(bytes), SWIGTYPE_p_float.getCPtr(x));
   }
 
-  public void add(int n, SWIGTYPE_p_float x) {
+  public void add(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexLattice_add(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 
-  public void search(int n, SWIGTYPE_p_float x, int k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
+  public void search(long n, SWIGTYPE_p_float x, long k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
     swigfaissJNI.IndexLattice_search(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels));
   }
 

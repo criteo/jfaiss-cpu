@@ -39,7 +39,7 @@ public class DistanceComputer {
     swigfaissJNI.DistanceComputer_set_query(swigCPtr, this, SWIGTYPE_p_float.getCPtr(x));
   }
 
-  public float symmetric_dis(int i, int j) {
+  public float symmetric_dis(long i, long j) {
     return swigfaissJNI.DistanceComputer_symmetric_dis(swigCPtr, this, i, j);
   }
 

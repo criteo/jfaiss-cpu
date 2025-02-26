@@ -7,10 +7,10 @@
 
 // -*- C++ -*-
 
-// This file describes the C++-scripting language bridge for both Lua
-// and Python It contains mainly includes and a few macros. There are
-// 3 preprocessor macros of interest:
-// SWIGLUA: Lua-specific code
+// This file describes the C++-scripting language bridge for Python (and formerly Lua).
+// It contains mainly includes and a few macros. There are
+// 2 preprocessor macros of interest:
+
 // SWIGPYTHON: Python-specific code
 // GPU_WRAPPER: also compile interfaces for GPU.
 
@@ -47,6 +47,25 @@
 #pragma SWIG nowarn=341
 #pragma SWIG nowarn=512
 
+#define SWIGWORDSIZE64
+#if defined(SWIGJAVA)
+#if defined(SWIGWORDSIZE64)
+%define PRIMITIVE_TYPEMAP(NEW_TYPE, TYPE)
+%clear NEW_TYPE;
+%clear NEW_TYPE *;
+%clear NEW_TYPE &;
+%clear const NEW_TYPE &;
+%apply TYPE { NEW_TYPE };
+%apply TYPE * { NEW_TYPE * };
+%apply TYPE & { NEW_TYPE & };
+%apply const TYPE & { const NEW_TYPE & };
+%enddef // PRIMITIVE_TYPEMAP
+PRIMITIVE_TYPEMAP(long int, long long);
+PRIMITIVE_TYPEMAP(unsigned long int, long long);
+#undef PRIMITIVE_TYPEMAP
+#endif // defined(SWIGWORDSIZE64)
+#endif // defined(SWIGJAVA)
+
 %include <stdint.i>
 typedef int64_t size_t;
 
@@ -64,20 +83,6 @@ typedef int64_t size_t;
 #include <stdint.h>
 #include <omp.h>
 
-
-#ifdef SWIGLUA
-
-#include <pthread.h>
-
-extern "C" {
-
-#include <TH/TH.h>
-#include <luaT.h>
-#undef THTensor
-
-}
-
-#endif
 
 
 #ifdef SWIGPYTHON
@@ -101,6 +106,11 @@ extern "C" {
 #include <faiss/Index2Layer.h>
 #include <faiss/IndexIVFPQR.h>
 #include <faiss/IndexIVFFlat.h>
+
+#include <faiss/IndexPQFastScan.h>
+#include <faiss/IndexIVFPQFastScan.h>
+#include <faiss/utils/quantize_lut.h>
+
 #include <faiss/IndexScalarQuantizer.h>
 #include <faiss/IndexIVFSpectralHash.h>
 #include <faiss/impl/ThreadedIndex.h>
@@ -109,6 +119,8 @@ extern "C" {
 #include <faiss/impl/HNSW.h>
 #include <faiss/IndexHNSW.h>
 #include <faiss/MetaIndexes.h>
+#include <faiss/IndexRefine.h>
+
 #include <faiss/impl/FaissAssert.h>
 
 #include <faiss/IndexBinaryFlat.h>
@@ -127,8 +139,15 @@ extern "C" {
 #include <faiss/utils/extra_distances.h>
 #include <faiss/utils/random.h>
 #include <faiss/utils/Heap.h>
+#include <faiss/utils/AlignedTable.h>
+#include <faiss/utils/partitioning.h>
 #include <faiss/impl/AuxIndexStructures.h>
-#include <faiss/OnDiskInvertedLists.h>
+
+#include <faiss/invlists/BlockInvertedLists.h>
+
+#ifndef _MSC_VER
+#include <faiss/invlists/OnDiskInvertedLists.h>
+#endif // !_MSC_VER
 
 #include <faiss/Clustering.h>
 
@@ -170,21 +189,13 @@ extern "C" {
         PyEval_RestoreThread(_save);
         PyErr_SetString(PyExc_MemoryError, "std::bad_alloc");
         SWIG_fail;
+    } catch(const std::exception& ex) {
+        PyEval_RestoreThread(_save);
+        std::string what = std::string("C++ exception ") + ex.what();
+        PyErr_SetString(PyExc_RuntimeError, what.c_str());
+        SWIG_fail;
     }
     Py_END_ALLOW_THREADS
-}
-
-#endif
-
-#ifdef SWIGLUA
-
-%exception {
-    try {
-        $action
-    } catch(faiss::FaissException & e) {
-        SWIG_Lua_pushferrstring(L, "C++ exception: %s", e.what());       \
-        goto fail;
-    }
 }
 
 #endif
@@ -207,13 +218,19 @@ namespace std {
         T * data();
         size_t size();
         T at (size_t n) const;
+        T & operator [] (size_t n);
         void resize (size_t n);
+
         void swap (vector<T> & other);
     };
 };
 
+%include <std_string.i>
+%include <std_pair.i>
+%include <std_map.i>
+%include <std_shared_ptr.i>
 
-
+// primitive array types
 %template(FloatVector) std::vector<float>;
 %template(DoubleVector) std::vector<double>;
 %template(ByteVector) std::vector<uint8_t>;
@@ -224,6 +241,10 @@ namespace std {
 %template(LongVector) std::vector<long>;
 %template(LongLongVector) std::vector<long long>;
 %template(IntVector) std::vector<int>;
+%template(UInt32Vector) std::vector<uint32_t>;
+%template(Int16Vector) std::vector<int16_t>;
+%template(UInt16Vector) std::vector<uint16_t>;
+
 %template(FloatVectorVector) std::vector<std::vector<float> >;
 %template(ByteVectorVector) std::vector<std::vector<unsigned char> >;
 %template(LongVectorVector) std::vector<std::vector<long> >;
@@ -233,11 +254,13 @@ namespace std {
 %template(RepeatVector) std::vector<faiss::Repeat>;
 %template(ClusteringIterationStatsVector) std::vector<faiss::ClusteringIterationStats>;
 
-#ifdef GPU_WRAPPER
-%template(GpuResourcesVector) std::vector<faiss::gpu::GpuResources*>;
-#endif
+#ifndef SWIGWIN
+%template(OnDiskOneListVector) std::vector<faiss::OnDiskOneList>;
+#endif // !SWIGWIN
 
-%include <std_string.i>
+#ifdef GPU_WRAPPER
+%template(GpuResourcesVector) std::vector<faiss::gpu::GpuResourcesProvider*>;
+#endif
 
 // produces an error on the Mac
 %ignore faiss::hamming;
@@ -246,11 +269,19 @@ namespace std {
  * Parse headers
  *******************************************************************/
 
+%include <faiss/impl/platform_macros.h>
 
 %ignore *::cmp;
 
-%include  <faiss/utils/Heap.h>
-%include  <faiss/utils/hamming.h>
+%include <faiss/utils/ordered_key_value.h>
+%include <faiss/utils/Heap.h>
+
+// this ignore seems to be ignored, so disable W362 above
+%ignore faiss::AlignedTable::operator=;
+
+%include <faiss/utils/AlignedTable.h>
+%include <faiss/utils/partitioning.h>
+%include <faiss/utils/hamming.h>
 
 int get_num_gpus();
 void gpu_profiler_start();
@@ -259,13 +290,14 @@ void gpu_sync_all_devices();
 
 #ifdef GPU_WRAPPER
 
+%shared_ptr(faiss::gpu::GpuResources);
+%shared_ptr(faiss::gpu::StandardGpuResourcesImpl);
+
 %{
 
 #include <faiss/gpu/StandardGpuResources.h>
 #include <faiss/gpu/GpuIndicesOptions.h>
 #include <faiss/gpu/GpuClonerOptions.h>
-#include <faiss/gpu/utils/MemorySpace.h>
-#include <faiss/gpu/utils/DeviceUtils.h>
 #include <faiss/gpu/GpuIndex.h>
 #include <faiss/gpu/GpuIndexFlat.h>
 #include <faiss/gpu/GpuIndexIVF.h>
@@ -299,12 +331,32 @@ void gpu_sync_all_devices()
 
 %}
 
+%template() std::pair<int, unsigned long>;
+%template() std::map<std::string, std::pair<int, unsigned long> >;
+%template() std::map<int, std::map<std::string, std::pair<int, unsigned long> > >;
+
 // causes weird wrapper bug
-%ignore *::getMemoryManager;
-%ignore *::getMemoryManagerCurrentDevice;
+%ignore *::allocMemoryHandle;
+%ignore faiss::gpu::GpuMemoryReservation;
+%ignore faiss::gpu::GpuMemoryReservation::operator=(GpuMemoryReservation&&);
 
 %include  <faiss/gpu/GpuResources.h>
 %include  <faiss/gpu/StandardGpuResources.h>
+
+typedef CUstream_st* cudaStream_t;
+
+%inline %{
+
+// interop between pytorch exposed cudaStream_t and faiss
+cudaStream_t cast_integer_to_cudastream_t(long long x) {
+  return (cudaStream_t) x;
+}
+
+long long cast_cudastream_t_to_integer(cudaStream_t x) {
+  return (long) x;
+}
+
+%}
 
 #else
 
@@ -337,6 +389,8 @@ void gpu_sync_all_devices()
 %include  <faiss/utils/random.h>
 
 %include  <faiss/MetricType.h>
+
+%newobject *::get_distance_computer() const;
 %include  <faiss/Index.h>
 %include  <faiss/Clustering.h>
 
@@ -349,11 +403,17 @@ void gpu_sync_all_devices()
 %include  <faiss/VectorTransform.h>
 %include  <faiss/IndexPreTransform.h>
 %include  <faiss/IndexFlat.h>
+%include  <faiss/IndexRefine.h>
 %include  <faiss/IndexLSH.h>
 %include  <faiss/impl/PolysemousTraining.h>
 %include  <faiss/IndexPQ.h>
-%include  <faiss/InvertedLists.h>
-%include  <faiss/DirectMap.h>
+%include  <faiss/impl/io.h>
+
+%include  <faiss/invlists/InvertedLists.h>
+%include  <faiss/invlists/InvertedListsIOHook.h>
+%ignore BlockInvertedListsIOHook;
+%include  <faiss/invlists/BlockInvertedLists.h>
+%include  <faiss/invlists/DirectMap.h>
 %ignore InvertedListScanner;
 %ignore BinaryInvertedListScanner;
 %include  <faiss/IndexIVF.h>
@@ -369,7 +429,12 @@ void gpu_sync_all_devices()
 %include  <faiss/impl/HNSW.h>
 %include  <faiss/IndexHNSW.h>
 %include  <faiss/IndexIVFFlat.h>
-%include  <faiss/OnDiskInvertedLists.h>
+
+#ifndef SWIGWIN
+%warnfilter(401) faiss::OnDiskInvertedListsIOHook;
+%ignore OnDiskInvertedListsIOHook;
+%include  <faiss/invlists/OnDiskInvertedLists.h>
+#endif // !SWIGWIN
 
 %include  <faiss/impl/lattice_Zn.h>
 %include  <faiss/IndexLattice.h>
@@ -379,16 +444,16 @@ void gpu_sync_all_devices()
 %include  <faiss/IndexIVFPQR.h>
 %include  <faiss/Index2Layer.h>
 
+%include  <faiss/IndexPQFastScan.h>
+%include  <faiss/IndexIVFPQFastScan.h>
+%include  <faiss/utils/quantize_lut.h>
+
 %include  <faiss/IndexBinary.h>
 %include  <faiss/IndexBinaryFlat.h>
 %include  <faiss/IndexBinaryIVF.h>
 %include  <faiss/IndexBinaryFromFloat.h>
 %include  <faiss/IndexBinaryHNSW.h>
 %include  <faiss/IndexBinaryHash.h>
-
-
-
- // %ignore faiss::IndexReplicas::at(int) const;
 
 %include  <faiss/impl/ThreadedIndex.h>
 %template(ThreadedIndexBase) faiss::ThreadedIndex<faiss::Index>;
@@ -408,6 +473,18 @@ void gpu_sync_all_devices()
 %template(IndexIDMap2) faiss::IndexIDMap2Template<faiss::Index>;
 %template(IndexBinaryIDMap2) faiss::IndexIDMap2Template<faiss::IndexBinary>;
 
+
+
+%ignore faiss::BufferList::Buffer;
+%ignore faiss::RangeSearchPartialResult::QueryResult;
+%ignore faiss::IDSelectorBatch::set;
+%ignore faiss::IDSelectorBatch::bloom;
+%ignore faiss::InterruptCallback::instance;
+%ignore faiss::InterruptCallback::lock;
+
+%include  <faiss/impl/AuxIndexStructures.h>
+
+
 #ifdef GPU_WRAPPER
 
 // quiet SWIG warnings
@@ -415,8 +492,6 @@ void gpu_sync_all_devices()
 
 %include  <faiss/gpu/GpuIndicesOptions.h>
 %include  <faiss/gpu/GpuClonerOptions.h>
-%include  <faiss/gpu/utils/MemorySpace.h>
-%include  <faiss/gpu/utils/DeviceUtils.h>
 %include  <faiss/gpu/GpuIndex.h>
 %include  <faiss/gpu/GpuIndexFlat.h>
 %include  <faiss/gpu/GpuIndexIVF.h>
@@ -426,100 +501,12 @@ void gpu_sync_all_devices()
 %include  <faiss/gpu/GpuIndexBinaryFlat.h>
 %include  <faiss/gpu/GpuDistance.h>
 
-#ifdef SWIGLUA
-
-/// in Lua, swigfaiss_gpu is known as swigfaiss
-%luacode {
-local swigfaiss = swigfaiss_gpu
-}
-
-#endif
-
 
 #endif
 
 
 
 
-/*******************************************************************
- * Lua-specific: support async execution of searches in an index
- * Python equivalent is just to use Python threads.
- *******************************************************************/
-
-
-#ifdef SWIGLUA
-
-%{
-
-
-namespace faiss {
-
-struct AsyncIndexSearchC {
-    typedef Index::idx_t idx_t;
-    const Index * index;
-
-    idx_t n;
-    const float *x;
-    idx_t k;
-    float *distances;
-    idx_t *labels;
-
-    bool is_finished;
-
-    pthread_t thread;
-
-
-    AsyncIndexSearchC (const Index *index,
-                      idx_t n, const float *x, idx_t k,
-                      float *distances, idx_t *labels):
-        index(index), n(n), x(x), k(k), distances(distances),
-        labels(labels)
-    {
-        is_finished = false;
-        pthread_create (&thread, NULL, &AsyncIndexSearchC::callback,
-                        this);
-    }
-
-    static void *callback (void *arg)
-    {
-        AsyncIndexSearchC *aidx = (AsyncIndexSearchC *)arg;
-        aidx->do_search();
-        return NULL;
-    }
-
-    void do_search ()
-    {
-        index->search (n, x, k, distances, labels);
-    }
-    void join ()
-    {
-        pthread_join (thread, NULL);
-    }
-
-};
-
-}
-
-%}
-
-// re-decrlare only what we need
-namespace faiss {
-
-struct AsyncIndexSearchC {
-    typedef Index::idx_t idx_t;
-    bool is_finished;
-    AsyncIndexSearchC (const Index *index,
-                      idx_t n, const float *x, idx_t k,
-                       float *distances, idx_t *labels);
-
-
-    void join ();
-};
-
-}
-
-
-#endif
 
 
 
@@ -538,32 +525,17 @@ struct AsyncIndexSearchC {
     } else
 %enddef
 
-%define DOWNCAST_GPU(subclass)
-    if (dynamic_cast<faiss::gpu::subclass *> ($1)) {
-        faiss::gpu::subclass *instance_ptr = (faiss::gpu::subclass *)$1;
+%define DOWNCAST2(subclass, longname)
+    if (dynamic_cast<faiss::subclass *> ($1)) {
+        faiss::longname *instance_ptr = (faiss::longname *)$1;
         $result = (jlong)instance_ptr;
     } else
 %enddef
 
-#endif
-
-#ifdef SWIGLUA
-
-%define DOWNCAST(subclass)
-    if (dynamic_cast<faiss::subclass *> ($1)) {
-      SWIG_NewPointerObj(L,$1,SWIGTYPE_p_faiss__ ## subclass, $owner);
-    } else
-%enddef
-
-%define DOWNCAST2(subclass, longname)
-    if (dynamic_cast<faiss::subclass *> ($1)) {
-      SWIG_NewPointerObj(L,$1,SWIGTYPE_p_faiss__ ## longname, $owner);
-    } else
-%enddef
-
 %define DOWNCAST_GPU(subclass)
     if (dynamic_cast<faiss::gpu::subclass *> ($1)) {
-      SWIG_NewPointerObj(L,$1,SWIGTYPE_p_faiss__gpu__ ## subclass, $owner);
+        faiss::gpu::subclass *instance_ptr = (faiss::gpu::subclass *)$1;
+        $result = (jlong)instance_ptr;
     } else
 %enddef
 
@@ -601,18 +573,22 @@ struct AsyncIndexSearchC {
 
 // Subclasses should appear before their parent
 %typemap(out) faiss::Index * {
-    DOWNCAST ( IndexIDMap )
-    DOWNCAST ( IndexIDMap2 )
-    DOWNCAST ( IndexShards )
-    DOWNCAST ( IndexReplicas )
+    DOWNCAST2 ( IndexIDMap, IndexIDMapTemplate<faiss::Index> )
+    DOWNCAST2 ( IndexIDMap2, IndexIDMap2Template<faiss::Index> )
+    DOWNCAST2 ( IndexShards, IndexShardsTemplate<faiss::Index> )
+    DOWNCAST2 ( IndexReplicas, IndexReplicasTemplate<faiss::Index> )
     DOWNCAST ( IndexIVFPQR )
     DOWNCAST ( IndexIVFPQ )
+    DOWNCAST ( IndexIVFPQFastScan )
     DOWNCAST ( IndexIVFSpectralHash )
     DOWNCAST ( IndexIVFScalarQuantizer )
     DOWNCAST ( IndexIVFFlatDedup )
     DOWNCAST ( IndexIVFFlat )
     DOWNCAST ( IndexIVF )
     DOWNCAST ( IndexFlat )
+    DOWNCAST ( IndexRefineFlat )
+    DOWNCAST ( IndexRefine )
+    DOWNCAST ( IndexPQFastScan )
     DOWNCAST ( IndexPQ )
     DOWNCAST ( IndexScalarQuantizer )
     DOWNCAST ( IndexLSH )
@@ -644,19 +620,18 @@ struct AsyncIndexSearchC {
     } else {
         assert(false);
     }
-#ifdef SWIGLUA
-    SWIG_arg++;
-#endif
 }
 
 %typemap(out) faiss::IndexBinary * {
-    DOWNCAST ( IndexBinaryReplicas )
-    DOWNCAST ( IndexBinaryIDMap )
-    DOWNCAST ( IndexBinaryIDMap2 )
+    DOWNCAST2 ( IndexBinaryReplicas, IndexReplicasTemplate<faiss::IndexBinary> )
+    DOWNCAST2 ( IndexBinaryIDMap, IndexIDMapTemplate<faiss::IndexBinary> )
+    DOWNCAST2 ( IndexBinaryIDMap2, IndexIDMap2Template<faiss::IndexBinary> )
     DOWNCAST ( IndexBinaryIVF )
     DOWNCAST ( IndexBinaryFlat )
     DOWNCAST ( IndexBinaryFromFloat )
     DOWNCAST ( IndexBinaryHNSW )
+    DOWNCAST ( IndexBinaryHash )
+    DOWNCAST ( IndexBinaryMultiHash )
 #ifdef GPU_WRAPPER
     DOWNCAST_GPU ( GpuIndexBinaryFlat )
 #endif
@@ -674,9 +649,6 @@ struct AsyncIndexSearchC {
     } else {
         assert(false);
     }
-#ifdef SWIGLUA
-    SWIG_arg++;
-#endif
 }
 
 %typemap(out) faiss::VectorTransform * {
@@ -691,14 +663,14 @@ struct AsyncIndexSearchC {
     {
         assert(false);
     }
-#ifdef SWIGLUA
-    SWIG_arg++;
-#endif
 }
 
 %typemap(out) faiss::InvertedLists * {
     DOWNCAST (ArrayInvertedLists)
+    DOWNCAST (BlockInvertedLists)
+#ifndef SWIGWIN
     DOWNCAST (OnDiskInvertedLists)
+#endif // !SWIGWIN
     DOWNCAST (VStackInvertedLists)
     DOWNCAST (HStackInvertedLists)
     DOWNCAST (MaskedInvertedLists)
@@ -706,9 +678,6 @@ struct AsyncIndexSearchC {
     {
         assert(false);
     }
-#ifdef SWIGLUA
-    SWIG_arg++;
-#endif
 }
 
 // just to downcast pointers that come from elsewhere (eg. direct
@@ -732,10 +701,8 @@ faiss::InvertedLists * downcast_InvertedLists (faiss::InvertedLists *il)
 }
 %}
 
-%include  <faiss/impl/io.h>
 %include  <faiss/index_io.h>
 %include  <faiss/clone_index.h>
-
 %newobject index_factory;
 %newobject index_binary_factory;
 
@@ -756,6 +723,25 @@ faiss::InvertedLists * downcast_InvertedLists (faiss::InvertedLists *il)
 
 #endif
 
+
+
+/*******************************************************************
+ * Support I/O to arbitrary functions
+ *******************************************************************/
+
+
+#ifdef SWIGPYTHON
+%include <faiss/python/python_callbacks.h>
+
+
+%{
+#include <faiss/python/python_callbacks.h>
+%}
+
+#endif
+
+
+
 // Python-specific: do not release GIL any more, as functions below
 // use the Python/C API
 #ifdef SWIGPYTHON
@@ -775,6 +761,13 @@ faiss::InvertedLists * downcast_InvertedLists (faiss::InvertedLists *il)
 %{
 PyObject *swig_ptr (PyObject *a)
 {
+
+    if (PyBytes_Check(a)) {
+        return SWIG_NewPointerObj(PyBytes_AsString(a), SWIGTYPE_p_char, 0);
+    }
+    if (PyByteArray_Check(a)) {
+        return SWIG_NewPointerObj(PyByteArray_AsString(a), SWIGTYPE_p_char, 0);
+    }
     if(!PyArray_Check(a)) {
         PyErr_SetString(PyExc_ValueError, "input not a numpy array");
         return NULL;
@@ -792,14 +785,26 @@ PyObject *swig_ptr (PyObject *a)
     if(PyArray_TYPE(ao) == NPY_FLOAT64) {
         return SWIG_NewPointerObj(data, SWIGTYPE_p_double, 0);
     }
-    if(PyArray_TYPE(ao) == NPY_INT32) {
-        return SWIG_NewPointerObj(data, SWIGTYPE_p_int, 0);
+    if(PyArray_TYPE(ao) == NPY_FLOAT16) {
+        return SWIG_NewPointerObj(data, SWIGTYPE_p_unsigned_short, 0);
     }
     if(PyArray_TYPE(ao) == NPY_UINT8) {
         return SWIG_NewPointerObj(data, SWIGTYPE_p_unsigned_char, 0);
     }
     if(PyArray_TYPE(ao) == NPY_INT8) {
         return SWIG_NewPointerObj(data, SWIGTYPE_p_char, 0);
+    }
+    if(PyArray_TYPE(ao) == NPY_UINT16) {
+        return SWIG_NewPointerObj(data, SWIGTYPE_p_unsigned_short, 0);
+    }
+    if(PyArray_TYPE(ao) == NPY_INT16) {
+        return SWIG_NewPointerObj(data, SWIGTYPE_p_short, 0);
+    }
+    if(PyArray_TYPE(ao) == NPY_UINT32) {
+        return SWIG_NewPointerObj(data, SWIGTYPE_p_unsigned_int, 0);
+    }
+    if(PyArray_TYPE(ao) == NPY_INT32) {
+        return SWIG_NewPointerObj(data, SWIGTYPE_p_int, 0);
     }
     if(PyArray_TYPE(ao) == NPY_UINT64) {
 #ifdef SWIGWORDSIZE64
@@ -863,8 +868,13 @@ PyObject * rev_swig_ptr(ctype *src, size_t size);
 %enddef
 
 REV_SWIG_PTR(float, NPY_FLOAT32);
-REV_SWIG_PTR(int, NPY_INT32);
+REV_SWIG_PTR(double, NPY_FLOAT64);
 REV_SWIG_PTR(unsigned char, NPY_UINT8);
+REV_SWIG_PTR(char, NPY_INT8);
+REV_SWIG_PTR(unsigned short, NPY_UINT16);
+REV_SWIG_PTR(short, NPY_INT16);
+REV_SWIG_PTR(int, NPY_INT32);
+REV_SWIG_PTR(unsigned int, NPY_UINT32);
 REV_SWIG_PTR(int64_t, NPY_INT64);
 REV_SWIG_PTR(uint64_t, NPY_UINT64);
 
@@ -873,59 +883,7 @@ REV_SWIG_PTR(uint64_t, NPY_UINT64);
 
 
 /*******************************************************************
- * Lua specific: Torch tensor <-> C++ pointer interface
- *******************************************************************/
-
-#ifdef SWIGLUA
-
-
-// provide a XXX_ptr function to convert Lua XXXTensor -> C++ XXX*
-
-%define TYPE_CONVERSION(ctype, tensortype)
-
-// typemap for the *_ptr_from_cdata function
-%typemap(in) ctype** {
-    if(lua_type(L, $input) != 10) {
-        fprintf(stderr, "not cdata input\n");
-        SWIG_fail;
-    }
-    $1 = (ctype**)lua_topointer(L, $input);
-}
-
-
-// SWIG and C declaration for the *_ptr_from_cdata function
-%{
-ctype * ctype ## _ptr_from_cdata(ctype **x, long ofs) {
-     return *x + ofs;
-}
-%}
-ctype * ctype ## _ptr_from_cdata(ctype **x, long ofs);
-
-// the *_ptr function
-%luacode {
-
-function swigfaiss. ctype ## _ptr(tensor)
-   assert(tensor:type() == "torch." .. # tensortype, "need a " .. # tensortype)
-   assert(tensor:isContiguous(), "requires contiguous tensor")
-   return swigfaiss. ctype ## _ptr_from_cdata(
-         tensor:storage():data(),
-         tensor:storageOffset() - 1)
-end
-
-}
-
-%enddef
-
-TYPE_CONVERSION (int, IntTensor)
-TYPE_CONVERSION (float, FloatTensor)
-TYPE_CONVERSION (long, LongTensor)
-TYPE_CONVERSION (uint64_t, LongTensor)
-TYPE_CONVERSION (uint8_t, ByteTensor)
-
-#endif
-
-/*******************************************************************
- * How should the template objects apprear in the scripting language?
+ * How should the template objects appear in the scripting language?
  *******************************************************************/
 
 // answer: the same as the C++ typedefs, but we still have to redefine them
@@ -941,6 +899,54 @@ TYPE_CONVERSION (uint8_t, ByteTensor)
 %template(float_maxheap_array_t) faiss::HeapArray<faiss::CMax<float, int64_t> >;
 %template(int_maxheap_array_t) faiss::HeapArray<faiss::CMax<int, int64_t> >;
 
+%template(CMin_float_partition_fuzzy)
+    faiss::partition_fuzzy<faiss::CMin<float, int64_t> >;
+%template(CMax_float_partition_fuzzy)
+    faiss::partition_fuzzy<faiss::CMax<float, int64_t> >;
+
+%template(AlignedTableUint8) faiss::AlignedTable<uint8_t>;
+%template(AlignedTableUint16) faiss::AlignedTable<uint16_t>;
+%template(AlignedTableFloat32) faiss::AlignedTable<float>;
+
+%inline %{
+
+// SWIG seems to have has some trouble resolving the template type here, so
+// declare explicitly
+uint16_t CMax_uint16_partition_fuzzy(
+        uint16_t *vals, int64_t *ids, size_t n,
+        size_t q_min, size_t q_max, size_t * q_out)
+{
+    return faiss::partition_fuzzy<faiss::CMax<unsigned short, int64_t> >(
+        vals, ids, n, q_min, q_max, q_out);
+}
+
+uint16_t CMin_uint16_partition_fuzzy(
+        uint16_t *vals, int64_t *ids, size_t n,
+        size_t q_min, size_t q_max, size_t * q_out)
+{
+    return faiss::partition_fuzzy<faiss::CMin<unsigned short, int64_t> >(
+        vals, ids, n, q_min, q_max, q_out);
+}
+
+// and overload with the int32 version
+
+uint16_t CMax_uint16_partition_fuzzy(
+        uint16_t *vals, int *ids, size_t n,
+        size_t q_min, size_t q_max, size_t * q_out)
+{
+    return faiss::partition_fuzzy<faiss::CMax<unsigned short, int> >(
+        vals, ids, n, q_min, q_max, q_out);
+}
+
+uint16_t CMin_uint16_partition_fuzzy(
+        uint16_t *vals, int *ids, size_t n,
+        size_t q_min, size_t q_max, size_t * q_out)
+{
+    return faiss::partition_fuzzy<faiss::CMin<unsigned short, int> >(
+        vals, ids, n, q_min, q_max, q_out);
+}
+
+%}
 
 /*******************************************************************
  * Expose a few basic functions
@@ -957,45 +963,32 @@ void *memcpy(void *dest, const void *src, size_t n);
  *******************************************************************/
 
 %inline %{
-float * cast_integer_to_float_ptr (long x) {
+uint8_t * cast_integer_to_uint8_ptr (long long x) {
+    return (uint8_t*)x;
+}
+
+float * cast_integer_to_float_ptr (long long x) {
     return (float*)x;
 }
 
-long * cast_integer_to_long_ptr (long x) {
-    return (long*)x;
+faiss::Index::idx_t* cast_integer_to_idx_t_ptr (long long x) {
+    return (faiss::Index::idx_t*)x;
 }
 
-int * cast_integer_to_int_ptr (long x) {
+int * cast_integer_to_int_ptr (long long x) {
     return (int*)x;
 }
 
-%}
+void * cast_integer_to_void_ptr (long long x) {
+    return (void*)x;
+}
 
+%}
 
 
 /*******************************************************************
  * Range search interface
  *******************************************************************/
-
-%ignore faiss::BufferList::Buffer;
-%ignore faiss::RangeSearchPartialResult::QueryResult;
-%ignore faiss::IDSelectorBatch::set;
-%ignore faiss::IDSelectorBatch::bloom;
-
-%ignore faiss::InterruptCallback::instance;
-%ignore faiss::InterruptCallback::lock;
-%include  <faiss/impl/AuxIndexStructures.h>
-
-%{
-// may be useful for lua code launched in background from shell
-
-#include <signal.h>
-void ignore_SIGTTIN() {
-    signal(SIGTTIN, SIG_IGN);
-}
-%}
-
-void ignore_SIGTTIN();
 
 
 %inline %{
@@ -1031,121 +1024,6 @@ struct MapLong2Long {
 %}
 
 
-/*******************************************************************
- * Support I/O to arbitrary functions
- *******************************************************************/
-
-
-%inline %{
-
-#ifdef SWIGPYTHON
-
-
-struct PyCallbackIOWriter: faiss::IOWriter {
-
-    PyObject * callback;
-    size_t bs; // maximum write size
-
-    PyCallbackIOWriter(PyObject *callback,
-                       size_t bs = 1024 * 1024):
-        callback(callback), bs(bs) {
-        Py_INCREF(callback);
-        name = "PyCallbackIOWriter";
-    }
-
-    size_t operator()(const void *ptrv, size_t size, size_t nitems) override {
-        size_t ws = size * nitems;
-        const char *ptr = (const char*)ptrv;
-        PyGILState_STATE gstate;
-        gstate = PyGILState_Ensure();
-        while(ws > 0) {
-            size_t wi = ws > bs ? bs : ws;
-            PyObject* bo = PyBytes_FromStringAndSize(ptr, wi);
-            PyObject *arglist = Py_BuildValue("(N)", bo);
-            if(!arglist) {
-                PyGILState_Release(gstate);
-                return 0;
-            }
-            ptr += wi;
-            ws -= wi;
-            PyObject * result = PyObject_CallObject(callback, arglist);
-            Py_DECREF(arglist);
-            if (result == NULL) {
-                PyGILState_Release(gstate);
-                return 0;
-            }
-            Py_DECREF(result);
-        }
-        PyGILState_Release(gstate);
-        return nitems;
-    }
-
-    ~PyCallbackIOWriter() {
-        Py_DECREF(callback);
-    }
-
-};
-
-struct PyCallbackIOReader: faiss::IOReader {
-
-    PyObject * callback;
-    size_t bs; // maximum buffer size
-
-    PyCallbackIOReader(PyObject *callback,
-                       size_t bs = 1024 * 1024):
-        callback(callback), bs(bs) {
-        Py_INCREF(callback);
-        name = "PyCallbackIOReader";
-    }
-
-    size_t operator()(void *ptrv, size_t size, size_t nitems) override {
-        size_t rs = size * nitems;
-        char *ptr = (char*)ptrv;
-        PyGILState_STATE gstate;
-        gstate = PyGILState_Ensure();
-        while(rs > 0) {
-            size_t ri = rs > bs ? bs : rs;
-            PyObject *arglist = Py_BuildValue("(n)", ri);
-            PyObject * result = PyObject_CallObject(callback, arglist);
-            Py_DECREF(arglist);
-            if (result == NULL) {
-                PyGILState_Release(gstate);
-                return 0;
-            }
-            if(!PyBytes_Check(result)) {
-                Py_DECREF(result);
-                PyErr_SetString(PyExc_RuntimeError,
-                                "read callback did not return a bytes object");
-                PyGILState_Release(gstate);
-                throw faiss::FaissException("reader error");
-            }
-            size_t sz = PyBytes_Size(result);
-            if (sz == 0 || sz > rs) {
-                Py_DECREF(result);
-                PyErr_Format(PyExc_RuntimeError,
-                             "read callback returned %ld bytes (asked %ld)",
-                             sz, rs);
-                PyGILState_Release(gstate);
-                throw faiss::FaissException("reader error");
-            }
-            memcpy(ptr, PyBytes_AsString(result), sz);
-            Py_DECREF(result);
-            ptr += sz;
-            rs -= sz;
-        }
-        PyGILState_Release(gstate);
-        return nitems;
-    }
-
-    ~PyCallbackIOReader() {
-        Py_DECREF(callback);
-    }
-
-};
-
-#endif
-
-%}
 
 
 

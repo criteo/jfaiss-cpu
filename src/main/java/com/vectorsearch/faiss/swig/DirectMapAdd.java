@@ -89,7 +89,7 @@ public class DirectMapAdd {
     this(swigfaissJNI.new_DirectMapAdd(DirectMap.getCPtr(direct_map), direct_map, n, SWIGTYPE_p_long.getCPtr(xids)), true);
   }
 
-  public void add(long i, int list_no, long offset) {
+  public void add(long i, long list_no, long offset) {
     swigfaissJNI.DirectMapAdd_add(swigCPtr, this, i, list_no, offset);
   }
 

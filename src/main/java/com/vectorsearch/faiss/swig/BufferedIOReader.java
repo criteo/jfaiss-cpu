@@ -52,20 +52,20 @@ public class BufferedIOReader extends IOReader {
     return swigfaissJNI.BufferedIOReader_bsz_get(swigCPtr, this);
   }
 
-  public void setTotsz(long value) {
-    swigfaissJNI.BufferedIOReader_totsz_set(swigCPtr, this, value);
-  }
-
-  public long getTotsz() {
-    return swigfaissJNI.BufferedIOReader_totsz_get(swigCPtr, this);
-  }
-
   public void setOfs(long value) {
     swigfaissJNI.BufferedIOReader_ofs_set(swigCPtr, this, value);
   }
 
   public long getOfs() {
     return swigfaissJNI.BufferedIOReader_ofs_get(swigCPtr, this);
+  }
+
+  public void setOfs2(long value) {
+    swigfaissJNI.BufferedIOReader_ofs2_set(swigCPtr, this, value);
+  }
+
+  public long getOfs2() {
+    return swigfaissJNI.BufferedIOReader_ofs2_get(swigCPtr, this);
   }
 
   public void setB0(long value) {
@@ -93,12 +93,12 @@ public class BufferedIOReader extends IOReader {
     return (cPtr == 0) ? null : new CharVector(cPtr, false);
   }
 
-  public BufferedIOReader(IOReader reader, long bsz, long totsz) {
-    this(swigfaissJNI.new_BufferedIOReader__SWIG_0(IOReader.getCPtr(reader), reader, bsz, totsz), true);
+  public BufferedIOReader(IOReader reader, long bsz) {
+    this(swigfaissJNI.new_BufferedIOReader__SWIG_0(IOReader.getCPtr(reader), reader, bsz), true);
   }
 
-  public BufferedIOReader(IOReader reader, long bsz) {
-    this(swigfaissJNI.new_BufferedIOReader__SWIG_1(IOReader.getCPtr(reader), reader, bsz), true);
+  public BufferedIOReader(IOReader reader) {
+    this(swigfaissJNI.new_BufferedIOReader__SWIG_1(IOReader.getCPtr(reader), reader), true);
   }
 
 }

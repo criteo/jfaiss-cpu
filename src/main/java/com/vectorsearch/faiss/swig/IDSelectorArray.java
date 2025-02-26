@@ -56,7 +56,7 @@ public class IDSelectorArray extends IDSelector {
     this(swigfaissJNI.new_IDSelectorArray(n, SWIGTYPE_p_long.getCPtr(ids)), true);
   }
 
-  public boolean is_member(int id) {
+  public boolean is_member(long id) {
     return swigfaissJNI.IDSelectorArray_is_member(swigCPtr, this, id);
   }
 

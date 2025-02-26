@@ -108,7 +108,7 @@ public class OPQMatrix extends LinearTransform {
     this(swigfaissJNI.new_OPQMatrix__SWIG_3(), true);
   }
 
-  public void train(int n, SWIGTYPE_p_float x) {
+  public void train(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.OPQMatrix_train(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 

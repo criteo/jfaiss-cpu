@@ -59,20 +59,20 @@ public class VectorTransform {
     return swigfaissJNI.VectorTransform_is_trained_get(swigCPtr, this);
   }
 
-  public void train(int n, SWIGTYPE_p_float x) {
+  public void train(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.VectorTransform_train(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 
-  public SWIGTYPE_p_float apply(int n, SWIGTYPE_p_float x) {
+  public SWIGTYPE_p_float apply(long n, SWIGTYPE_p_float x) {
     long cPtr = swigfaissJNI.VectorTransform_apply(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
     return (cPtr == 0) ? null : new SWIGTYPE_p_float(cPtr, false);
   }
 
-  public void apply_noalloc(int n, SWIGTYPE_p_float x, SWIGTYPE_p_float xt) {
+  public void apply_noalloc(long n, SWIGTYPE_p_float x, SWIGTYPE_p_float xt) {
     swigfaissJNI.VectorTransform_apply_noalloc(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_float.getCPtr(xt));
   }
 
-  public void reverse_transform(int n, SWIGTYPE_p_float xt, SWIGTYPE_p_float x) {
+  public void reverse_transform(long n, SWIGTYPE_p_float xt, SWIGTYPE_p_float x) {
     swigfaissJNI.VectorTransform_reverse_transform(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(xt), SWIGTYPE_p_float.getCPtr(x));
   }
 

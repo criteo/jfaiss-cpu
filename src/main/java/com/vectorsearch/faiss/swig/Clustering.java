@@ -77,19 +77,19 @@ public class Clustering extends ClusteringParameters {
     this(swigfaissJNI.new_Clustering__SWIG_1(d, k, ClusteringParameters.getCPtr(cp), cp), true);
   }
 
-  public void train(int n, SWIGTYPE_p_float x, Index index, SWIGTYPE_p_float x_weights) {
+  public void train(long n, SWIGTYPE_p_float x, Index index, SWIGTYPE_p_float x_weights) {
     swigfaissJNI.Clustering_train__SWIG_0(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), Index.getCPtr(index), index, SWIGTYPE_p_float.getCPtr(x_weights));
   }
 
-  public void train(int n, SWIGTYPE_p_float x, Index index) {
+  public void train(long n, SWIGTYPE_p_float x, Index index) {
     swigfaissJNI.Clustering_train__SWIG_1(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), Index.getCPtr(index), index);
   }
 
-  public void train_encoded(int nx, SWIGTYPE_p_unsigned_char x_in, Index codec, Index index, SWIGTYPE_p_float weights) {
+  public void train_encoded(long nx, SWIGTYPE_p_unsigned_char x_in, Index codec, Index index, SWIGTYPE_p_float weights) {
     swigfaissJNI.Clustering_train_encoded__SWIG_0(swigCPtr, this, nx, SWIGTYPE_p_unsigned_char.getCPtr(x_in), Index.getCPtr(codec), codec, Index.getCPtr(index), index, SWIGTYPE_p_float.getCPtr(weights));
   }
 
-  public void train_encoded(int nx, SWIGTYPE_p_unsigned_char x_in, Index codec, Index index) {
+  public void train_encoded(long nx, SWIGTYPE_p_unsigned_char x_in, Index codec, Index index) {
     swigfaissJNI.Clustering_train_encoded__SWIG_1(swigCPtr, this, nx, SWIGTYPE_p_unsigned_char.getCPtr(x_in), Index.getCPtr(codec), codec, Index.getCPtr(index), index);
   }
 

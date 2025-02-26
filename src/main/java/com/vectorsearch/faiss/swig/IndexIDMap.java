@@ -65,19 +65,19 @@ public class IndexIDMap extends Index {
     this(swigfaissJNI.new_IndexIDMap__SWIG_0(Index.getCPtr(index), index), true);
   }
 
-  public void add_with_ids(int n, SWIGTYPE_p_float x, SWIGTYPE_p_long xids) {
+  public void add_with_ids(long n, SWIGTYPE_p_float x, SWIGTYPE_p_long xids) {
     swigfaissJNI.IndexIDMap_add_with_ids(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_long.getCPtr(xids));
   }
 
-  public void add(int n, SWIGTYPE_p_float x) {
+  public void add(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexIDMap_add(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 
-  public void search(int n, SWIGTYPE_p_float x, int k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
+  public void search(long n, SWIGTYPE_p_float x, long k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
     swigfaissJNI.IndexIDMap_search(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels));
   }
 
-  public void train(int n, SWIGTYPE_p_float x) {
+  public void train(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexIDMap_train(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 
@@ -89,7 +89,7 @@ public class IndexIDMap extends Index {
     return swigfaissJNI.IndexIDMap_remove_ids(swigCPtr, this, IDSelector.getCPtr(sel), sel);
   }
 
-  public void range_search(int n, SWIGTYPE_p_float x, float radius, RangeSearchResult result) {
+  public void range_search(long n, SWIGTYPE_p_float x, float radius, RangeSearchResult result) {
     swigfaissJNI.IndexIDMap_range_search(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), radius, RangeSearchResult.getCPtr(result), result);
   }
 

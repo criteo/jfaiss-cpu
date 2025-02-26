@@ -35,70 +35,13 @@ public class OnDiskInvertedLists extends InvertedLists {
     super.delete();
   }
 
-  static public class List {
-    private transient long swigCPtr;
-    protected transient boolean swigCMemOwn;
-  
-    protected List(long cPtr, boolean cMemoryOwn) {
-      swigCMemOwn = cMemoryOwn;
-      swigCPtr = cPtr;
-    }
-  
-    protected static long getCPtr(List obj) {
-      return (obj == null) ? 0 : obj.swigCPtr;
-    }
-  
-    protected void finalize() {
-      delete();
-    }
-  
-    public synchronized void delete() {
-      if (swigCPtr != 0) {
-        if (swigCMemOwn) {
-          swigCMemOwn = false;
-          swigfaissJNI.delete_OnDiskInvertedLists_List(swigCPtr);
-        }
-        swigCPtr = 0;
-      }
-    }
-  
-    public void setSize(long value) {
-      swigfaissJNI.OnDiskInvertedLists_List_size_set(swigCPtr, this, value);
-    }
-  
-    public long getSize() {
-      return swigfaissJNI.OnDiskInvertedLists_List_size_get(swigCPtr, this);
-    }
-  
-    public void setCapacity(long value) {
-      swigfaissJNI.OnDiskInvertedLists_List_capacity_set(swigCPtr, this, value);
-    }
-  
-    public long getCapacity() {
-      return swigfaissJNI.OnDiskInvertedLists_List_capacity_get(swigCPtr, this);
-    }
-  
-    public void setOffset(long value) {
-      swigfaissJNI.OnDiskInvertedLists_List_offset_set(swigCPtr, this, value);
-    }
-  
-    public long getOffset() {
-      return swigfaissJNI.OnDiskInvertedLists_List_offset_get(swigCPtr, this);
-    }
-  
-    public List() {
-      this(swigfaissJNI.new_OnDiskInvertedLists_List(), true);
-    }
-  
+  public void setLists(OnDiskOneListVector value) {
+    swigfaissJNI.OnDiskInvertedLists_lists_set(swigCPtr, this, OnDiskOneListVector.getCPtr(value), value);
   }
 
-  public void setLists(SWIGTYPE_p_std__vectorT_faiss__OnDiskInvertedLists__List_t value) {
-    swigfaissJNI.OnDiskInvertedLists_lists_set(swigCPtr, this, SWIGTYPE_p_std__vectorT_faiss__OnDiskInvertedLists__List_t.getCPtr(value));
-  }
-
-  public SWIGTYPE_p_std__vectorT_faiss__OnDiskInvertedLists__List_t getLists() {
+  public OnDiskOneListVector getLists() {
     long cPtr = swigfaissJNI.OnDiskInvertedLists_lists_get(swigCPtr, this);
-    return (cPtr == 0) ? null : new SWIGTYPE_p_std__vectorT_faiss__OnDiskInvertedLists__List_t(cPtr, false);
+    return (cPtr == 0) ? null : new OnDiskOneListVector(cPtr, false);
   }
 
   static public class Slot {
@@ -234,6 +177,14 @@ public class OnDiskInvertedLists extends InvertedLists {
     return swigfaissJNI.OnDiskInvertedLists_merge_from__SWIG_1(swigCPtr, this, SWIGTYPE_p_p_faiss__InvertedLists.getCPtr(ils), n_il);
   }
 
+  public long merge_from_1(InvertedLists il, boolean verbose) {
+    return swigfaissJNI.OnDiskInvertedLists_merge_from_1__SWIG_0(swigCPtr, this, InvertedLists.getCPtr(il), il, verbose);
+  }
+
+  public long merge_from_1(InvertedLists il) {
+    return swigfaissJNI.OnDiskInvertedLists_merge_from_1__SWIG_1(swigCPtr, this, InvertedLists.getCPtr(il), il);
+  }
+
   public void crop_invlists(long l0, long l1) {
     swigfaissJNI.OnDiskInvertedLists_crop_invlists(swigCPtr, this, l0, l1);
   }
@@ -286,6 +237,10 @@ public class OnDiskInvertedLists extends InvertedLists {
 
   public void free_slot(long offset, long capacity) {
     swigfaissJNI.OnDiskInvertedLists_free_slot(swigCPtr, this, offset, capacity);
+  }
+
+  public void set_all_lists_sizes(SWIGTYPE_p_long sizes) {
+    swigfaissJNI.OnDiskInvertedLists_set_all_lists_sizes(swigCPtr, this, SWIGTYPE_p_long.getCPtr(sizes));
   }
 
   public OnDiskInvertedLists() {

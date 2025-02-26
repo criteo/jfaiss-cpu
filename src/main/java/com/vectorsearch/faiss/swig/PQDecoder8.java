@@ -52,4 +52,5 @@ public class PQDecoder8 {
     return swigfaissJNI.PQDecoder8_decode(swigCPtr, this);
   }
 
+  public final static int nbits = swigfaissJNI.PQDecoder8_nbits_get();
 }

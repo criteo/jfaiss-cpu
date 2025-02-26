@@ -67,6 +67,14 @@ public class ScalarQuantizer {
     return swigfaissJNI.ScalarQuantizer_d_get(swigCPtr, this);
   }
 
+  public void setBits(long value) {
+    swigfaissJNI.ScalarQuantizer_bits_set(swigCPtr, this, value);
+  }
+
+  public long getBits() {
+    return swigfaissJNI.ScalarQuantizer_bits_get(swigCPtr, this);
+  }
+
   public void setCode_size(long value) {
     swigfaissJNI.ScalarQuantizer_code_size_set(swigCPtr, this, value);
   }
@@ -90,6 +98,10 @@ public class ScalarQuantizer {
 
   public ScalarQuantizer() {
     this(swigfaissJNI.new_ScalarQuantizer__SWIG_1(), true);
+  }
+
+  public void set_derived_sizes() {
+    swigfaissJNI.ScalarQuantizer_set_derived_sizes(swigCPtr, this);
   }
 
   public void train(long n, SWIGTYPE_p_float x) {
@@ -157,7 +169,7 @@ public class ScalarQuantizer {
 
   public SWIGTYPE_p_faiss__ScalarQuantizer__SQDistanceComputer get_distance_computer() {
     long cPtr = swigfaissJNI.ScalarQuantizer_get_distance_computer__SWIG_1(swigCPtr, this);
-    return (cPtr == 0) ? null : new SWIGTYPE_p_faiss__ScalarQuantizer__SQDistanceComputer(cPtr, false);
+    return (cPtr == 0) ? null : new SWIGTYPE_p_faiss__ScalarQuantizer__SQDistanceComputer(cPtr, true);
   }
 
   public SWIGTYPE_p_faiss__InvertedListScanner select_InvertedListScanner(MetricType mt, Index quantizer, boolean store_pairs, boolean by_residual) {

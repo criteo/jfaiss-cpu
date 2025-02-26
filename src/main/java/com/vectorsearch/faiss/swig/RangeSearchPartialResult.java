@@ -57,7 +57,7 @@ public class RangeSearchPartialResult extends BufferList {
     return (cPtr == 0) ? null : new SWIGTYPE_p_std__vectorT_faiss__RangeQueryResult_t(cPtr, false);
   }
 
-  public RangeQueryResult new_result(int qno) {
+  public RangeQueryResult new_result(long qno) {
     return new RangeQueryResult(swigfaissJNI.RangeSearchPartialResult_new_result(swigCPtr, this, qno), false);
   }
 

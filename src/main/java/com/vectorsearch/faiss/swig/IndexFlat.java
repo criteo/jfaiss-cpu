@@ -44,15 +44,15 @@ public class IndexFlat extends Index {
     return (cPtr == 0) ? null : new FloatVector(cPtr, false);
   }
 
-  public IndexFlat(int d, MetricType metric) {
+  public IndexFlat(long d, MetricType metric) {
     this(swigfaissJNI.new_IndexFlat__SWIG_0(d, metric.swigValue()), true);
   }
 
-  public IndexFlat(int d) {
+  public IndexFlat(long d) {
     this(swigfaissJNI.new_IndexFlat__SWIG_1(d), true);
   }
 
-  public void add(int n, SWIGTYPE_p_float x) {
+  public void add(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexFlat_add(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 
@@ -60,19 +60,19 @@ public class IndexFlat extends Index {
     swigfaissJNI.IndexFlat_reset(swigCPtr, this);
   }
 
-  public void search(int n, SWIGTYPE_p_float x, int k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
+  public void search(long n, SWIGTYPE_p_float x, long k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
     swigfaissJNI.IndexFlat_search(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels));
   }
 
-  public void range_search(int n, SWIGTYPE_p_float x, float radius, RangeSearchResult result) {
+  public void range_search(long n, SWIGTYPE_p_float x, float radius, RangeSearchResult result) {
     swigfaissJNI.IndexFlat_range_search(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), radius, RangeSearchResult.getCPtr(result), result);
   }
 
-  public void reconstruct(int key, SWIGTYPE_p_float recons) {
+  public void reconstruct(long key, SWIGTYPE_p_float recons) {
     swigfaissJNI.IndexFlat_reconstruct(swigCPtr, this, key, SWIGTYPE_p_float.getCPtr(recons));
   }
 
-  public void compute_distance_subset(int n, SWIGTYPE_p_float x, int k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
+  public void compute_distance_subset(long n, SWIGTYPE_p_float x, long k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
     swigfaissJNI.IndexFlat_compute_distance_subset(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels));
   }
 
@@ -86,18 +86,18 @@ public class IndexFlat extends Index {
 
   public DistanceComputer get_distance_computer() {
     long cPtr = swigfaissJNI.IndexFlat_get_distance_computer(swigCPtr, this);
-    return (cPtr == 0) ? null : new DistanceComputer(cPtr, false);
+    return (cPtr == 0) ? null : new DistanceComputer(cPtr, true);
   }
 
   public long sa_code_size() {
     return swigfaissJNI.IndexFlat_sa_code_size(swigCPtr, this);
   }
 
-  public void sa_encode(int n, SWIGTYPE_p_float x, SWIGTYPE_p_unsigned_char bytes) {
+  public void sa_encode(long n, SWIGTYPE_p_float x, SWIGTYPE_p_unsigned_char bytes) {
     swigfaissJNI.IndexFlat_sa_encode(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_unsigned_char.getCPtr(bytes));
   }
 
-  public void sa_decode(int n, SWIGTYPE_p_unsigned_char bytes, SWIGTYPE_p_float x) {
+  public void sa_decode(long n, SWIGTYPE_p_unsigned_char bytes, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexFlat_sa_decode(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(bytes), SWIGTYPE_p_float.getCPtr(x));
   }
 

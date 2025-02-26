@@ -43,11 +43,11 @@ public class IDSelectorBatch extends IDSelector {
     return swigfaissJNI.IDSelectorBatch_nbits_get(swigCPtr, this);
   }
 
-  public void setMask(int value) {
+  public void setMask(long value) {
     swigfaissJNI.IDSelectorBatch_mask_set(swigCPtr, this, value);
   }
 
-  public int getMask() {
+  public long getMask() {
     return swigfaissJNI.IDSelectorBatch_mask_get(swigCPtr, this);
   }
 
@@ -55,7 +55,7 @@ public class IDSelectorBatch extends IDSelector {
     this(swigfaissJNI.new_IDSelectorBatch(n, SWIGTYPE_p_long.getCPtr(indices)), true);
   }
 
-  public boolean is_member(int id) {
+  public boolean is_member(long id) {
     return swigfaissJNI.IDSelectorBatch_is_member(swigCPtr, this, id);
   }
 

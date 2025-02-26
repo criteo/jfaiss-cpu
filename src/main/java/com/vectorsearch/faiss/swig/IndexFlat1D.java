@@ -64,7 +64,7 @@ public class IndexFlat1D extends IndexFlatL2 {
     swigfaissJNI.IndexFlat1D_update_permutation(swigCPtr, this);
   }
 
-  public void add(int n, SWIGTYPE_p_float x) {
+  public void add(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexFlat1D_add(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 
@@ -72,7 +72,7 @@ public class IndexFlat1D extends IndexFlatL2 {
     swigfaissJNI.IndexFlat1D_reset(swigCPtr, this);
   }
 
-  public void search(int n, SWIGTYPE_p_float x, int k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
+  public void search(long n, SWIGTYPE_p_float x, long k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
     swigfaissJNI.IndexFlat1D_search(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels));
   }
 

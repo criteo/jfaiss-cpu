@@ -362,7 +362,7 @@ public class HNSW {
     return swigfaissJNI.HNSW_cum_nb_neighbors(swigCPtr, this, layer_no);
   }
 
-  public void neighbor_range(int no, int layer_no, SWIGTYPE_p_long begin, SWIGTYPE_p_long end) {
+  public void neighbor_range(long no, int layer_no, SWIGTYPE_p_long begin, SWIGTYPE_p_long end) {
     swigfaissJNI.HNSW_neighbor_range(swigCPtr, this, no, layer_no, SWIGTYPE_p_long.getCPtr(begin), SWIGTYPE_p_long.getCPtr(end));
   }
 
@@ -390,20 +390,20 @@ public class HNSW {
     swigfaissJNI.HNSW_add_with_locks(swigCPtr, this, DistanceComputer.getCPtr(ptdis), ptdis, pt_level, pt_id, SWIGTYPE_p_std__vectorT_omp_lock_t_t.getCPtr(locks), VisitedTable.getCPtr(vt), vt);
   }
 
-  public int search_from_candidates(DistanceComputer qdis, int k, SWIGTYPE_p_long I, SWIGTYPE_p_float D, HNSW.MinimaxHeap candidates, VisitedTable vt, int level, int nres_in) {
-    return swigfaissJNI.HNSW_search_from_candidates__SWIG_0(swigCPtr, this, DistanceComputer.getCPtr(qdis), qdis, k, SWIGTYPE_p_long.getCPtr(I), SWIGTYPE_p_float.getCPtr(D), HNSW.MinimaxHeap.getCPtr(candidates), candidates, VisitedTable.getCPtr(vt), vt, level, nres_in);
+  public int search_from_candidates(DistanceComputer qdis, int k, SWIGTYPE_p_long I, SWIGTYPE_p_float D, HNSW.MinimaxHeap candidates, VisitedTable vt, HNSWStats stats, int level, int nres_in) {
+    return swigfaissJNI.HNSW_search_from_candidates__SWIG_0(swigCPtr, this, DistanceComputer.getCPtr(qdis), qdis, k, SWIGTYPE_p_long.getCPtr(I), SWIGTYPE_p_float.getCPtr(D), HNSW.MinimaxHeap.getCPtr(candidates), candidates, VisitedTable.getCPtr(vt), vt, HNSWStats.getCPtr(stats), stats, level, nres_in);
   }
 
-  public int search_from_candidates(DistanceComputer qdis, int k, SWIGTYPE_p_long I, SWIGTYPE_p_float D, HNSW.MinimaxHeap candidates, VisitedTable vt, int level) {
-    return swigfaissJNI.HNSW_search_from_candidates__SWIG_1(swigCPtr, this, DistanceComputer.getCPtr(qdis), qdis, k, SWIGTYPE_p_long.getCPtr(I), SWIGTYPE_p_float.getCPtr(D), HNSW.MinimaxHeap.getCPtr(candidates), candidates, VisitedTable.getCPtr(vt), vt, level);
+  public int search_from_candidates(DistanceComputer qdis, int k, SWIGTYPE_p_long I, SWIGTYPE_p_float D, HNSW.MinimaxHeap candidates, VisitedTable vt, HNSWStats stats, int level) {
+    return swigfaissJNI.HNSW_search_from_candidates__SWIG_1(swigCPtr, this, DistanceComputer.getCPtr(qdis), qdis, k, SWIGTYPE_p_long.getCPtr(I), SWIGTYPE_p_float.getCPtr(D), HNSW.MinimaxHeap.getCPtr(candidates), candidates, VisitedTable.getCPtr(vt), vt, HNSWStats.getCPtr(stats), stats, level);
   }
 
-  public SWIGTYPE_p_std__priority_queueT_std__pairT_float_int_t_t search_from_candidate_unbounded(SWIGTYPE_p_std__pairT_float_int_t node, DistanceComputer qdis, int ef, VisitedTable vt) {
-    return new SWIGTYPE_p_std__priority_queueT_std__pairT_float_int_t_t(swigfaissJNI.HNSW_search_from_candidate_unbounded(swigCPtr, this, SWIGTYPE_p_std__pairT_float_int_t.getCPtr(node), DistanceComputer.getCPtr(qdis), qdis, ef, VisitedTable.getCPtr(vt), vt), true);
+  public SWIGTYPE_p_std__priority_queueT_std__pairT_float_int_t_t search_from_candidate_unbounded(SWIGTYPE_p_std__pairT_float_int_t node, DistanceComputer qdis, int ef, VisitedTable vt, HNSWStats stats) {
+    return new SWIGTYPE_p_std__priority_queueT_std__pairT_float_int_t_t(swigfaissJNI.HNSW_search_from_candidate_unbounded(swigCPtr, this, SWIGTYPE_p_std__pairT_float_int_t.getCPtr(node), DistanceComputer.getCPtr(qdis), qdis, ef, VisitedTable.getCPtr(vt), vt, HNSWStats.getCPtr(stats), stats), true);
   }
 
-  public void search(DistanceComputer qdis, int k, SWIGTYPE_p_long I, SWIGTYPE_p_float D, VisitedTable vt) {
-    swigfaissJNI.HNSW_search(swigCPtr, this, DistanceComputer.getCPtr(qdis), qdis, k, SWIGTYPE_p_long.getCPtr(I), SWIGTYPE_p_float.getCPtr(D), VisitedTable.getCPtr(vt), vt);
+  public HNSWStats search(DistanceComputer qdis, int k, SWIGTYPE_p_long I, SWIGTYPE_p_float D, VisitedTable vt) {
+    return new HNSWStats(swigfaissJNI.HNSW_search(swigCPtr, this, DistanceComputer.getCPtr(qdis), qdis, k, SWIGTYPE_p_long.getCPtr(I), SWIGTYPE_p_float.getCPtr(D), VisitedTable.getCPtr(vt), vt), true);
   }
 
   public void reset() {

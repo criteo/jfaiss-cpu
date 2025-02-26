@@ -82,7 +82,7 @@ public class RangeSearchResult {
     this(swigfaissJNI.new_RangeSearchResult__SWIG_0(nq, alloc_lims), true);
   }
 
-  public RangeSearchResult(int nq) {
+  public RangeSearchResult(long nq) {
     this(swigfaissJNI.new_RangeSearchResult__SWIG_1(nq), true);
   }
 

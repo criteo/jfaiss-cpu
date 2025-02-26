@@ -35,27 +35,27 @@ public class IDSelectorRange extends IDSelector {
     super.delete();
   }
 
-  public void setImin(int value) {
+  public void setImin(long value) {
     swigfaissJNI.IDSelectorRange_imin_set(swigCPtr, this, value);
   }
 
-  public int getImin() {
+  public long getImin() {
     return swigfaissJNI.IDSelectorRange_imin_get(swigCPtr, this);
   }
 
-  public void setImax(int value) {
+  public void setImax(long value) {
     swigfaissJNI.IDSelectorRange_imax_set(swigCPtr, this, value);
   }
 
-  public int getImax() {
+  public long getImax() {
     return swigfaissJNI.IDSelectorRange_imax_get(swigCPtr, this);
   }
 
-  public IDSelectorRange(int imin, int imax) {
+  public IDSelectorRange(long imin, long imax) {
     this(swigfaissJNI.new_IDSelectorRange(imin, imax), true);
   }
 
-  public boolean is_member(int id) {
+  public boolean is_member(long id) {
     return swigfaissJNI.IDSelectorRange_is_member(swigCPtr, this, id);
   }
 

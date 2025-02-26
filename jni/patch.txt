@@ -1,0 +1,107 @@
+diff --git a/src/main/java/com/vectorsearch/faiss/swig/IndexBinaryReplicas.java b/src/main/java/com/vectorsearch/faiss/swig/IndexBinaryReplicas.java
+index 33eccc8..5ea909c 100644
+--- a/src/main/java/com/vectorsearch/faiss/swig/IndexBinaryReplicas.java
++++ b/src/main/java/com/vectorsearch/faiss/swig/IndexBinaryReplicas.java
+@@ -43,14 +43,6 @@ public class IndexBinaryReplicas extends ThreadedIndexBaseBinary {
+     this(swigfaissJNI.new_IndexBinaryReplicas__SWIG_1(), true);
+   }
+ 
+-  public IndexBinaryReplicas(long d, boolean threaded) {
+-    this(swigfaissJNI.new_IndexBinaryReplicas__SWIG_2(d, threaded), true);
+-  }
+-
+-  public IndexBinaryReplicas(long d) {
+-    this(swigfaissJNI.new_IndexBinaryReplicas__SWIG_3(d), true);
+-  }
+-
+   public IndexBinaryReplicas(int d, boolean threaded) {
+     this(swigfaissJNI.new_IndexBinaryReplicas__SWIG_4(d, threaded), true);
+   }
+diff --git a/src/main/java/com/vectorsearch/faiss/swig/IndexBinaryShards.java b/src/main/java/com/vectorsearch/faiss/swig/IndexBinaryShards.java
+index 5c2beb6..d5797cb 100644
+--- a/src/main/java/com/vectorsearch/faiss/swig/IndexBinaryShards.java
++++ b/src/main/java/com/vectorsearch/faiss/swig/IndexBinaryShards.java
+@@ -51,10 +51,6 @@ public class IndexBinaryShards extends ThreadedIndexBaseBinary {
+     this(swigfaissJNI.new_IndexBinaryShards__SWIG_3(d, threaded, successive_ids), true);
+   }
+
+-  public IndexBinaryShards(long d, boolean threaded) {
+-    this(swigfaissJNI.new_IndexBinaryShards__SWIG_4(d, threaded), true);
+-  }
+-
+   public IndexBinaryShards(long d) {
+     this(swigfaissJNI.new_IndexBinaryShards__SWIG_5(d), true);
+   }
+diff --git a/src/main/java/com/vectorsearch/faiss/swig/IndexReplicas.java b/src/main/java/com/vectorsearch/faiss/swig/IndexReplicas.java
+index bde048b..1f784c0 100644
+--- a/src/main/java/com/vectorsearch/faiss/swig/IndexReplicas.java
++++ b/src/main/java/com/vectorsearch/faiss/swig/IndexReplicas.java
+@@ -43,14 +43,6 @@ public class IndexReplicas extends ThreadedIndexBase {
+     this(swigfaissJNI.new_IndexReplicas__SWIG_1(), true);
+   }
+ 
+-  public IndexReplicas(long d, boolean threaded) {
+-    this(swigfaissJNI.new_IndexReplicas__SWIG_2(d, threaded), true);
+-  }
+-
+-  public IndexReplicas(long d) {
+-    this(swigfaissJNI.new_IndexReplicas__SWIG_3(d), true);
+-  }
+-
+   public IndexReplicas(int d, boolean threaded) {
+     this(swigfaissJNI.new_IndexReplicas__SWIG_4(d, threaded), true);
+   }
+diff --git a/src/main/java/com/vectorsearch/faiss/swig/IndexShards.java b/src/main/java/com/vectorsearch/faiss/swig/IndexShards.java
+index 2d57b89..9b490e6 100644
+--- a/src/main/java/com/vectorsearch/faiss/swig/IndexShards.java
++++ b/src/main/java/com/vectorsearch/faiss/swig/IndexShards.java
+@@ -47,18 +47,6 @@ public class IndexShards extends ThreadedIndexBase {
+     this(swigfaissJNI.new_IndexShards__SWIG_2(), true);
+   }
+ 
+-  public IndexShards(long d, boolean threaded, boolean successive_ids) {
+-    this(swigfaissJNI.new_IndexShards__SWIG_3(d, threaded, successive_ids), true);
+-  }
+-
+-  public IndexShards(long d, boolean threaded) {
+-    this(swigfaissJNI.new_IndexShards__SWIG_4(d, threaded), true);
+-  }
+-
+-  public IndexShards(long d) {
+-    this(swigfaissJNI.new_IndexShards__SWIG_5(d), true);
+-  }
+-
+   public IndexShards(int d, boolean threaded, boolean successive_ids) {
+     this(swigfaissJNI.new_IndexShards__SWIG_6(d, threaded, successive_ids), true);
+   }
+diff --git a/src/main/java/com/vectorsearch/faiss/swig/IndexSplitVectors.java b/src/main/java/com/vectorsearch/faiss/swig/IndexSplitVectors.java
+index 0754cae..bd23081 100644
+--- a/src/main/java/com/vectorsearch/faiss/swig/IndexSplitVectors.java
++++ b/src/main/java/com/vectorsearch/faiss/swig/IndexSplitVectors.java
+@@ -68,11 +68,11 @@ public class IndexSplitVectors extends Index {
+     return swigfaissJNI.IndexSplitVectors_sum_d_get(swigCPtr, this);
+   }
+ 
+-  public IndexSplitVectors(long d, boolean threaded) {
++  public IndexSplitVectors(int d, boolean threaded) {
+     this(swigfaissJNI.new_IndexSplitVectors__SWIG_0(d, threaded), true);
+   }
+ 
+-  public IndexSplitVectors(long d) {
++  public IndexSplitVectors(int d) {
+     this(swigfaissJNI.new_IndexSplitVectors__SWIG_1(d), true);
+   }
+ 
+diff --git a/src/main/java/com/vectorsearch/faiss/swig/RangeSearchResult.java b/src/main/java/com/vectorsearch/faiss/swig/RangeSearchResult.java
+index fe5f045..b9d27c8 100644
+--- a/src/main/java/com/vectorsearch/faiss/swig/RangeSearchResult.java
++++ b/src/main/java/com/vectorsearch/faiss/swig/RangeSearchResult.java
+@@ -78,7 +78,7 @@ public class RangeSearchResult {
+     return swigfaissJNI.RangeSearchResult_buffer_size_get(swigCPtr, this);
+   }
+ 
+-  public RangeSearchResult(long nq, boolean alloc_lims) {
++  public RangeSearchResult(int nq, boolean alloc_lims) {
+     this(swigfaissJNI.new_RangeSearchResult__SWIG_0(nq, alloc_lims), true);
+   }
+ 

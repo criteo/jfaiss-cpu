@@ -35,7 +35,7 @@ public class IndexFlatIP extends IndexFlat {
     super.delete();
   }
 
-  public IndexFlatIP(int d) {
+  public IndexFlatIP(long d) {
     this(swigfaissJNI.new_IndexFlatIP__SWIG_0(d), true);
   }
 

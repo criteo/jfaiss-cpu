@@ -47,7 +47,7 @@ public class RandomGenerator {
     return swigfaissJNI.RandomGenerator_rand_int__SWIG_0(swigCPtr, this);
   }
 
-  public int rand_int64() {
+  public long rand_int64() {
     return swigfaissJNI.RandomGenerator_rand_int64(swigCPtr, this);
   }
 
@@ -63,7 +63,7 @@ public class RandomGenerator {
     return swigfaissJNI.RandomGenerator_rand_double(swigCPtr, this);
   }
 
-  public RandomGenerator(int seed) {
+  public RandomGenerator(long seed) {
     this(swigfaissJNI.new_RandomGenerator__SWIG_0(seed), true);
   }
 

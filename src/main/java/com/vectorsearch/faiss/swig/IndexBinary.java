@@ -51,11 +51,11 @@ public class IndexBinary {
     return swigfaissJNI.IndexBinary_code_size_get(swigCPtr, this);
   }
 
-  public void setNtotal(int value) {
+  public void setNtotal(long value) {
     swigfaissJNI.IndexBinary_ntotal_set(swigCPtr, this, value);
   }
 
-  public int getNtotal() {
+  public long getNtotal() {
     return swigfaissJNI.IndexBinary_ntotal_get(swigCPtr, this);
   }
 
@@ -83,31 +83,31 @@ public class IndexBinary {
     return MetricType.swigToEnum(swigfaissJNI.IndexBinary_metric_type_get(swigCPtr, this));
   }
 
-  public void train(int n, SWIGTYPE_p_unsigned_char x) {
+  public void train(long n, SWIGTYPE_p_unsigned_char x) {
     swigfaissJNI.IndexBinary_train(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(x));
   }
 
-  public void add(int n, SWIGTYPE_p_unsigned_char x) {
+  public void add(long n, SWIGTYPE_p_unsigned_char x) {
     swigfaissJNI.IndexBinary_add(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(x));
   }
 
-  public void add_with_ids(int n, SWIGTYPE_p_unsigned_char x, SWIGTYPE_p_long xids) {
+  public void add_with_ids(long n, SWIGTYPE_p_unsigned_char x, SWIGTYPE_p_long xids) {
     swigfaissJNI.IndexBinary_add_with_ids(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(x), SWIGTYPE_p_long.getCPtr(xids));
   }
 
-  public void search(int n, SWIGTYPE_p_unsigned_char x, int k, SWIGTYPE_p_int distances, SWIGTYPE_p_long labels) {
+  public void search(long n, SWIGTYPE_p_unsigned_char x, long k, SWIGTYPE_p_int distances, SWIGTYPE_p_long labels) {
     swigfaissJNI.IndexBinary_search(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(x), k, SWIGTYPE_p_int.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels));
   }
 
-  public void range_search(int n, SWIGTYPE_p_unsigned_char x, int radius, RangeSearchResult result) {
+  public void range_search(long n, SWIGTYPE_p_unsigned_char x, int radius, RangeSearchResult result) {
     swigfaissJNI.IndexBinary_range_search(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(x), radius, RangeSearchResult.getCPtr(result), result);
   }
 
-  public void assign(int n, SWIGTYPE_p_unsigned_char x, SWIGTYPE_p_long labels, int k) {
+  public void assign(long n, SWIGTYPE_p_unsigned_char x, SWIGTYPE_p_long labels, long k) {
     swigfaissJNI.IndexBinary_assign__SWIG_0(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(x), SWIGTYPE_p_long.getCPtr(labels), k);
   }
 
-  public void assign(int n, SWIGTYPE_p_unsigned_char x, SWIGTYPE_p_long labels) {
+  public void assign(long n, SWIGTYPE_p_unsigned_char x, SWIGTYPE_p_long labels) {
     swigfaissJNI.IndexBinary_assign__SWIG_1(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(x), SWIGTYPE_p_long.getCPtr(labels));
   }
 
@@ -119,15 +119,15 @@ public class IndexBinary {
     return swigfaissJNI.IndexBinary_remove_ids(swigCPtr, this, IDSelector.getCPtr(sel), sel);
   }
 
-  public void reconstruct(int key, SWIGTYPE_p_unsigned_char recons) {
+  public void reconstruct(long key, SWIGTYPE_p_unsigned_char recons) {
     swigfaissJNI.IndexBinary_reconstruct(swigCPtr, this, key, SWIGTYPE_p_unsigned_char.getCPtr(recons));
   }
 
-  public void reconstruct_n(int i0, int ni, SWIGTYPE_p_unsigned_char recons) {
+  public void reconstruct_n(long i0, long ni, SWIGTYPE_p_unsigned_char recons) {
     swigfaissJNI.IndexBinary_reconstruct_n(swigCPtr, this, i0, ni, SWIGTYPE_p_unsigned_char.getCPtr(recons));
   }
 
-  public void search_and_reconstruct(int n, SWIGTYPE_p_unsigned_char x, int k, SWIGTYPE_p_int distances, SWIGTYPE_p_long labels, SWIGTYPE_p_unsigned_char recons) {
+  public void search_and_reconstruct(long n, SWIGTYPE_p_unsigned_char x, long k, SWIGTYPE_p_int distances, SWIGTYPE_p_long labels, SWIGTYPE_p_unsigned_char recons) {
     swigfaissJNI.IndexBinary_search_and_reconstruct(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(x), k, SWIGTYPE_p_int.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels), SWIGTYPE_p_unsigned_char.getCPtr(recons));
   }
 

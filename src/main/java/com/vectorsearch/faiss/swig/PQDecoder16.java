@@ -52,4 +52,5 @@ public class PQDecoder16 {
     return swigfaissJNI.PQDecoder16_decode(swigCPtr, this);
   }
 
+  public final static int nbits = swigfaissJNI.PQDecoder16_nbits_get();
 }

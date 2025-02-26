@@ -6,10 +6,10 @@
 
     <groupId>com.criteo.jfaiss</groupId>
     <artifactId>jfaiss-cpu</artifactId>
-    <version>1.6.3</version>
+    <version>1.7.0-0</version>
     <name>jfaiss-cpu</name>
     <description>
-        JFaiss-CPU is a Java/JNI wrapper of CPU-only build of FAISS library v1.6.3.
+        JFaiss-CPU is a Java/JNI wrapper of CPU-only build of FAISS library v1.7.0.
     </description>
     <url>https://github.com/criteo/jfaiss-cpu</url>
 

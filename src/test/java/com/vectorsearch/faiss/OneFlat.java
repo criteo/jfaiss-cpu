@@ -30,7 +30,7 @@ public class OneFlat extends FaissTestCase {
     public void train() {
         index.add(inputRowCount, inputVectors.cast());
         final boolean isTrained = index.getIs_trained();
-        final int nTotal = index.getNtotal();
+        final long nTotal = index.getNtotal();
         final String msg = "isTrained = " + isTrained + ", nTotal = " + nTotal;
         LOGGER.info(msg);
     }

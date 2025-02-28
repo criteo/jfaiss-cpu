@@ -15,7 +15,7 @@ implementation 'com.criteo.jfaiss:jfaiss-cpu:1.7.0-x'
 
 ## Runtime dependencies
 
-`jfaiss-cpu` requires only Java 8+ to run, the binary package bundles all it's dependencies and doesn't need anything extra to run.
+`jfaiss-cpu` requires only Java 11+ to run, the binary package bundles all it's dependencies and doesn't need anything extra to run.
 
 Faiss native library is built under CentOS 8 and uses OpenBLAS, which is bundled with the package.
 
@@ -26,7 +26,7 @@ This dependency is used to correctly load Faiss native library with it's depende
 
 ### Requirement
 
-- JDK v1.8
+- Java 11 JDK
 - Apache Maven v3.6.3
 - Docker v19.03.12
 
@@ -54,7 +54,7 @@ Copy Faiss binary with it's dependencies into resources directory:
 
 ```sh
 docker create --name jfaiss-container jfaiss-image
-docker cp jfaiss-container:/opt/JFaiss/cpu/src/main/resources  src/main/resources
+docker cp jfaiss-container:/opt/JFaiss/cpu/src/main/resources  src/main
 ```
 
 Also, if Faiss was changed (e.g. version was updates), or some changes were made to the [SWIG-file](./jni/swigfaiss.swig), it is required to copy (overwrite) generated Java sources:
@@ -80,7 +80,7 @@ If everything went well, the resulting Jar file will `jfaiss-cpu-1.7.0-x.jar` be
 ## To-do
 
 * [x] Update to CentOS 8: build Faiss native with CentOS 8
-* [ ] Update to Java 11
+* [x] Update to Java 11
 * [ ] AVX2 support: build Faiss native with AVX2 CPU instructions
 * [ ] Use Intel's MKL BLAS instead of OpenBLAS
 

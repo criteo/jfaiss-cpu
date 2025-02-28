@@ -38,7 +38,7 @@ build: libswigfaiss.so
 	cp /lib64/libopenblas.so.0 ${_resources_path}
 
 clean:
-	rm -f swigfaiss*.cpp swigfaiss*.o  _swigfaiss*.so
+	rm -f swigfaiss*.cpp swigfaiss*.o  libswigfaiss*.so
 	rm -rf $(SWIGJAVASRC)
 
 

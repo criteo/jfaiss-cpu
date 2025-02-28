@@ -13,8 +13,8 @@ ENV SWIG=swig
 # NOTE: a small fix to make it work the linker option `-lopenblas`.
 RUN ln -s /usr/lib64/libopenblas.so.0 /usr/lib64/libopenblas.so
 
-# Install Java 1.8: JDK and development packages (for JNI).
-RUN dnf install -y java-1.8.0-openjdk java-1.8.0-openjdk-devel
+# Install Java 11: JDK and development packages (for JNI).
+RUN dnf install -y java-11-openjdk java-11-openjdk-devel
 
 ENV FAISS_LDFLAGS="-l:libfaiss.a -l:libopenblas.a -lgfortran"
 ENV CXXFLAGS="-fvisibility=hidden -fdata-sections -ffunction-sections"

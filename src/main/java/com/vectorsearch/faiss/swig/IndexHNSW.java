@@ -94,19 +94,19 @@ public class IndexHNSW extends Index {
     this(swigfaissJNI.new_IndexHNSW__SWIG_5(Index.getCPtr(storage), storage), true);
   }
 
-  public void add(int n, SWIGTYPE_p_float x) {
+  public void add(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexHNSW_add(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 
-  public void train(int n, SWIGTYPE_p_float x) {
+  public void train(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexHNSW_train(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 
-  public void search(int n, SWIGTYPE_p_float x, int k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
+  public void search(long n, SWIGTYPE_p_float x, long k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
     swigfaissJNI.IndexHNSW_search(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels));
   }
 
-  public void reconstruct(int key, SWIGTYPE_p_float recons) {
+  public void reconstruct(long key, SWIGTYPE_p_float recons) {
     swigfaissJNI.IndexHNSW_reconstruct(swigCPtr, this, key, SWIGTYPE_p_float.getCPtr(recons));
   }
 
@@ -118,15 +118,15 @@ public class IndexHNSW extends Index {
     swigfaissJNI.IndexHNSW_shrink_level_0_neighbors(swigCPtr, this, size);
   }
 
-  public void search_level_0(int n, SWIGTYPE_p_float x, int k, SWIGTYPE_p_int nearest, SWIGTYPE_p_float nearest_d, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels, int nprobe, int search_type) {
+  public void search_level_0(long n, SWIGTYPE_p_float x, long k, SWIGTYPE_p_int nearest, SWIGTYPE_p_float nearest_d, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels, int nprobe, int search_type) {
     swigfaissJNI.IndexHNSW_search_level_0__SWIG_0(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_int.getCPtr(nearest), SWIGTYPE_p_float.getCPtr(nearest_d), SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels), nprobe, search_type);
   }
 
-  public void search_level_0(int n, SWIGTYPE_p_float x, int k, SWIGTYPE_p_int nearest, SWIGTYPE_p_float nearest_d, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels, int nprobe) {
+  public void search_level_0(long n, SWIGTYPE_p_float x, long k, SWIGTYPE_p_int nearest, SWIGTYPE_p_float nearest_d, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels, int nprobe) {
     swigfaissJNI.IndexHNSW_search_level_0__SWIG_1(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_int.getCPtr(nearest), SWIGTYPE_p_float.getCPtr(nearest_d), SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels), nprobe);
   }
 
-  public void search_level_0(int n, SWIGTYPE_p_float x, int k, SWIGTYPE_p_int nearest, SWIGTYPE_p_float nearest_d, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
+  public void search_level_0(long n, SWIGTYPE_p_float x, long k, SWIGTYPE_p_int nearest, SWIGTYPE_p_float nearest_d, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
     swigfaissJNI.IndexHNSW_search_level_0__SWIG_2(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_int.getCPtr(nearest), SWIGTYPE_p_float.getCPtr(nearest_d), SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels));
   }
 

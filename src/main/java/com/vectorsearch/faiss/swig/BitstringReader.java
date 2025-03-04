@@ -60,7 +60,7 @@ public class BitstringReader {
     return swigfaissJNI.BitstringReader_i_get(swigCPtr, this);
   }
 
-  public BitstringReader(SWIGTYPE_p_unsigned_char code, int code_size) {
+  public BitstringReader(SWIGTYPE_p_unsigned_char code, long code_size) {
     this(swigfaissJNI.new_BitstringReader(SWIGTYPE_p_unsigned_char.getCPtr(code), code_size), true);
   }
 

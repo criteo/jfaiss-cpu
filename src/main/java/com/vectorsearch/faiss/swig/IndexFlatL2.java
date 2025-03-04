@@ -35,7 +35,7 @@ public class IndexFlatL2 extends IndexFlat {
     super.delete();
   }
 
-  public IndexFlatL2(int d) {
+  public IndexFlatL2(long d) {
     this(swigfaissJNI.new_IndexFlatL2__SWIG_0(d), true);
   }
 

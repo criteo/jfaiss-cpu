@@ -74,7 +74,7 @@ public class HStackInvertedLists extends ReadOnlyInvertedLists {
     swigfaissJNI.HStackInvertedLists_release_ids(swigCPtr, this, list_no, SWIGTYPE_p_long.getCPtr(ids));
   }
 
-  public int get_single_id(long list_no, long offset) {
+  public long get_single_id(long list_no, long offset) {
     return swigfaissJNI.HStackInvertedLists_get_single_id(swigCPtr, this, list_no, offset);
   }
 

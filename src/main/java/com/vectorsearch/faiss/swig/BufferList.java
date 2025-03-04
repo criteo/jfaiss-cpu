@@ -68,7 +68,7 @@ public class BufferList {
     swigfaissJNI.BufferList_append_buffer(swigCPtr, this);
   }
 
-  public void add(int id, float dis) {
+  public void add(long id, float dis) {
     swigfaissJNI.BufferList_add(swigCPtr, this, id, dis);
   }
 

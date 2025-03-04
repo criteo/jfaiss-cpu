@@ -44,23 +44,23 @@ public class SliceInvertedLists extends ReadOnlyInvertedLists {
     return (cPtr == 0) ? null : new InvertedLists(cPtr, false);
   }
 
-  public void setI0(int value) {
+  public void setI0(long value) {
     swigfaissJNI.SliceInvertedLists_i0_set(swigCPtr, this, value);
   }
 
-  public int getI0() {
+  public long getI0() {
     return swigfaissJNI.SliceInvertedLists_i0_get(swigCPtr, this);
   }
 
-  public void setI1(int value) {
+  public void setI1(long value) {
     swigfaissJNI.SliceInvertedLists_i1_set(swigCPtr, this, value);
   }
 
-  public int getI1() {
+  public long getI1() {
     return swigfaissJNI.SliceInvertedLists_i1_get(swigCPtr, this);
   }
 
-  public SliceInvertedLists(InvertedLists il, int i0, int i1) {
+  public SliceInvertedLists(InvertedLists il, long i0, long i1) {
     this(swigfaissJNI.new_SliceInvertedLists(InvertedLists.getCPtr(il), il, i0, i1), true);
   }
 
@@ -86,7 +86,7 @@ public class SliceInvertedLists extends ReadOnlyInvertedLists {
     swigfaissJNI.SliceInvertedLists_release_ids(swigCPtr, this, list_no, SWIGTYPE_p_long.getCPtr(ids));
   }
 
-  public int get_single_id(long list_no, long offset) {
+  public long get_single_id(long list_no, long offset) {
     return swigfaissJNI.SliceInvertedLists_get_single_id(swigCPtr, this, list_no, offset);
   }
 

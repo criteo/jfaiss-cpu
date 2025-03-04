@@ -35,15 +35,15 @@ public class OneRecallAtRCriterion extends AutoTuneCriterion {
     super.delete();
   }
 
-  public void setR(int value) {
+  public void setR(long value) {
     swigfaissJNI.OneRecallAtRCriterion_R_set(swigCPtr, this, value);
   }
 
-  public int getR() {
+  public long getR() {
     return swigfaissJNI.OneRecallAtRCriterion_R_get(swigCPtr, this);
   }
 
-  public OneRecallAtRCriterion(int nq, int R) {
+  public OneRecallAtRCriterion(long nq, long R) {
     this(swigfaissJNI.new_OneRecallAtRCriterion(nq, R), true);
   }
 

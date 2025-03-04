@@ -93,15 +93,15 @@ public class IndexIVFSpectralHash extends IndexIVF {
     this(swigfaissJNI.new_IndexIVFSpectralHash__SWIG_1(), true);
   }
 
-  public void train_residual(int n, SWIGTYPE_p_float x) {
+  public void train_residual(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexIVFSpectralHash_train_residual(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 
-  public void encode_vectors(int n, SWIGTYPE_p_float x, SWIGTYPE_p_long list_nos, SWIGTYPE_p_unsigned_char codes, boolean include_listnos) {
+  public void encode_vectors(long n, SWIGTYPE_p_float x, SWIGTYPE_p_long list_nos, SWIGTYPE_p_unsigned_char codes, boolean include_listnos) {
     swigfaissJNI.IndexIVFSpectralHash_encode_vectors__SWIG_0(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_long.getCPtr(list_nos), SWIGTYPE_p_unsigned_char.getCPtr(codes), include_listnos);
   }
 
-  public void encode_vectors(int n, SWIGTYPE_p_float x, SWIGTYPE_p_long list_nos, SWIGTYPE_p_unsigned_char codes) {
+  public void encode_vectors(long n, SWIGTYPE_p_float x, SWIGTYPE_p_long list_nos, SWIGTYPE_p_unsigned_char codes) {
     swigfaissJNI.IndexIVFSpectralHash_encode_vectors__SWIG_1(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_long.getCPtr(list_nos), SWIGTYPE_p_unsigned_char.getCPtr(codes));
   }
 

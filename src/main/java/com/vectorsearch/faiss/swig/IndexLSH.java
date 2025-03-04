@@ -94,32 +94,32 @@ public class IndexLSH extends Index {
     return (cPtr == 0) ? null : new ByteVector(cPtr, false);
   }
 
-  public IndexLSH(int d, int nbits, boolean rotate_data, boolean train_thresholds) {
+  public IndexLSH(long d, int nbits, boolean rotate_data, boolean train_thresholds) {
     this(swigfaissJNI.new_IndexLSH__SWIG_0(d, nbits, rotate_data, train_thresholds), true);
   }
 
-  public IndexLSH(int d, int nbits, boolean rotate_data) {
+  public IndexLSH(long d, int nbits, boolean rotate_data) {
     this(swigfaissJNI.new_IndexLSH__SWIG_1(d, nbits, rotate_data), true);
   }
 
-  public IndexLSH(int d, int nbits) {
+  public IndexLSH(long d, int nbits) {
     this(swigfaissJNI.new_IndexLSH__SWIG_2(d, nbits), true);
   }
 
-  public SWIGTYPE_p_float apply_preprocess(int n, SWIGTYPE_p_float x) {
+  public SWIGTYPE_p_float apply_preprocess(long n, SWIGTYPE_p_float x) {
     long cPtr = swigfaissJNI.IndexLSH_apply_preprocess(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
     return (cPtr == 0) ? null : new SWIGTYPE_p_float(cPtr, false);
   }
 
-  public void train(int n, SWIGTYPE_p_float x) {
+  public void train(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexLSH_train(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 
-  public void add(int n, SWIGTYPE_p_float x) {
+  public void add(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexLSH_add(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 
-  public void search(int n, SWIGTYPE_p_float x, int k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
+  public void search(long n, SWIGTYPE_p_float x, long k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
     swigfaissJNI.IndexLSH_search(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels));
   }
 
@@ -139,11 +139,11 @@ public class IndexLSH extends Index {
     return swigfaissJNI.IndexLSH_sa_code_size(swigCPtr, this);
   }
 
-  public void sa_encode(int n, SWIGTYPE_p_float x, SWIGTYPE_p_unsigned_char bytes) {
+  public void sa_encode(long n, SWIGTYPE_p_float x, SWIGTYPE_p_unsigned_char bytes) {
     swigfaissJNI.IndexLSH_sa_encode(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_unsigned_char.getCPtr(bytes));
   }
 
-  public void sa_decode(int n, SWIGTYPE_p_unsigned_char bytes, SWIGTYPE_p_float x) {
+  public void sa_decode(long n, SWIGTYPE_p_unsigned_char bytes, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexLSH_sa_decode(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(bytes), SWIGTYPE_p_float.getCPtr(x));
   }
 

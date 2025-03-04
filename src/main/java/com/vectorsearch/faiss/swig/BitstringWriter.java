@@ -60,7 +60,7 @@ public class BitstringWriter {
     return swigfaissJNI.BitstringWriter_i_get(swigCPtr, this);
   }
 
-  public BitstringWriter(SWIGTYPE_p_unsigned_char code, int code_size) {
+  public BitstringWriter(SWIGTYPE_p_unsigned_char code, long code_size) {
     this(swigfaissJNI.new_BitstringWriter(SWIGTYPE_p_unsigned_char.getCPtr(code), code_size), true);
   }
 

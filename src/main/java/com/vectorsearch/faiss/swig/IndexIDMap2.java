@@ -51,7 +51,7 @@ public class IndexIDMap2 extends IndexIDMap {
     swigfaissJNI.IndexIDMap2_construct_rev_map(swigCPtr, this);
   }
 
-  public void add_with_ids(int n, SWIGTYPE_p_float x, SWIGTYPE_p_long xids) {
+  public void add_with_ids(long n, SWIGTYPE_p_float x, SWIGTYPE_p_long xids) {
     swigfaissJNI.IndexIDMap2_add_with_ids(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_long.getCPtr(xids));
   }
 
@@ -59,7 +59,7 @@ public class IndexIDMap2 extends IndexIDMap {
     return swigfaissJNI.IndexIDMap2_remove_ids(swigCPtr, this, IDSelector.getCPtr(sel), sel);
   }
 
-  public void reconstruct(int key, SWIGTYPE_p_float recons) {
+  public void reconstruct(long key, SWIGTYPE_p_float recons) {
     swigfaissJNI.IndexIDMap2_reconstruct(swigCPtr, this, key, SWIGTYPE_p_float.getCPtr(recons));
   }
 

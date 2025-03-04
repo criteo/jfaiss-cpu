@@ -35,27 +35,27 @@ public class AutoTuneCriterion {
     }
   }
 
-  public void setNq(int value) {
+  public void setNq(long value) {
     swigfaissJNI.AutoTuneCriterion_nq_set(swigCPtr, this, value);
   }
 
-  public int getNq() {
+  public long getNq() {
     return swigfaissJNI.AutoTuneCriterion_nq_get(swigCPtr, this);
   }
 
-  public void setNnn(int value) {
+  public void setNnn(long value) {
     swigfaissJNI.AutoTuneCriterion_nnn_set(swigCPtr, this, value);
   }
 
-  public int getNnn() {
+  public long getNnn() {
     return swigfaissJNI.AutoTuneCriterion_nnn_get(swigCPtr, this);
   }
 
-  public void setGt_nnn(int value) {
+  public void setGt_nnn(long value) {
     swigfaissJNI.AutoTuneCriterion_gt_nnn_set(swigCPtr, this, value);
   }
 
-  public int getGt_nnn() {
+  public long getGt_nnn() {
     return swigfaissJNI.AutoTuneCriterion_gt_nnn_get(swigCPtr, this);
   }
 

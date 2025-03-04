@@ -43,7 +43,7 @@ public class RandomRotationMatrix extends LinearTransform {
     swigfaissJNI.RandomRotationMatrix_init(swigCPtr, this, seed);
   }
 
-  public void train(int n, SWIGTYPE_p_float x) {
+  public void train(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.RandomRotationMatrix_train(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 

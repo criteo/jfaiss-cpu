@@ -83,15 +83,15 @@ public class float_maxheap_array_t {
     swigfaissJNI.float_maxheap_array_t_heapify(swigCPtr, this);
   }
 
-  public void addn(long nj, SWIGTYPE_p_float vin, int j0, long i0, int ni) {
+  public void addn(long nj, SWIGTYPE_p_float vin, long j0, long i0, long ni) {
     swigfaissJNI.float_maxheap_array_t_addn__SWIG_0(swigCPtr, this, nj, SWIGTYPE_p_float.getCPtr(vin), j0, i0, ni);
   }
 
-  public void addn(long nj, SWIGTYPE_p_float vin, int j0, long i0) {
+  public void addn(long nj, SWIGTYPE_p_float vin, long j0, long i0) {
     swigfaissJNI.float_maxheap_array_t_addn__SWIG_1(swigCPtr, this, nj, SWIGTYPE_p_float.getCPtr(vin), j0, i0);
   }
 
-  public void addn(long nj, SWIGTYPE_p_float vin, int j0) {
+  public void addn(long nj, SWIGTYPE_p_float vin, long j0) {
     swigfaissJNI.float_maxheap_array_t_addn__SWIG_2(swigCPtr, this, nj, SWIGTYPE_p_float.getCPtr(vin), j0);
   }
 
@@ -99,15 +99,15 @@ public class float_maxheap_array_t {
     swigfaissJNI.float_maxheap_array_t_addn__SWIG_3(swigCPtr, this, nj, SWIGTYPE_p_float.getCPtr(vin));
   }
 
-  public void addn_with_ids(long nj, SWIGTYPE_p_float vin, SWIGTYPE_p_long id_in, int id_stride, long i0, int ni) {
+  public void addn_with_ids(long nj, SWIGTYPE_p_float vin, SWIGTYPE_p_long id_in, long id_stride, long i0, long ni) {
     swigfaissJNI.float_maxheap_array_t_addn_with_ids__SWIG_0(swigCPtr, this, nj, SWIGTYPE_p_float.getCPtr(vin), SWIGTYPE_p_long.getCPtr(id_in), id_stride, i0, ni);
   }
 
-  public void addn_with_ids(long nj, SWIGTYPE_p_float vin, SWIGTYPE_p_long id_in, int id_stride, long i0) {
+  public void addn_with_ids(long nj, SWIGTYPE_p_float vin, SWIGTYPE_p_long id_in, long id_stride, long i0) {
     swigfaissJNI.float_maxheap_array_t_addn_with_ids__SWIG_1(swigCPtr, this, nj, SWIGTYPE_p_float.getCPtr(vin), SWIGTYPE_p_long.getCPtr(id_in), id_stride, i0);
   }
 
-  public void addn_with_ids(long nj, SWIGTYPE_p_float vin, SWIGTYPE_p_long id_in, int id_stride) {
+  public void addn_with_ids(long nj, SWIGTYPE_p_float vin, SWIGTYPE_p_long id_in, long id_stride) {
     swigfaissJNI.float_maxheap_array_t_addn_with_ids__SWIG_2(swigCPtr, this, nj, SWIGTYPE_p_float.getCPtr(vin), SWIGTYPE_p_long.getCPtr(id_in), id_stride);
   }
 

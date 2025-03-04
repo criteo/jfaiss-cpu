@@ -65,15 +65,15 @@ public class IndexPQ extends Index {
     this(swigfaissJNI.new_IndexPQ__SWIG_2(), true);
   }
 
-  public void train(int n, SWIGTYPE_p_float x) {
+  public void train(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexPQ_train(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 
-  public void add(int n, SWIGTYPE_p_float x) {
+  public void add(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexPQ_add(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 
-  public void search(int n, SWIGTYPE_p_float x, int k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
+  public void search(long n, SWIGTYPE_p_float x, long k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
     swigfaissJNI.IndexPQ_search(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels));
   }
 
@@ -81,11 +81,11 @@ public class IndexPQ extends Index {
     swigfaissJNI.IndexPQ_reset(swigCPtr, this);
   }
 
-  public void reconstruct_n(int i0, int ni, SWIGTYPE_p_float recons) {
+  public void reconstruct_n(long i0, long ni, SWIGTYPE_p_float recons) {
     swigfaissJNI.IndexPQ_reconstruct_n(swigCPtr, this, i0, ni, SWIGTYPE_p_float.getCPtr(recons));
   }
 
-  public void reconstruct(int key, SWIGTYPE_p_float recons) {
+  public void reconstruct(long key, SWIGTYPE_p_float recons) {
     swigfaissJNI.IndexPQ_reconstruct(swigCPtr, this, key, SWIGTYPE_p_float.getCPtr(recons));
   }
 
@@ -97,17 +97,17 @@ public class IndexPQ extends Index {
     return swigfaissJNI.IndexPQ_sa_code_size(swigCPtr, this);
   }
 
-  public void sa_encode(int n, SWIGTYPE_p_float x, SWIGTYPE_p_unsigned_char bytes) {
+  public void sa_encode(long n, SWIGTYPE_p_float x, SWIGTYPE_p_unsigned_char bytes) {
     swigfaissJNI.IndexPQ_sa_encode(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_unsigned_char.getCPtr(bytes));
   }
 
-  public void sa_decode(int n, SWIGTYPE_p_unsigned_char bytes, SWIGTYPE_p_float x) {
+  public void sa_decode(long n, SWIGTYPE_p_unsigned_char bytes, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexPQ_sa_decode(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(bytes), SWIGTYPE_p_float.getCPtr(x));
   }
 
   public DistanceComputer get_distance_computer() {
     long cPtr = swigfaissJNI.IndexPQ_get_distance_computer(swigCPtr, this);
-    return (cPtr == 0) ? null : new DistanceComputer(cPtr, false);
+    return (cPtr == 0) ? null : new DistanceComputer(cPtr, true);
   }
 
   public void setDo_polysemous_training(boolean value) {
@@ -151,15 +151,15 @@ public class IndexPQ extends Index {
     return swigfaissJNI.IndexPQ_polysemous_ht_get(swigCPtr, this);
   }
 
-  public void search_core_polysemous(int n, SWIGTYPE_p_float x, int k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
+  public void search_core_polysemous(long n, SWIGTYPE_p_float x, long k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
     swigfaissJNI.IndexPQ_search_core_polysemous(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels));
   }
 
-  public void hamming_distance_histogram(int n, SWIGTYPE_p_float x, int nb, SWIGTYPE_p_float xb, SWIGTYPE_p_long dist_histogram) {
+  public void hamming_distance_histogram(long n, SWIGTYPE_p_float x, long nb, SWIGTYPE_p_float xb, SWIGTYPE_p_long dist_histogram) {
     swigfaissJNI.IndexPQ_hamming_distance_histogram(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), nb, SWIGTYPE_p_float.getCPtr(xb), SWIGTYPE_p_long.getCPtr(dist_histogram));
   }
 
-  public void hamming_distance_table(int n, SWIGTYPE_p_float x, SWIGTYPE_p_int dis) {
+  public void hamming_distance_table(long n, SWIGTYPE_p_float x, SWIGTYPE_p_int dis) {
     swigfaissJNI.IndexPQ_hamming_distance_table(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_int.getCPtr(dis));
   }
 

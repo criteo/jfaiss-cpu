@@ -60,11 +60,11 @@ public class MultiIndexQuantizer2 extends MultiIndexQuantizer {
     this(swigfaissJNI.new_MultiIndexQuantizer2__SWIG_1(d, nbits, Index.getCPtr(assign_index_0), assign_index_0, Index.getCPtr(assign_index_1), assign_index_1), true);
   }
 
-  public void train(int n, SWIGTYPE_p_float x) {
+  public void train(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.MultiIndexQuantizer2_train(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 
-  public void search(int n, SWIGTYPE_p_float x, int k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
+  public void search(long n, SWIGTYPE_p_float x, long k, SWIGTYPE_p_float distances, SWIGTYPE_p_long labels) {
     swigfaissJNI.MultiIndexQuantizer2_search(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), k, SWIGTYPE_p_float.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels));
   }
 

@@ -80,7 +80,7 @@ public class IndexBinaryHash extends IndexBinary {
       return (cPtr == 0) ? null : new ByteVector(cPtr, false);
     }
   
-    public void add(int id, long code_size, SWIGTYPE_p_unsigned_char code) {
+    public void add(long id, long code_size, SWIGTYPE_p_unsigned_char code) {
       swigfaissJNI.IndexBinaryHash_InvertedList_add(swigCPtr, this, id, code_size, SWIGTYPE_p_unsigned_char.getCPtr(code));
     }
   
@@ -127,19 +127,19 @@ public class IndexBinaryHash extends IndexBinary {
     swigfaissJNI.IndexBinaryHash_reset(swigCPtr, this);
   }
 
-  public void add(int n, SWIGTYPE_p_unsigned_char x) {
+  public void add(long n, SWIGTYPE_p_unsigned_char x) {
     swigfaissJNI.IndexBinaryHash_add(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(x));
   }
 
-  public void add_with_ids(int n, SWIGTYPE_p_unsigned_char x, SWIGTYPE_p_long xids) {
+  public void add_with_ids(long n, SWIGTYPE_p_unsigned_char x, SWIGTYPE_p_long xids) {
     swigfaissJNI.IndexBinaryHash_add_with_ids(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(x), SWIGTYPE_p_long.getCPtr(xids));
   }
 
-  public void range_search(int n, SWIGTYPE_p_unsigned_char x, int radius, RangeSearchResult result) {
+  public void range_search(long n, SWIGTYPE_p_unsigned_char x, int radius, RangeSearchResult result) {
     swigfaissJNI.IndexBinaryHash_range_search(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(x), radius, RangeSearchResult.getCPtr(result), result);
   }
 
-  public void search(int n, SWIGTYPE_p_unsigned_char x, int k, SWIGTYPE_p_int distances, SWIGTYPE_p_long labels) {
+  public void search(long n, SWIGTYPE_p_unsigned_char x, long k, SWIGTYPE_p_int distances, SWIGTYPE_p_long labels) {
     swigfaissJNI.IndexBinaryHash_search(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(x), k, SWIGTYPE_p_int.getCPtr(distances), SWIGTYPE_p_long.getCPtr(labels));
   }
 

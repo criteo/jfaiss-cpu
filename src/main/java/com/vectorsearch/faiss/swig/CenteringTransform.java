@@ -52,15 +52,15 @@ public class CenteringTransform extends VectorTransform {
     this(swigfaissJNI.new_CenteringTransform__SWIG_1(), true);
   }
 
-  public void train(int n, SWIGTYPE_p_float x) {
+  public void train(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.CenteringTransform_train(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 
-  public void apply_noalloc(int n, SWIGTYPE_p_float x, SWIGTYPE_p_float xt) {
+  public void apply_noalloc(long n, SWIGTYPE_p_float x, SWIGTYPE_p_float xt) {
     swigfaissJNI.CenteringTransform_apply_noalloc(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_float.getCPtr(xt));
   }
 
-  public void reverse_transform(int n, SWIGTYPE_p_float xt, SWIGTYPE_p_float x) {
+  public void reverse_transform(long n, SWIGTYPE_p_float xt, SWIGTYPE_p_float x) {
     swigfaissJNI.CenteringTransform_reverse_transform(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(xt), SWIGTYPE_p_float.getCPtr(x));
   }
 

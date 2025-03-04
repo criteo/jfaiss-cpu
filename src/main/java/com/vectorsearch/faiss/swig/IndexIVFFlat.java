@@ -43,19 +43,19 @@ public class IndexIVFFlat extends IndexIVF {
     this(swigfaissJNI.new_IndexIVFFlat__SWIG_1(Index.getCPtr(quantizer), quantizer, d, nlist_), true);
   }
 
-  public void add_core(int n, SWIGTYPE_p_float x, SWIGTYPE_p_long xids, SWIGTYPE_p_long precomputed_idx) {
+  public void add_core(long n, SWIGTYPE_p_float x, SWIGTYPE_p_long xids, SWIGTYPE_p_long precomputed_idx) {
     swigfaissJNI.IndexIVFFlat_add_core(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_long.getCPtr(xids), SWIGTYPE_p_long.getCPtr(precomputed_idx));
   }
 
-  public void add_with_ids(int n, SWIGTYPE_p_float x, SWIGTYPE_p_long xids) {
+  public void add_with_ids(long n, SWIGTYPE_p_float x, SWIGTYPE_p_long xids) {
     swigfaissJNI.IndexIVFFlat_add_with_ids(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_long.getCPtr(xids));
   }
 
-  public void encode_vectors(int n, SWIGTYPE_p_float x, SWIGTYPE_p_long list_nos, SWIGTYPE_p_unsigned_char codes, boolean include_listnos) {
+  public void encode_vectors(long n, SWIGTYPE_p_float x, SWIGTYPE_p_long list_nos, SWIGTYPE_p_unsigned_char codes, boolean include_listnos) {
     swigfaissJNI.IndexIVFFlat_encode_vectors__SWIG_0(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_long.getCPtr(list_nos), SWIGTYPE_p_unsigned_char.getCPtr(codes), include_listnos);
   }
 
-  public void encode_vectors(int n, SWIGTYPE_p_float x, SWIGTYPE_p_long list_nos, SWIGTYPE_p_unsigned_char codes) {
+  public void encode_vectors(long n, SWIGTYPE_p_float x, SWIGTYPE_p_long list_nos, SWIGTYPE_p_unsigned_char codes) {
     swigfaissJNI.IndexIVFFlat_encode_vectors__SWIG_1(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_long.getCPtr(list_nos), SWIGTYPE_p_unsigned_char.getCPtr(codes));
   }
 
@@ -64,11 +64,11 @@ public class IndexIVFFlat extends IndexIVF {
     return (cPtr == 0) ? null : new SWIGTYPE_p_faiss__InvertedListScanner(cPtr, false);
   }
 
-  public void reconstruct_from_offset(int list_no, int offset, SWIGTYPE_p_float recons) {
+  public void reconstruct_from_offset(long list_no, long offset, SWIGTYPE_p_float recons) {
     swigfaissJNI.IndexIVFFlat_reconstruct_from_offset(swigCPtr, this, list_no, offset, SWIGTYPE_p_float.getCPtr(recons));
   }
 
-  public void sa_decode(int n, SWIGTYPE_p_unsigned_char bytes, SWIGTYPE_p_float x) {
+  public void sa_decode(long n, SWIGTYPE_p_unsigned_char bytes, SWIGTYPE_p_float x) {
     swigfaissJNI.IndexIVFFlat_sa_decode(swigCPtr, this, n, SWIGTYPE_p_unsigned_char.getCPtr(bytes), SWIGTYPE_p_float.getCPtr(x));
   }
 

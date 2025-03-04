@@ -94,11 +94,11 @@ public class ITQTransform extends VectorTransform {
     this(swigfaissJNI.new_ITQTransform__SWIG_3(), true);
   }
 
-  public void train(int n, SWIGTYPE_p_float x) {
+  public void train(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.ITQTransform_train(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 
-  public void apply_noalloc(int n, SWIGTYPE_p_float x, SWIGTYPE_p_float xt) {
+  public void apply_noalloc(long n, SWIGTYPE_p_float x, SWIGTYPE_p_float xt) {
     swigfaissJNI.ITQTransform_apply_noalloc(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x), SWIGTYPE_p_float.getCPtr(xt));
   }
 

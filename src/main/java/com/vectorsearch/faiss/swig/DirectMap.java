@@ -68,7 +68,7 @@ public class DirectMap {
     swigfaissJNI.DirectMap_set_type(swigCPtr, this, new_type.swigValue(), InvertedLists.getCPtr(invlists), invlists, ntotal);
   }
 
-  public int get(int id) {
+  public long get(long id) {
     return swigfaissJNI.DirectMap_get(swigCPtr, this, id);
   }
 
@@ -80,7 +80,7 @@ public class DirectMap {
     swigfaissJNI.DirectMap_check_can_add(swigCPtr, this, SWIGTYPE_p_long.getCPtr(ids));
   }
 
-  public void add_single_id(int id, int list_no, long offset) {
+  public void add_single_id(long id, long list_no, long offset) {
     swigfaissJNI.DirectMap_add_single_id(swigCPtr, this, id, list_no, offset);
   }
 

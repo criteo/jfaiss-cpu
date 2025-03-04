@@ -35,15 +35,15 @@ public class IntersectionCriterion extends AutoTuneCriterion {
     super.delete();
   }
 
-  public void setR(int value) {
+  public void setR(long value) {
     swigfaissJNI.IntersectionCriterion_R_set(swigCPtr, this, value);
   }
 
-  public int getR() {
+  public long getR() {
     return swigfaissJNI.IntersectionCriterion_R_get(swigCPtr, this);
   }
 
-  public IntersectionCriterion(int nq, int R) {
+  public IntersectionCriterion(long nq, long R) {
     this(swigfaissJNI.new_IntersectionCriterion(nq, R), true);
   }
 

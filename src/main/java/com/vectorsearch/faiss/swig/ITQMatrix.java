@@ -68,7 +68,7 @@ public class ITQMatrix extends LinearTransform {
     this(swigfaissJNI.new_ITQMatrix__SWIG_1(), true);
   }
 
-  public void train(int n, SWIGTYPE_p_float x) {
+  public void train(long n, SWIGTYPE_p_float x) {
     swigfaissJNI.ITQMatrix_train(swigCPtr, this, n, SWIGTYPE_p_float.getCPtr(x));
   }
 

@@ -109,3 +109,5 @@ buildNumber.properties
 jni/swigfaiss.cpp
 jni/*.o
 src/main/resources/
+# Python bytecode (ci/)
+__pycache__/

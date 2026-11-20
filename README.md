@@ -102,6 +102,19 @@ mvn package
 
 If everything went well, the resulting Jar file will `jfaiss-cpu-1.16.0-x.jar` be created in `./target` subdirectory.
 
+## Checking a build
+
+`mvn verify` runs the tests three times: at the SIMD level Faiss picks for the machine, with `FAISS_SIMD_LEVEL=NONE` and with `FAISS_SIMD_LEVEL=AVX2`.
+
+The Docker build also runs two checks on the native library, which can be run by hand on any build:
+
+- `ci/check-abi.sh src/main/resources target/classes`: the library needs no newer glibc / libstdc++ than CentOS 8, finds its bundled dependencies, and the classes load on Java 8;
+- `ci/check-simd.py faiss/build src/main/resources/libswigfaiss.so jni/swigfaiss.o`: the AVX2 and AVX-512 code is there, and only where a CPU without it never goes.
+
+One more check looks at the Java side:
+
+- `java ci/ApiCheck.java target/classes compat/required-api.txt`: the methods that code compiled against `jfaiss-cpu` 1.7.0 uses still exist with the same signature.
+
 ## To-do
 
 * [x] Update to CentOS 8: build Faiss native with CentOS 8

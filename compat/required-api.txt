@@ -1,0 +1,21 @@
+# Members of this jar that code compiled against jfaiss-cpu 1.7.0 is known to
+# use. Such code is not recompiled when the jar is upgraded, so each of them
+# must keep its class, name and JVM descriptor: ci/ApiCheck.java checks this
+# list against every build. Every member listed also exists in the published
+# 1.7.0-0 jar.
+#
+# One class, method or field per line, as the JVM resolves it. Produce the
+# lines for a consumer with ci/list-api-refs.sh <consumer.jar>.
+
+# The array helpers take int sizes and indices, and longArray holds C longs
+# seen as Java ints (SWIG >= 4.1 would turn the indices into long).
+com/vectorsearch/faiss/swig/floatArray.<init>:(I)V
+com/vectorsearch/faiss/swig/floatArray.getitem:(I)F
+com/vectorsearch/faiss/swig/floatArray.setitem:(IF)V
+com/vectorsearch/faiss/swig/longArray.<init>:(I)V
+com/vectorsearch/faiss/swig/longArray.getitem:(I)I
+com/vectorsearch/faiss/swig/longArray.setitem:(II)V
+
+# Called directly on the JNI class: (quantizer, d, nlist, M, nbits, metric).
+# Faiss 1.13 added a 7th constructor argument, which the SWIG interface hides.
+com/vectorsearch/faiss/swig/swigfaissJNI.new_IndexIVFPQ__SWIG_0:(JLcom/vectorsearch/faiss/swig/Index;JJJJI)J

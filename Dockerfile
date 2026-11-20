@@ -78,6 +78,18 @@ RUN make SWIG=${SWIG} CXX=${CXX} JAVA_HOME=${JAVA_HOME} FAISS_SRC=../faiss \
 # NOTE: the duplicated constructors caused by the `int64_t` conversion are now
 # removed with %ignore in swigfaiss.swig (formerly jni/patch.txt).
 
+# Check what was built, while the object files are still at hand:
+# - the SIMD code is in the library, and only on the code paths of its level
+#   (a library that passes every test on an AVX-512 build machine can still
+#   crash on a CPU without AVX-512);
+# - the library needs no newer glibc / libstdc++ than CentOS 8 provides and
+#   finds its bundled dependencies through DT_RPATH.
+WORKDIR /opt/JFaiss
+RUN if [ "${FAISS_OPT_LEVEL}" = dd ]; then \
+      python3 ci/check-simd.py faiss/build cpu/src/main/resources/libswigfaiss.so jni/swigfaiss.o; \
+    fi
+RUN ci/check-abi.sh cpu/src/main/resources
+
 WORKDIR /opt/JFaiss/jni
 ENTRYPOINT [ "cp", "-r", "/opt/JFaiss/cpu/src/main", "/github/workspace/build" ]
 

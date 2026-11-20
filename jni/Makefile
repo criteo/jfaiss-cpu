@@ -80,6 +80,9 @@ swigfaiss.cpp: swigfaiss.swig $(FAISS_LIB)
 	$(CXX) $(CPPFLAGS) $(JNI_CXXFLAGS) -DSWIGWORDSIZE64 $(CPUFLAGS) $(JAVACFLAGS) \
                -I$(FAISS_SRC) -c $< -o $@
 
+# Keep the wrapper object after linking: ci/check-simd.py inspects it.
+.SECONDARY: swigfaiss.o
+
 # Extension is .so even on OSX.
 lib%.so: %.o $(FAISS_LIB)
 	$(CXX) $(SHAREDFLAGS) -shared $(LDFLAGS) -fopenmp -Wl,--export-dynamic,--disable-new-dtags,-rpath='$$ORIGIN' -o $@ $^ $(LIBS) -L$(BLAS_LIBDIR) $(BLAS_LIBS)

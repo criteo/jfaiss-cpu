@@ -329,6 +329,27 @@ typedef int64_t size_t;
 
 #endif
 
+#ifdef SWIGJAVA
+// Java-specific: turn C++ exceptions into Java exceptions instead of letting
+// them escape the JNI frame (which calls std::terminate and aborts the JVM).
+// The try/catch has no cost on the non-throwing path.
+%exception {
+    try {
+        $action
+    } catch(faiss::FaissException & e) {
+        SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, e.what());
+        return $null;
+    } catch(std::bad_alloc & ba) {
+        SWIG_JavaThrowException(jenv, SWIG_JavaOutOfMemoryError, "std::bad_alloc");
+        return $null;
+    } catch(const std::exception& ex) {
+        std::string what = std::string("C++ exception ") + ex.what();
+        SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, what.c_str());
+        return $null;
+    }
+}
+#endif
+
 
 /*******************************************************************
  * Types of vectors we want to manipulate at the scripting language

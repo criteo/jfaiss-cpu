@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 
 import static com.vectorsearch.faiss.utils.IndexHelper.makeRandomFloatArray;
 import static com.vectorsearch.faiss.utils.IndexHelper.show;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ThreeIVFPQ extends FaissTestCase {
 
@@ -40,6 +42,8 @@ public class ThreeIVFPQ extends FaissTestCase {
         final long nTotal = index.getNtotal();
         final String msg = "isTrained = " + isTrained + ", nTotal = " + nTotal;
         LOGGER.info(msg);
+        assertTrue(isTrained);
+        assertEquals(inputRowCount, nTotal);
     }
 
     @Override
@@ -51,6 +55,10 @@ public class ThreeIVFPQ extends FaissTestCase {
         index.search(queryRowCount, queryVectors.cast(), rn, distances.cast(), indices.cast());
         LOGGER.info(show(distances, 5, rn));
         LOGGER.info(show(indices, 5, rn));
+        assertValidResults(distances, indices, queryRowCount, rn, inputRowCount);
+        // Product quantization is lossy, but a vector is still (almost always) nearest to its own code.
+        final int selfMatches = countSelfMatches(index, inputVectors, 1000);
+        assertTrue("only " + selfMatches + " of 1000 vectors are their own nearest neighbour", selfMatches >= 950);
     }
 
     @Test
@@ -62,6 +70,5 @@ public class ThreeIVFPQ extends FaissTestCase {
         LOGGER.info("Searching index..");
         threeIVFPQ.search();
         LOGGER.info("****************************************************");
-        assert true;
     }
 }

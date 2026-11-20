@@ -9,6 +9,8 @@ import java.util.logging.Logger;
 
 import static com.vectorsearch.faiss.utils.IndexHelper.makeRandomFloatArray;
 import static com.vectorsearch.faiss.utils.IndexHelper.show;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class OneFlat extends FaissTestCase {
     private static final Logger LOGGER = Logger.getLogger(OneFlat.class.getName());
@@ -33,6 +35,8 @@ public class OneFlat extends FaissTestCase {
         final long nTotal = index.getNtotal();
         final String msg = "isTrained = " + isTrained + ", nTotal = " + nTotal;
         LOGGER.info(msg);
+        assertTrue(isTrained);
+        assertEquals(inputRowCount, nTotal);
     }
 
     @Override
@@ -43,6 +47,9 @@ public class OneFlat extends FaissTestCase {
         index.search(queryRowCount, queryVectors.cast(), rn, distances.cast(), indices.cast());
         LOGGER.info(show(distances, 5, rn));
         LOGGER.info(show(indices, 5, rn));
+        assertValidResults(distances, indices, queryRowCount, rn, inputRowCount);
+        // An exact index finds every indexed vector as its own nearest neighbour.
+        assertEquals(1000, countSelfMatches(index, inputVectors, 1000));
     }
 
     @Test
@@ -54,6 +61,5 @@ public class OneFlat extends FaissTestCase {
         LOGGER.info("Searching index..");
         oneFlat.search();
         LOGGER.info("****************************************************");
-        assert true;
     }
 }

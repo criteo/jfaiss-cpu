@@ -155,6 +155,37 @@
                         <additionalClasspathElement>${basedir}/src/main/resources/</additionalClasspathElement>
                     </additionalClasspathElements>
                 </configuration>
+                <!-- The default execution lets the native library pick the best SIMD
+                     level of the build machine. The level is chosen once, when the
+                     library is loaded, so the levels meant to be forced in production
+                     (FAISS_SIMD_LEVEL, see README) each get their own JVM. AVX2 is
+                     assumed to be available on every x86-64 build machine. -->
+                <executions>
+                    <execution>
+                        <id>simd-level-none</id>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <reportNameSuffix>simd-none</reportNameSuffix>
+                            <environmentVariables>
+                                <FAISS_SIMD_LEVEL>NONE</FAISS_SIMD_LEVEL>
+                            </environmentVariables>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>simd-level-avx2</id>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <reportNameSuffix>simd-avx2</reportNameSuffix>
+                            <environmentVariables>
+                                <FAISS_SIMD_LEVEL>AVX2</FAISS_SIMD_LEVEL>
+                            </environmentVariables>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

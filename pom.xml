@@ -6,10 +6,10 @@
 
     <groupId>com.criteo.jfaiss</groupId>
     <artifactId>jfaiss-cpu</artifactId>
-    <version>1.7.0-1</version>
+    <version>1.16.0-0</version>
     <name>jfaiss-cpu</name>
     <description>
-        JFaiss-CPU is a Java/JNI wrapper of CPU-only build of FAISS library v1.7.0.
+        JFaiss-CPU is a Java/JNI wrapper of CPU-only build of FAISS library v1.16.0.
     </description>
     <url>https://github.com/criteo/jfaiss-cpu</url>
 
@@ -64,7 +64,7 @@
     </developers>
 
     <properties>
-        <maven.compiler.release>11</maven.compiler.release>
+        <maven.compiler.release>8</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -146,6 +146,11 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
+                    <!-- The test classes do not follow surefire's default
+                         naming patterns: run the suite explicitly. -->
+                    <includes>
+                        <include>**/FaissTestSuite.java</include>
+                    </includes>
                     <additionalClasspathElements>
                         <additionalClasspathElement>${basedir}/src/main/resources/</additionalClasspathElement>
                     </additionalClasspathElements>

@@ -1,6 +1,6 @@
 # JFaiss-CPU **(Linux only)**
 
-Java/JNI binding of [facebook/faiss](https://github.com/facebookresearch/faiss/tree/v1.7.0) v1.7.0.
+Java/JNI binding of [facebook/faiss](https://github.com/facebookresearch/faiss/tree/v1.16.0) v1.16.0.
 Supports CPU-only version of Faiss.
 
 ## Adding `jfaiss-cpu` to your project
@@ -10,14 +10,15 @@ Latest versions of `jfaiss-cpu` package are published on [Maven Central](https:/
 A dependency on `jfaiss-cpu` using `Gradle` can be added with the line like this:
 
 ```groovy
-implementation 'com.criteo.jfaiss:jfaiss-cpu:1.7.0-x'
+implementation 'com.criteo.jfaiss:jfaiss-cpu:1.16.0-x'
 ```
 
 ## Runtime dependencies
 
-`jfaiss-cpu` requires only Java 11+ to run, the binary package bundles all it's dependencies and doesn't need anything extra to run.
+`jfaiss-cpu` requires Java 8+ to run (class files target Java 8), the binary package bundles all it's dependencies and doesn't need anything extra to run.
 
 Faiss native library is built under CentOS 8 and uses OpenBLAS, which is bundled with the package.
+Faiss >= 1.15 requires C++20, so it is compiled with `gcc-toolset-13`, which still links against the CentOS 8 system C++ runtime: the native library runs on glibc >= 2.27 with a `libstdc++.so.6` providing `GLIBCXX_3.4.22`.
 
 `jfaiss-cpu` depends on [com.github.victor-paltz:global-load-library](https://github.com/victor-paltz/global-load-library) v1.2.0 from Maven.
 This dependency is used to correctly load Faiss native library with it's dependencies.
@@ -67,7 +68,7 @@ docker cp jfaiss-container:/opt/JFaiss/cpu/src/main/java/com/vectorsearch/faiss/
 
 Run the test cases
 ```sh
-mvn clean test -Dtest=FaissTestRunner
+mvn clean test
 ```
 
 Creating a JAR
@@ -75,13 +76,13 @@ Creating a JAR
 mvn package
 ```
 
-If everything went well, the resulting Jar file will `jfaiss-cpu-1.7.0-x.jar` be created in `./target` subdirectory.
+If everything went well, the resulting Jar file will `jfaiss-cpu-1.16.0-x.jar` be created in `./target` subdirectory.
 
 ## To-do
 
 * [x] Update to CentOS 8: build Faiss native with CentOS 8
 * [x] Update to Java 11
-* [ ] AVX2 support: build Faiss native with AVX2 CPU instructions
+* [ ] Runtime SIMD dispatch (AVX2 / AVX-512) using Faiss dynamic dispatch (`FAISS_OPT_LEVEL=dd`)
 * [ ] Use Intel's MKL BLAS instead of OpenBLAS
 
 ## Reference

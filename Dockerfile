@@ -40,8 +40,15 @@ ENV CXXFLAGS="-fvisibility=hidden -fdata-sections -ffunction-sections"
 COPY . /opt/JFaiss
 WORKDIR /opt/JFaiss/faiss
 
-# Faiss build optimization level: generic, avx2, avx512
-ARG FAISS_OPT_LEVEL=generic
+# Faiss build optimization level:
+#   dd       runtime SIMD dispatch (default): one library with the generic,
+#            AVX2 and AVX-512 code paths; the best one the CPU supports is
+#            picked when the library is loaded (see README, "SIMD level").
+#   generic  no SIMD code paths.
+# Do not use "avx2" / "avx512" here: they build a separate libfaiss_avx2.a /
+# libfaiss_avx512.a that jni/Makefile does not link, and the result would crash
+# on CPUs without these instructions anyway.
+ARG FAISS_OPT_LEVEL=dd
 
 # Build the FAISS static library (faiss/build/faiss/libfaiss.a) against the
 # system OpenBLAS (0.3.15).
@@ -65,6 +72,7 @@ RUN make -C build -j $(nproc) faiss
 # (jni/Makefile defaults: OUT_ROOT=../cpu, BUNDLE_LIBDIR=/lib64).
 WORKDIR /opt/JFaiss/jni
 RUN make SWIG=${SWIG} CXX=${CXX} JAVA_HOME=${JAVA_HOME} FAISS_SRC=../faiss \
+    FAISS_OPT_LEVEL=${FAISS_OPT_LEVEL} \
     BLAS_LIBDIR=/usr/lib64 BUNDLE_LIBDIR=/usr/lib64 LIBGOMP=/usr/lib64/libgomp.so.1
 
 # NOTE: the duplicated constructors caused by the `int64_t` conversion are now

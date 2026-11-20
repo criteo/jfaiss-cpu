@@ -23,6 +23,30 @@ Faiss >= 1.15 requires C++20, so it is compiled with `gcc-toolset-13`, which sti
 `jfaiss-cpu` depends on [com.github.victor-paltz:global-load-library](https://github.com/victor-paltz/global-load-library) v1.2.0 from Maven.
 This dependency is used to correctly load Faiss native library with it's dependencies.
 
+## SIMD level (runtime dispatch)
+
+The native library is built with Faiss dynamic dispatch (`FAISS_OPT_LEVEL=dd`): the same `libswigfaiss.so` holds a generic, an AVX2 and several AVX-512 implementations of the hot loops.
+One of them is selected once, when the library is loaded:
+
+- by default, the best level the CPU supports;
+- or the level named by the environment variable `FAISS_SIMD_LEVEL`, which must be set before the JVM starts.
+
+| `FAISS_SIMD_LEVEL` | Code used |
+|---|---|
+| `NONE` | generic code (SSE4.2 and POPCNT only); the fallback when a SIMD level misbehaves |
+| `AVX2` | AVX2 + FMA + BMI2 |
+| `AVX512` | AVX-512 F/CD/VL/DQ/BW |
+| `AVX512_VPOPCNT` | `AVX512` + VPOPCNTDQ/BITALG |
+| `AVX512_SPR` | `AVX512_VPOPCNT` + VNNI/BF16/FP16 (Intel Sapphire Rapids and later) |
+
+Every level returns the same neighbours; distances can differ in their last digits because the additions are done in a different order.
+`JFaissInitializer.initialize()` logs the selected level (`Faiss SIMD level: ...`), and `SIMDConfig.get_level_name()` returns it.
+
+Two things to know before setting the variable:
+
+- The value is case-sensitive and an unknown or empty value aborts the JVM while the library is loading (`Invalid SIMD level string`).
+- Faiss does not check a forced level against the CPU: forcing a level the CPU lacks crashes with an illegal instruction at the first search. Only force a level that every machine of the deployment supports.
+
 ## Building from sources
 
 ### Requirement
@@ -82,7 +106,7 @@ If everything went well, the resulting Jar file will `jfaiss-cpu-1.16.0-x.jar` b
 
 * [x] Update to CentOS 8: build Faiss native with CentOS 8
 * [x] Update to Java 11
-* [ ] Runtime SIMD dispatch (AVX2 / AVX-512) using Faiss dynamic dispatch (`FAISS_OPT_LEVEL=dd`)
+* [x] Runtime SIMD dispatch (AVX2 / AVX-512) using Faiss dynamic dispatch (`FAISS_OPT_LEVEL=dd`)
 * [ ] Use Intel's MKL BLAS instead of OpenBLAS
 
 ## Reference

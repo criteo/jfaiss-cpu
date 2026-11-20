@@ -33,6 +33,23 @@ BLAS_LIBS ?= -lopenblas
 # -ffunction-sections") are appended.
 JNI_CXXFLAGS = -std=c++20 -O2 -fPIC $(CXXFLAGS)
 
+# How $(FAISS_LIB) was built: the value given to CMake's FAISS_OPT_LEVEL.
+#   dd       runtime SIMD dispatch: libfaiss.a holds the generic, AVX2 and
+#            AVX-512 code paths and picks one when the library is loaded.
+#   generic  no SIMD code paths.
+# The wrapper is compiled with the same FAISS_ENABLE_DD define as upstream's
+# own SWIG module, and with no -mavx* flag: it must run on every CPU.
+# "avx2" and "avx512" are refused on purpose: CMake then puts the SIMD code in
+# libfaiss_avx2.a / libfaiss_avx512.a and leaves libfaiss.a generic, so linking
+# libfaiss.a would silently produce a library without any SIMD code.
+FAISS_OPT_LEVEL ?= dd
+ifeq ($(FAISS_OPT_LEVEL),dd)
+SWIGFLAGS += -DFAISS_ENABLE_DD
+JNI_CXXFLAGS += -DFAISS_ENABLE_DD
+else ifneq ($(FAISS_OPT_LEVEL),generic)
+$(error FAISS_OPT_LEVEL must be "dd" or "generic", not "$(FAISS_OPT_LEVEL)")
+endif
+
 ifneq ($(strip $(NVCC)),)
 	SWIGFLAGS += -DGPU_WRAPPER
 endif

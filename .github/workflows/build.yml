@@ -11,15 +11,16 @@ jobs:
         with:
           submodules: true
 
-      - uses: whoan/docker-build-with-cache-action@v5
-        with:
-          username: ${{ github.actor }}
-          password: "${{ secrets.GITHUB_TOKEN }}"
-          registry: docker.pkg.github.com
-          image_name: jfaiss-cpu
-          dockerfile: Dockerfile
+      # Build the image in the job and run that very image. Going through a
+      # package registry under a fixed name can hand the next step an older
+      # image, and does not work in a fork.
+      - name: Build Faiss and the JNI wrapper
+        run: docker build -t jfaiss-cpu .
 
-      - run: docker run -v "/home/runner/work/jfaiss-cpu/jfaiss-cpu":"/github/workspace" docker.pkg.github.com/criteo/jfaiss-cpu/jfaiss-cpu
+      # The image's entry point copies the generated Java sources and the
+      # native libraries to /github/workspace/build.
+      - name: Copy the build output out of the image
+        run: docker run --rm -v "${{ github.workspace }}":/github/workspace jfaiss-cpu
 
       - uses: actions/upload-artifact@v4
         with:

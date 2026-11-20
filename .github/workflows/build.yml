@@ -51,7 +51,23 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: "11"
-      - run: mvn --batch-mode --update-snapshots verify
+
+      # The native library picks its SIMD level from the CPU: record what
+      # this run was able to exercise.
+      - name: Show the CPU of the runner
+        run: |
+          grep -m1 'model name' /proc/cpuinfo
+          grep -m1 '^flags' /proc/cpuinfo | tr ' ' '\n' | grep -E '^(avx2|bmi2|avx512.*)$' | tr '\n' ' '
+
+      - name: Run the tests at each SIMD level
+        run: mvn --batch-mode --update-snapshots verify
+
+      - name: Check the system requirements of the native libraries and class files
+        run: ci/check-abi.sh src/main/resources target/classes
+
+      - name: Check the members used by code compiled against 1.7.0
+        run: java ci/ApiCheck.java target/classes compat/required-api.txt
+
       - run: mkdir staging && cp target/*.jar staging
       - uses: actions/upload-artifact@v4
         with:

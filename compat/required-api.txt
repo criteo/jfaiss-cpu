@@ -1,21 +1,79 @@
-# Members of this jar that code compiled against jfaiss-cpu 1.7.0 is known to
-# use. Such code is not recompiled when the jar is upgraded, so each of them
-# must keep its class, name and JVM descriptor: ci/ApiCheck.java checks this
-# list against every build. Every member listed also exists in the published
-# 1.7.0-0 jar.
+# Members of this jar that code compiled against jfaiss-cpu 1.7.0 uses. Such
+# code is not recompiled when the jar is upgraded, so each of them must keep
+# its class, name and JVM descriptor: ci/ApiCheck.java checks this list against
+# every build. Every member listed also exists in the published 1.7.0-0 jar.
 #
-# One class, method or field per line, as the JVM resolves it. Produce the
-# lines for a consumer with ci/list-api-refs.sh <consumer.jar>.
+# One class, method or field per line, as the JVM resolves it. The list is the
+# output of ci/list-api-refs.sh on a consumer's jar; rerun it there when the
+# consumer changes.
+#
+# Three kinds of members need more than this check, because a descriptor can
+# stay the same while its meaning changes:
+# - the array helpers take int sizes and indices, and longArray holds C longs
+#   seen as Java ints (SWIG >= 4.1 would turn the indices into long);
+# - the numbered constructors of swigfaissJNI (__SWIG_0, __SWIG_1) follow the
+#   order of the C++ declarations. The test RawJniEntryPoints pins what each
+#   one builds;
+# - the (long, boolean) constructors and Index.getCPtr are the protected
+#   pointer plumbing of SWIG, used from classes placed in this package.
 
-# The array helpers take int sizes and indices, and longArray holds C longs
-# seen as Java ints (SWIG >= 4.1 would turn the indices into long).
+com/vectorsearch/faiss/swig/DirectMap
+com/vectorsearch/faiss/swig/DirectMap$Type
+com/vectorsearch/faiss/swig/DirectMap$Type.Array:Lcom/vectorsearch/faiss/swig/DirectMap$Type;
+com/vectorsearch/faiss/swig/Index
+com/vectorsearch/faiss/swig/Index.add:(JLcom/vectorsearch/faiss/swig/SWIGTYPE_p_float;)V
+com/vectorsearch/faiss/swig/Index.delete:()V
+com/vectorsearch/faiss/swig/Index.getCPtr:(Lcom/vectorsearch/faiss/swig/Index;)J
+com/vectorsearch/faiss/swig/Index.getD:()I
+com/vectorsearch/faiss/swig/Index.getIs_trained:()Z
+com/vectorsearch/faiss/swig/Index.getMetric_type:()Lcom/vectorsearch/faiss/swig/MetricType;
+com/vectorsearch/faiss/swig/Index.getNtotal:()J
+com/vectorsearch/faiss/swig/Index.reconstruct:(JLcom/vectorsearch/faiss/swig/SWIGTYPE_p_float;)V
+com/vectorsearch/faiss/swig/Index.search:(JLcom/vectorsearch/faiss/swig/SWIGTYPE_p_float;JLcom/vectorsearch/faiss/swig/SWIGTYPE_p_float;Lcom/vectorsearch/faiss/swig/SWIGTYPE_p_long;)V
+com/vectorsearch/faiss/swig/Index.train:(JLcom/vectorsearch/faiss/swig/SWIGTYPE_p_float;)V
+com/vectorsearch/faiss/swig/IndexHNSWFlat
+com/vectorsearch/faiss/swig/IndexHNSWFlat.<init>:(JZ)V
+com/vectorsearch/faiss/swig/IndexHNSWFlat.getMetric_type:()Lcom/vectorsearch/faiss/swig/MetricType;
+com/vectorsearch/faiss/swig/IndexIVF
+com/vectorsearch/faiss/swig/IndexIVF.set_direct_map_type:(Lcom/vectorsearch/faiss/swig/DirectMap$Type;)V
+com/vectorsearch/faiss/swig/IndexIVFPQ
+com/vectorsearch/faiss/swig/IndexIVFPQ.<init>:(JZ)V
+com/vectorsearch/faiss/swig/IndexIVFPQ.getMetric_type:()Lcom/vectorsearch/faiss/swig/MetricType;
+com/vectorsearch/faiss/swig/IndexPreTransform
+com/vectorsearch/faiss/swig/IndexPreTransform.<init>:(Lcom/vectorsearch/faiss/swig/VectorTransform;Lcom/vectorsearch/faiss/swig/Index;)V
+com/vectorsearch/faiss/swig/IndexPreTransform.setOwn_fields:(Z)V
+com/vectorsearch/faiss/swig/MetricType
+com/vectorsearch/faiss/swig/MetricType.METRIC_INNER_PRODUCT:Lcom/vectorsearch/faiss/swig/MetricType;
+com/vectorsearch/faiss/swig/MetricType.METRIC_L2:Lcom/vectorsearch/faiss/swig/MetricType;
+com/vectorsearch/faiss/swig/MetricType.swigValue:()I
+com/vectorsearch/faiss/swig/OPQMatrix
+com/vectorsearch/faiss/swig/OPQMatrix.<init>:(JZ)V
+com/vectorsearch/faiss/swig/ParameterSpace
+com/vectorsearch/faiss/swig/ParameterSpace.<init>:()V
+com/vectorsearch/faiss/swig/ParameterSpace.set_index_parameters:(Lcom/vectorsearch/faiss/swig/Index;Ljava/lang/String;)V
+com/vectorsearch/faiss/swig/SWIGTYPE_p_float
+com/vectorsearch/faiss/swig/SWIGTYPE_p_float.<init>:(JZ)V
+com/vectorsearch/faiss/swig/floatArray
 com/vectorsearch/faiss/swig/floatArray.<init>:(I)V
+com/vectorsearch/faiss/swig/floatArray.cast:()Lcom/vectorsearch/faiss/swig/SWIGTYPE_p_float;
+com/vectorsearch/faiss/swig/floatArray.delete:()V
 com/vectorsearch/faiss/swig/floatArray.getitem:(I)F
 com/vectorsearch/faiss/swig/floatArray.setitem:(IF)V
+com/vectorsearch/faiss/swig/longArray
 com/vectorsearch/faiss/swig/longArray.<init>:(I)V
+com/vectorsearch/faiss/swig/longArray.cast:()Lcom/vectorsearch/faiss/swig/SWIGTYPE_p_long;
+com/vectorsearch/faiss/swig/longArray.delete:()V
 com/vectorsearch/faiss/swig/longArray.getitem:(I)I
 com/vectorsearch/faiss/swig/longArray.setitem:(II)V
-
-# Called directly on the JNI class: (quantizer, d, nlist, M, nbits, metric).
-# Faiss 1.13 added a 7th constructor argument, which the SWIG interface hides.
+com/vectorsearch/faiss/swig/swigfaiss
+com/vectorsearch/faiss/swig/swigfaiss.extract_index_ivf:(Lcom/vectorsearch/faiss/swig/Index;)Lcom/vectorsearch/faiss/swig/IndexIVF;
+com/vectorsearch/faiss/swig/swigfaiss.index_factory:(ILjava/lang/String;Lcom/vectorsearch/faiss/swig/MetricType;)Lcom/vectorsearch/faiss/swig/Index;
+com/vectorsearch/faiss/swig/swigfaiss.omp_set_num_threads:(I)V
+com/vectorsearch/faiss/swig/swigfaiss.read_index:(Ljava/lang/String;)Lcom/vectorsearch/faiss/swig/Index;
+com/vectorsearch/faiss/swig/swigfaiss.write_index:(Lcom/vectorsearch/faiss/swig/Index;Ljava/lang/String;)V
+com/vectorsearch/faiss/swig/swigfaissJNI
+com/vectorsearch/faiss/swig/swigfaissJNI.new_IndexHNSWFlat__SWIG_1:(III)J
 com/vectorsearch/faiss/swig/swigfaissJNI.new_IndexIVFPQ__SWIG_0:(JLcom/vectorsearch/faiss/swig/Index;JJJJI)J
+com/vectorsearch/faiss/swig/swigfaissJNI.new_OPQMatrix__SWIG_0:(III)J
+com/vectorsearch/faiss/utils/JFaissInitializer
+com/vectorsearch/faiss/utils/JFaissInitializer.initialize:()V

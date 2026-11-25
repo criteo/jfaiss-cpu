@@ -7,6 +7,8 @@ import java.util.logging.Logger;
 
 import static com.vectorsearch.faiss.utils.IndexHelper.makeRandomFloatArray;
 import static com.vectorsearch.faiss.utils.IndexHelper.show;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class TwoIVFFlat extends FaissTestCase {
     private static final Logger LOGGER = Logger.getLogger(TwoIVFFlat.class.getName());
@@ -35,6 +37,8 @@ public class TwoIVFFlat extends FaissTestCase {
         final long nTotal = index.getNtotal();
         final String msg = "isTrained = " + isTrained + ", nTotal = " + nTotal;
         LOGGER.info(msg);
+        assertTrue(isTrained);
+        assertEquals(inputRowCount, nTotal);
     }
 
     @Override
@@ -46,6 +50,9 @@ public class TwoIVFFlat extends FaissTestCase {
         index.search(queryRowCount, queryVectors.cast(), rn, distances.cast(), indices.cast());
         LOGGER.info(show(distances, 5, rn));
         LOGGER.info(show(indices, 5, rn));
+        assertValidResults(distances, indices, queryRowCount, rn, inputRowCount);
+        // Each vector is stored uncompressed in the list of its nearest centroid, which is always probed.
+        assertEquals(1000, countSelfMatches(index, inputVectors, 1000));
     }
 
     @Test
@@ -57,6 +64,5 @@ public class TwoIVFFlat extends FaissTestCase {
         LOGGER.info("Searching index..");
         twoIVFFlat.search();
         LOGGER.info("****************************************************");
-        assert true;
     }
 }

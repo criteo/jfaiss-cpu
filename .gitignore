@@ -105,3 +105,9 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
+# JNI build outputs (jni/Makefile)
+jni/swigfaiss.cpp
+jni/*.o
+src/main/resources/
+# Python bytecode (ci/)
+__pycache__/
